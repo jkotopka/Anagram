@@ -51,8 +51,38 @@ public class Anagram {
         return String.valueOf(wordChars);
     }
 
-    public List<String> anagramsOfWord(String word) {
-        return List.copyOf(dictionary.get(sortWordLetters(word)));
+    public List<String> findAnagramsOfWord(String word) {
+        String sortedWord = sortWordLetters(word);
+
+        if (dictionary.containsKey(sortedWord))
+            return List.copyOf(dictionary.get(sortWordLetters(word)));
+
+        return null;
+    }
+
+    public Set<String> findAllValidSubWords(String word) {
+        List<String> subStrings = new ArrayList<>();
+
+        generateSubStrings("", sortWordLetters(word), 0, subStrings);
+
+        Set<String> validSubWords = new TreeSet<>();
+
+        for (String subString : subStrings) {
+            if (dictionary.containsKey(subString)) {
+                validSubWords.addAll(dictionary.get(subString));
+            }
+        }
+
+        return validSubWords;
+    }
+
+    private void generateSubStrings(String prefix, String word, int index, List<String> subStrings) {
+        if (index == word.length()) return;
+
+        for (int i = index; i < word.length(); i++) {
+            subStrings.add(prefix + word.charAt(i));
+            generateSubStrings(prefix + word.charAt(i), word, i + 1, subStrings);
+        }
     }
 
     public static void main(String[] args) {
@@ -63,12 +93,20 @@ public class Anagram {
 
         Anagram anagram = new Anagram("dictionary-yawl.txt");
         String word = args[0];
-        List<String> anagrams = anagram.anagramsOfWord(word);
+        List<String> anagrams = anagram.findAnagramsOfWord(word);
 
         if (anagrams != null) {
             anagrams.forEach(System.out::println);
         } else {
             System.out.printf("No anagrams of \"%s\" found\n", word);
+        }
+
+        Set<String> allWordsFound = anagram.findAllValidSubWords(word);
+
+        if (allWordsFound != null) {
+            allWordsFound.forEach(System.out::println);
+        } else {
+            System.out.printf("No sub-words of \"%s\" found\n", word);
         }
     }
 
