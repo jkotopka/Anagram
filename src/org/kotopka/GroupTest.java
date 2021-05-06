@@ -3,6 +3,7 @@ package org.kotopka;
 public class GroupTest {
 
     /*
+        Groups: [truncated]
         a
         ab
         ac
@@ -14,19 +15,36 @@ public class GroupTest {
         abcd
         abce
         abcde
+        abde
         acd
         ace
         acde
         ade
+        ...
+
+        Actual: [truncated]
+        a
+        ab
+        abc
+        abcd
+        abcde
+        abce
+        abd
+        abde
+        abe
+        ac
+        acd
+        acde
+        ace
+        ad
+        ade
+        ae
+        ...
      */
 
     public static void main(String[] args) {
         String str = "abcde";
 
-//        recur("", str, 0);
-//        for (int i = 0; i < str.length(); i++) {
-//            recur("", str, i);
-//        }
         recur("", str, 0);
 
     }
