@@ -24,9 +24,10 @@ public class GroupTest {
         String str = "abcde";
 
 //        recur("", str, 0);
-        for (int i = 0; i < str.length(); i++) {
-            recur("", str, i);
-        }
+//        for (int i = 0; i < str.length(); i++) {
+//            recur("", str, i);
+//        }
+        recur("", str, 0);
 
     }
 
