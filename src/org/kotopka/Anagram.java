@@ -55,7 +55,7 @@ public class Anagram {
         String sortedWord = sortWordLetters(word);
 
         if (dictionary.containsKey(sortedWord))
-            return List.copyOf(dictionary.get(sortWordLetters(word)));
+            return List.copyOf(dictionary.get(sortedWord));
 
         return null;
     }
@@ -72,6 +72,8 @@ public class Anagram {
                 validSubWords.addAll(dictionary.get(subString));
             }
         }
+
+        Collections.sort(validSubWords);
 
         return validSubWords;
     }
