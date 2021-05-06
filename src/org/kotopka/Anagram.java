@@ -65,6 +65,7 @@ public class Anagram {
 
         generateSubStrings("", sortWordLetters(word), 0, subStrings);
 
+        // TODO: might not want a set because an anagram might contain multiple copies of the same word if possible
         Set<String> validSubWords = new TreeSet<>();
 
         for (String subString : subStrings) {
@@ -88,9 +89,9 @@ public class Anagram {
     private String concatenateStringArrayToString(String[] arr) {
         StringBuilder sb = new StringBuilder();
 
-        Arrays.stream(arr).forEach(sb::append);
+        Arrays.stream(arr).forEach(word -> sb.append(word).append(" "));
 
-        return sb.toString();
+        return sb.toString().trim();
     }
 
     public static void main(String[] args) {
