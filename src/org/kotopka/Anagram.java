@@ -60,13 +60,12 @@ public class Anagram {
         return null;
     }
 
-    public Set<String> findAllValidSubWords(String word) {
+    public List<String> findAllValidSubWords(String word) {
         List<String> subStrings = new ArrayList<>();
 
         generateSubStrings("", sortWordLetters(word), 0, subStrings);
 
-        // TODO: might not want a set because an anagram might contain multiple copies of the same word if possible
-        Set<String> validSubWords = new TreeSet<>();
+        List<String> validSubWords = new ArrayList<>();
 
         for (String subString : subStrings) {
             if (dictionary.containsKey(subString)) {
@@ -100,7 +99,7 @@ public class Anagram {
             System.exit(0);
         }
 
-        Anagram anagram = new Anagram("dictionary-yawl.txt");
+        Anagram anagram = new Anagram("dictionary-large.txt");
         String word = anagram.concatenateStringArrayToString(args);
         List<String> anagrams = anagram.findAnagramsOfWord(word);
 
@@ -111,7 +110,7 @@ public class Anagram {
             System.out.printf("No anagrams of \"%s\" found\n", word);
         }
 
-        Set<String> allWordsFound = anagram.findAllValidSubWords(word);
+        List<String> allWordsFound = anagram.findAllValidSubWords(word);
 
         if (allWordsFound != null) {
             System.out.println("\nValid sub-words:");
