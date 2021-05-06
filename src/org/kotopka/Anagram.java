@@ -87,10 +87,6 @@ public class Anagram {
         }
     }
 
-    private String concatenateStringArrayToString(String[] arr) {
-        return String.join(" ", arr);
-    }
-
     public static void main(String[] args) {
         if (args.length == 0) {
             System.out.println("Usage: java Anagram <word>");
@@ -98,7 +94,7 @@ public class Anagram {
         }
 
         Anagram anagram = new Anagram("dictionary-large.txt");
-        String word = anagram.concatenateStringArrayToString(args);
+        String word = String.join(" ",args);
         List<String> anagrams = anagram.findAnagramsOfWord(word);
 
         if (anagrams != null) {
