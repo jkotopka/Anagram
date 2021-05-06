@@ -48,7 +48,7 @@ public class Anagram {
 
         Arrays.sort(wordChars);
 
-        return String.valueOf(wordChars);
+        return String.valueOf(wordChars).trim();
     }
 
     public List<String> findAnagramsOfWord(String word) {
@@ -85,17 +85,26 @@ public class Anagram {
         }
     }
 
+    private String concatenateStringArrayToString(String[] arr) {
+        StringBuilder sb = new StringBuilder();
+
+        Arrays.stream(arr).forEach(sb::append);
+
+        return sb.toString();
+    }
+
     public static void main(String[] args) {
-        if (args.length != 1) {
+        if (args.length == 0) {
             System.out.println("Usage: java Anagram <word>");
             System.exit(0);
         }
 
         Anagram anagram = new Anagram("dictionary-yawl.txt");
-        String word = args[0];
+        String word = anagram.concatenateStringArrayToString(args);
         List<String> anagrams = anagram.findAnagramsOfWord(word);
 
         if (anagrams != null) {
+            System.out.println("Valid anagrams:");
             anagrams.forEach(System.out::println);
         } else {
             System.out.printf("No anagrams of \"%s\" found\n", word);
@@ -104,6 +113,7 @@ public class Anagram {
         Set<String> allWordsFound = anagram.findAllValidSubWords(word);
 
         if (allWordsFound != null) {
+            System.out.println("\nValid sub-words:");
             allWordsFound.forEach(System.out::println);
         } else {
             System.out.printf("No sub-words of \"%s\" found\n", word);
