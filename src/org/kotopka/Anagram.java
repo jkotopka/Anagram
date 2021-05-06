@@ -88,11 +88,7 @@ public class Anagram {
     }
 
     private String concatenateStringArrayToString(String[] arr) {
-        StringBuilder sb = new StringBuilder();
-
-        Arrays.stream(arr).forEach(word -> sb.append(word).append(" "));
-
-        return sb.toString().trim();
+        return String.join(" ", arr);
     }
 
     public static void main(String[] args) {
