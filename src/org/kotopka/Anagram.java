@@ -17,6 +17,8 @@ public class Anagram {
     private final Map<String, List<String>> dictionary;
 
     public Anagram(String dictFile) {
+        Objects.requireNonNull(dictFile, "Constructor argument cannot be null");
+
         this.dictionary = new HashMap<>();
 
         try {
@@ -30,17 +32,17 @@ public class Anagram {
     private void buildDictionary(String dictFile) throws IOException {
         Stream<String> dictFileStream = Files.lines(Paths.get(dictFile));
 
-        dictFileStream.forEach(word -> {
-            String sortedWord = sortWordLetters(word);
-
-            if (!dictionary.containsKey(sortedWord)) {
-                dictionary.put(sortedWord, new ArrayList<>());
-            }
-
-            dictionary.get(sortedWord).add(word);
-        });
-
+        dictFileStream.forEach(this::addWordToDictionary);
         dictFileStream.close();
+    }
+
+    private void addWordToDictionary(String word) {
+        String sortedWord = sortWordLetters(word);
+
+        if (!dictionary.containsKey(sortedWord))
+            dictionary.put(sortedWord, new ArrayList<>());
+
+        dictionary.get(sortedWord).add(word);
     }
 
     private String sortWordLetters(String word) {
@@ -52,38 +54,57 @@ public class Anagram {
     }
 
     public List<String> findAnagramsOfWord(String word) {
+        Objects.requireNonNull(word, "Method argument cannot be null");
+
         String sortedWord = sortWordLetters(word);
 
         if (dictionary.containsKey(sortedWord))
             return List.copyOf(dictionary.get(sortedWord));
 
-        return null;
+        return null; // eh, not a big fan, maybe better to return a new empty List<> or something...
     }
 
-    public List<String> findAllValidSubWords(String word) {
-        List<String> subStrings = new ArrayList<>();
-
-        generateSubStrings("", sortWordLetters(word), 0, subStrings);
+    public List<String> findAllValidSubWordsAsList(String word) {
+        Objects.requireNonNull(word, "Method argument cannot be null");
 
         List<String> validSubWords = new ArrayList<>();
 
-        for (String subString : subStrings) {
-            if (dictionary.containsKey(subString)) {
-                validSubWords.addAll(dictionary.get(subString));
-            }
-        }
-
+        populateSubstringCollection(word, validSubWords);
         Collections.sort(validSubWords);
 
         return validSubWords;
     }
 
-    private void generateSubStrings(String prefix, String word, int index, List<String> subStrings) {
+    public Set<String> findAllValidSubWordsAsSet(String word) {
+        Objects.requireNonNull(word, "Method argument cannot be null");
+
+        Set<String> validSubWords = new TreeSet<>();
+
+        populateSubstringCollection(word, validSubWords);
+
+        return validSubWords;
+    }
+
+    private void populateSubstringCollection(String word, Collection<String> collection) {
+        for (String subString : generateSubStrings(word))
+            if (dictionary.containsKey(subString))
+                collection.addAll(dictionary.get(subString));
+    }
+
+    private List<String> generateSubStrings(String word) {
+        List<String> subStrings = new ArrayList<>();
+
+        generateSubStringsRecursively("", sortWordLetters(word), 0, subStrings);
+
+        return subStrings;
+    }
+
+    private void generateSubStringsRecursively(String prefix, String word, int index, List<String> subStrings) {
         if (index == word.length()) return;
 
         for (int i = index; i < word.length(); i++) {
             subStrings.add(prefix + word.charAt(i));
-            generateSubStrings(prefix + word.charAt(i), word, i + 1, subStrings);
+            generateSubStringsRecursively(prefix + word.charAt(i), word, i + 1, subStrings);
         }
     }
 
@@ -104,10 +125,10 @@ public class Anagram {
             System.out.printf("No anagrams of \"%s\" found\n", word);
         }
 
-        List<String> allWordsFound = anagram.findAllValidSubWords(word);
+        Set<String> allWordsFound = anagram.findAllValidSubWordsAsSet(word);
 
         if (allWordsFound != null) {
-            System.out.println("\nValid sub-words:");
+            System.out.println("\nValid sub-words of \"" + word + "\" found: " + allWordsFound.size());
             allWordsFound.forEach(System.out::println);
         } else {
             System.out.printf("No sub-words of \"%s\" found\n", word);
