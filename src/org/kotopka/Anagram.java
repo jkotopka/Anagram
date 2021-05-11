@@ -102,27 +102,24 @@ public class Anagram {
 
         Anagram anagram = new Anagram("dictionary-large.txt");
         String word = String.join(" ",args);
-        List<String> anagrams = anagram.findSingleAnagramsOf(word);
 
-        if (anagrams.isEmpty()) {
-            System.out.printf("No anagrams of \"%s\" found\n", word);
-        } else {
-            System.out.println("Valid anagrams:");
-            anagrams.forEach(System.out::println);
-        }
+        Set<String> allSubWords = anagram.findAllValidSubWordsAsSet(word);
 
-        Set<String> allWordsFound = anagram.findAllValidSubWordsAsSet(word);
-//        List<String> allWordsFound = anagram.findAllValidSubWordsAsList(word);
-
-        if (allWordsFound.isEmpty()) {
+        if (allSubWords.isEmpty()) {
             System.out.printf("No sub-words of \"%s\" found\n", word);
         } else {
-            System.out.println("\nValid sub-words of \"" + word + "\" found: " + allWordsFound.size());
-            allWordsFound.forEach(System.out::println);
+            System.out.println("\nValid sub-words of \"" + word + "\" found: " + allSubWords.size());
+            allSubWords.forEach(System.out::println);
         }
 
-        System.out.println("\nFull anagrams:");
-        anagram.findAllAnagramsOf(word).forEach(System.out::println);
+        List<String> allAnagrams = anagram.findAllAnagramsOf(word);
+
+        if (allAnagrams.isEmpty()) {
+            System.out.printf("No anagrams of \"%s\" found\n", word);
+        } else {
+            System.out.println("\nAll anagrams of " + word + " found: " + allAnagrams.size());
+            allAnagrams.forEach(System.out::println);
+        }
     }
 
 }
