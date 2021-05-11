@@ -45,10 +45,19 @@ public class Dictionary {
         return dictionary.containsKey(word);
     }
 
-    public List<String> get(String word) {
+    public List<String> getListOf(String word) {
         Objects.requireNonNull(word, "Word cannot be null");
 
         return List.copyOf(dictionary.get(word));
+    }
+
+    public List<String> getListOrEmpty(String word) {
+        Objects.requireNonNull(word, "Word cannot be null");
+
+        if (dictionary.containsKey(word))
+            return List.copyOf(dictionary.get(word));
+        else
+            return Collections.emptyList();
     }
 
 }
