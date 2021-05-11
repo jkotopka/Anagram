@@ -1,10 +1,6 @@
 package org.kotopka;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * {@code Anagram} - Finds and prints a list of all single-word anagrams from a
@@ -14,52 +10,21 @@ import java.util.stream.Stream;
  */
 public class Anagram {
 
-    private final Map<String, List<String>> dictionary;
+    private final Dictionary dictionary;
 
     public Anagram(String dictFile) {
         Objects.requireNonNull(dictFile, "Constructor argument cannot be null");
 
-        this.dictionary = new HashMap<>();
-
-        try {
-            buildDictionary(dictFile);
-        } catch (IOException e) {
-            System.err.println("Error building dictionary file!");
-            e.printStackTrace();
-        }
-    }
-
-    private void buildDictionary(String dictFile) throws IOException {
-        Stream<String> dictFileStream = Files.lines(Paths.get(dictFile));
-
-        dictFileStream.forEach(this::addWordToDictionary);
-        dictFileStream.close();
-    }
-
-    private void addWordToDictionary(String word) {
-        String sortedWord = sortWordLetters(word);
-
-        if (!dictionary.containsKey(sortedWord))
-            dictionary.put(sortedWord, new ArrayList<>());
-
-        dictionary.get(sortedWord).add(word);
-    }
-
-    private String sortWordLetters(String word) {
-        char[] wordChars = word.toUpperCase().toCharArray();
-
-        Arrays.sort(wordChars);
-
-        return String.valueOf(wordChars).trim();
+        this.dictionary = new Dictionary(dictFile);
     }
 
     public List<String> findAnagramsOfWord(String word) {
         Objects.requireNonNull(word, "Method argument cannot be null");
 
-        String sortedWord = sortWordLetters(word);
+        String sortedWord = Word.sortLetters(word);
 
-        if (dictionary.containsKey(sortedWord))
-            return List.copyOf(dictionary.get(sortedWord));
+        if (dictionary.containsWord(sortedWord))
+            return dictionary.get(sortedWord);
 
         return null; // eh, not a big fan, maybe better to return a new empty List<> or something...
     }
@@ -87,14 +52,14 @@ public class Anagram {
 
     private void populateSubstringCollection(String word, Collection<String> collection) {
         for (String subString : generateSubStrings(word))
-            if (dictionary.containsKey(subString))
+            if (dictionary.containsWord(subString))
                 collection.addAll(dictionary.get(subString));
     }
 
     private List<String> generateSubStrings(String word) {
         List<String> subStrings = new ArrayList<>();
 
-        generateSubStringsRecursively("", sortWordLetters(word), 0, subStrings);
+        generateSubStringsRecursively("", Word.sortLetters(word), 0, subStrings);
 
         return subStrings;
     }
@@ -125,7 +90,8 @@ public class Anagram {
             System.out.printf("No anagrams of \"%s\" found\n", word);
         }
 
-        Set<String> allWordsFound = anagram.findAllValidSubWordsAsSet(word);
+//        Set<String> allWordsFound = anagram.findAllValidSubWordsAsSet(word);
+        List<String> allWordsFound = anagram.findAllValidSubWordsAsList(word);
 
         if (allWordsFound != null) {
             System.out.println("\nValid sub-words of \"" + word + "\" found: " + allWordsFound.size());
