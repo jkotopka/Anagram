@@ -15,19 +15,12 @@ public class Dictionary {
 
         this.dictionary = new HashMap<>();
 
-        try {
-            buildDictionary(dictFile);
+        try (Stream<String> dfs = Files.lines(Paths.get(dictFile))) {
+            dfs.forEach(this::addWordToDictionary);
         } catch (IOException e) {
             System.err.println("Error building dictionary file!");
             e.printStackTrace();
         }
-    }
-
-    private void buildDictionary(String dictFile) throws IOException {
-        Stream<String> dictFileStream = Files.lines(Paths.get(dictFile));
-
-        dictFileStream.forEach(this::addWordToDictionary);
-        dictFileStream.close();
     }
 
     private void addWordToDictionary(String word) {
