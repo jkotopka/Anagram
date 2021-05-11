@@ -3,8 +3,17 @@ package org.kotopka;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * {@code Word} - Contains static methods for word-related operations, e.g. sorting letters in the word and
+ * subtracting one word from another
+ */
 public class Word {
 
+    /**
+     * {@code sortLetters()} - Sorts the letters in the word in alphabetical order
+     * @param word the word to sort
+     * @return a {@code String} of letters of the {@code word} in alphabetical order
+     */
     public static String sortLetters(String word) {
         Objects.requireNonNull(word, "String object cannot be null");
 
@@ -15,7 +24,12 @@ public class Word {
         return String.valueOf(wordChars).trim();
     }
 
-    // assumes letters in each string are sorted before subtracting
+    /**
+     * {@code subtract()} - Subtract one substring from another larger string.
+     * @param original the original word
+     * @param subtract the substring to subtract
+     * @return a sorted {@code String} of the set of letters of the difference between "word" minus "subtract"
+     */
     public static String subtract(String original, String subtract) {
         Objects.requireNonNull(original, "String object cannot be null");
         Objects.requireNonNull(subtract, "String object cannot be null");
@@ -43,7 +57,7 @@ public class Word {
     }
 
     public static void main(String[] args) {
-        System.out.println(subtract(sortLetters("mongolian"), sortLetters("omni")));
+        System.out.println(subtract(sortLetters("mongolian"), sortLetters("zzzt")));
     }
 
 }
