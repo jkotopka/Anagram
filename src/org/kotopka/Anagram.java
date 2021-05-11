@@ -49,17 +49,17 @@ public class Anagram {
 
     public List<String> findAllAnagramsOf(String word) {
         LinkedList<String> stack = new LinkedList<>();
-        List<String> rs = new ArrayList<>();
+        List<String> anagrams = new ArrayList<>();
 
-        buildAnagramList(word, stack, rs);
+        buildAnagramList(word, stack, anagrams);
 
-        Collections.sort(rs);
+        Collections.sort(anagrams);
 
-        return rs;
+        return anagrams;
     }
 
     // XXX: first revision of this
-    public void buildAnagramList(String word, LinkedList<String> stack, List<String> rs) {
+    public void buildAnagramList(String word, LinkedList<String> stack, List<String> anagrams) {
         Set<String> ws = findAllValidSubWordsAsSet(word);
 
         for (String s : ws) {
@@ -68,10 +68,9 @@ public class Anagram {
             stack.push(s);
 
             if (diff.isBlank()) {
-//                System.out.println("full anagram found: " + stack);
-                if (!stack.isEmpty()) rs.add(String.join(" ", stack));
+                anagrams.add(String.join(" ", stack));
             } else if (dictionary.containsWord(diff)) {
-                buildAnagramList(diff, stack, rs);
+                buildAnagramList(diff, stack, anagrams);
             }
             stack.pop();
         }
