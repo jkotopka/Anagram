@@ -60,18 +60,17 @@ public class Anagram {
 
     // XXX: first revision of this
     public void buildAnagramList(String word, LinkedList<String> stack, List<String> anagrams) {
-        Set<String> ws = findAllValidSubWordsAsSet(word);
-
-        for (String s : ws) {
-            String diff = Word.subtract(Word.sortLetters(word), Word.sortLetters(s));
-
+        for (String s : findAllValidSubWordsAsSet(word)) {
             stack.push(s);
+
+            String diff = Word.subtract(Word.sortLetters(word), Word.sortLetters(s));
 
             if (diff.isBlank()) {
                 anagrams.add(String.join(" ", stack));
             } else if (dictionary.containsWord(diff)) {
                 buildAnagramList(diff, stack, anagrams);
             }
+
             stack.pop();
         }
     }
