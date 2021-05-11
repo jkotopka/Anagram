@@ -47,20 +47,35 @@ public class Anagram {
         return validSubWords;
     }
 
-    // TODO: TESTING
     public List<String> getSubstringsWhenFirstSubstringIsSubtracted(String word) {
-        List<String> workingList = findAllValidSubWordsAsList(word);
-        List<String> reducedList = new ArrayList<>();
+        LinkedList<String> stack = new LinkedList<>();
+        List<String> rs = new ArrayList<>();
 
-        for (String s : workingList) {
+        getSubstringsWhenFirstSubstringIsSubtracted(word, stack, rs);
+
+        Collections.sort(rs);
+
+        return rs;
+    }
+
+    // XXX: first revision of this
+    public void getSubstringsWhenFirstSubstringIsSubtracted(String word, LinkedList<String> stack, List<String> rs) {
+        Set<String> ws = findAllValidSubWordsAsSet(word);
+
+        for (String s : ws) {
             String diff = Word.subtract(Word.sortLetters(word), Word.sortLetters(s));
 
-            reducedList.addAll(dictionary.getListOrEmpty(diff));
-        }
+            stack.push(s);
 
-        return reducedList;
+            if (diff.isBlank()) {
+//                System.out.println("full anagram found: " + stack);
+                if (!stack.isEmpty()) rs.add(String.join(" ", stack));
+            } else if (dictionary.containsWord(diff)) {
+                getSubstringsWhenFirstSubstringIsSubtracted(diff, stack, rs);
+            }
+            stack.pop();
+        }
     }
-    // TODO: END TESTING
 
     private void populateSubstringCollection(String word, Collection<String> collection) {
         for (String subString : generateSubStrings(word))
@@ -101,8 +116,8 @@ public class Anagram {
             anagrams.forEach(System.out::println);
         }
 
-//        Set<String> allWordsFound = anagram.findAllValidSubWordsAsSet(word);
-        List<String> allWordsFound = anagram.findAllValidSubWordsAsList(word);
+        Set<String> allWordsFound = anagram.findAllValidSubWordsAsSet(word);
+//        List<String> allWordsFound = anagram.findAllValidSubWordsAsList(word);
 
         if (allWordsFound.isEmpty()) {
             System.out.printf("No sub-words of \"%s\" found\n", word);
@@ -111,7 +126,7 @@ public class Anagram {
             allWordsFound.forEach(System.out::println);
         }
 
-        System.out.println("\nSubstrings");
+        System.out.println("\nFull anagrams:");
         anagram.getSubstringsWhenFirstSubstringIsSubtracted(word).forEach(System.out::println);
     }
 
