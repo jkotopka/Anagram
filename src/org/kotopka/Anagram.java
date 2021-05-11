@@ -51,7 +51,7 @@ public class Anagram {
         LinkedList<String> stack = new LinkedList<>();
         List<String> rs = new ArrayList<>();
 
-        getSubstringsWhenFirstSubstringIsSubtracted(word, stack, rs);
+        buildAnagramList(word, stack, rs);
 
         Collections.sort(rs);
 
@@ -59,7 +59,7 @@ public class Anagram {
     }
 
     // XXX: first revision of this
-    public void getSubstringsWhenFirstSubstringIsSubtracted(String word, LinkedList<String> stack, List<String> rs) {
+    public void buildAnagramList(String word, LinkedList<String> stack, List<String> rs) {
         Set<String> ws = findAllValidSubWordsAsSet(word);
 
         for (String s : ws) {
@@ -71,7 +71,7 @@ public class Anagram {
 //                System.out.println("full anagram found: " + stack);
                 if (!stack.isEmpty()) rs.add(String.join(" ", stack));
             } else if (dictionary.containsWord(diff)) {
-                getSubstringsWhenFirstSubstringIsSubtracted(diff, stack, rs);
+                buildAnagramList(diff, stack, rs);
             }
             stack.pop();
         }
