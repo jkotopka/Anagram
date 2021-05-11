@@ -51,10 +51,11 @@ public class Anagram {
     public List<String> getSubstringsWhenFirstSubstringIsSubtracted(String word) {
         List<String> workingList = findAllValidSubWordsAsList(word);
         List<String> reducedList = new ArrayList<>();
+
         for (String s : workingList) {
             String diff = Word.subtract(Word.sortLetters(word), Word.sortLetters(s));
-            if (dictionary.containsWord(diff))
-                reducedList.addAll(dictionary.getListOf(diff));
+
+            reducedList.addAll(dictionary.getListOrEmpty(diff));
         }
 
         return reducedList;
@@ -63,8 +64,7 @@ public class Anagram {
 
     private void populateSubstringCollection(String word, Collection<String> collection) {
         for (String subString : generateSubStrings(word))
-            if (dictionary.containsWord(subString))
-                collection.addAll(dictionary.getListOf(subString));
+            collection.addAll(dictionary.getListOrEmpty(subString));
     }
 
     private List<String> generateSubStrings(String word) {
@@ -94,21 +94,21 @@ public class Anagram {
         String word = String.join(" ",args);
         List<String> anagrams = anagram.findAnagramsOfWord(word);
 
-        if (anagrams != null) {
+        if (anagrams.isEmpty()) {
+            System.out.printf("No anagrams of \"%s\" found\n", word);
+        } else {
             System.out.println("Valid anagrams:");
             anagrams.forEach(System.out::println);
-        } else {
-            System.out.printf("No anagrams of \"%s\" found\n", word);
         }
 
 //        Set<String> allWordsFound = anagram.findAllValidSubWordsAsSet(word);
         List<String> allWordsFound = anagram.findAllValidSubWordsAsList(word);
 
-        if (allWordsFound != null) {
+        if (allWordsFound.isEmpty()) {
+            System.out.printf("No sub-words of \"%s\" found\n", word);
+        } else {
             System.out.println("\nValid sub-words of \"" + word + "\" found: " + allWordsFound.size());
             allWordsFound.forEach(System.out::println);
-        } else {
-            System.out.printf("No sub-words of \"%s\" found\n", word);
         }
 
         System.out.println("\nSubstrings");
