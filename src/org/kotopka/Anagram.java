@@ -18,7 +18,7 @@ public class Anagram {
         this.dictionary = new Dictionary(dictFile);
     }
 
-    public List<String> findAnagramsOfWord(String word) {
+    public List<String> findSingleAnagramsOf(String word) {
         Objects.requireNonNull(word, "Method argument cannot be null");
 
         String sortedWord = Word.sortLetters(word);
@@ -107,7 +107,7 @@ public class Anagram {
 
         Anagram anagram = new Anagram("dictionary-large.txt");
         String word = String.join(" ",args);
-        List<String> anagrams = anagram.findAnagramsOfWord(word);
+        List<String> anagrams = anagram.findSingleAnagramsOf(word);
 
         if (anagrams.isEmpty()) {
             System.out.printf("No anagrams of \"%s\" found\n", word);
