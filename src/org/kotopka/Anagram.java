@@ -23,10 +23,7 @@ public class Anagram {
 
         String sortedWord = Word.sortLetters(word);
 
-        if (dictionary.containsWord(sortedWord))
-            return dictionary.get(sortedWord);
-
-        return null; // eh, not a big fan, maybe better to return a new empty List<> or something...
+        return dictionary.getListOrEmpty(sortedWord);
     }
 
     public List<String> findAllValidSubWordsAsList(String word) {
@@ -50,10 +47,24 @@ public class Anagram {
         return validSubWords;
     }
 
+    // TODO: TESTING
+    public List<String> getSubstringsWhenFirstSubstringIsSubtracted(String word) {
+        List<String> workingList = findAllValidSubWordsAsList(word);
+        List<String> reducedList = new ArrayList<>();
+        for (String s : workingList) {
+            String diff = Word.subtract(Word.sortLetters(word), Word.sortLetters(s));
+            if (dictionary.containsWord(diff))
+                reducedList.addAll(dictionary.getListOf(diff));
+        }
+
+        return reducedList;
+    }
+    // TODO: END TESTING
+
     private void populateSubstringCollection(String word, Collection<String> collection) {
         for (String subString : generateSubStrings(word))
             if (dictionary.containsWord(subString))
-                collection.addAll(dictionary.get(subString));
+                collection.addAll(dictionary.getListOf(subString));
     }
 
     private List<String> generateSubStrings(String word) {
@@ -99,6 +110,9 @@ public class Anagram {
         } else {
             System.out.printf("No sub-words of \"%s\" found\n", word);
         }
+
+        System.out.println("\nSubstrings");
+        anagram.getSubstringsWhenFirstSubstringIsSubtracted(word).forEach(System.out::println);
     }
 
 }
