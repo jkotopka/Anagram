@@ -47,7 +47,7 @@ public class Anagram {
         return validSubWords;
     }
 
-    public List<String> getSubstringsWhenFirstSubstringIsSubtracted(String word) {
+    public List<String> findAllAnagramsOf(String word) {
         LinkedList<String> stack = new LinkedList<>();
         List<String> rs = new ArrayList<>();
 
@@ -127,7 +127,7 @@ public class Anagram {
         }
 
         System.out.println("\nFull anagrams:");
-        anagram.getSubstringsWhenFirstSubstringIsSubtracted(word).forEach(System.out::println);
+        anagram.findAllAnagramsOf(word).forEach(System.out::println);
     }
 
 }
