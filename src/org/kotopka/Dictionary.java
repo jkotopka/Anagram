@@ -1,0 +1,54 @@
+package org.kotopka;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Stream;
+
+public class Dictionary {
+
+    private final Map<String, List<String>> dictionary;
+
+    public Dictionary(String dictFile) {
+        Objects.requireNonNull(dictFile, "Constructor argument cannot be null");
+
+        this.dictionary = new HashMap<>();
+
+        try {
+            buildDictionary(dictFile);
+        } catch (IOException e) {
+            System.err.println("Error building dictionary file!");
+            e.printStackTrace();
+        }
+    }
+
+    private void buildDictionary(String dictFile) throws IOException {
+        Stream<String> dictFileStream = Files.lines(Paths.get(dictFile));
+
+        dictFileStream.forEach(this::addWordToDictionary);
+        dictFileStream.close();
+    }
+
+    private void addWordToDictionary(String word) {
+        String sortedWord = Word.sortLetters(word);
+
+        if (!dictionary.containsKey(sortedWord))
+            dictionary.put(sortedWord, new ArrayList<>());
+
+        dictionary.get(sortedWord).add(word);
+    }
+
+    public boolean containsWord(String word) {
+        Objects.requireNonNull(word, "Word cannot be null");
+
+        return dictionary.containsKey(word);
+    }
+
+    public List<String> get(String word) {
+        Objects.requireNonNull(word, "Word cannot be null");
+
+        return List.copyOf(dictionary.get(word));
+    }
+
+}
