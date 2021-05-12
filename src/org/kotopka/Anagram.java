@@ -46,7 +46,7 @@ public class Anagram {
         this.count = 0;
     }
 
-    public void buildAnagramList(String word, LinkedList<String> stack, List<String> anagrams) {
+    private void buildAnagramList(String word, LinkedList<String> stack, List<String> anagrams) {
         for (String s : findAllValidSubWordsAsSet(word)) {
             stack.push(s);
 
@@ -111,7 +111,7 @@ public class Anagram {
             allSubWords.forEach(System.out::println);
         }
 
-        List<String> allAnagrams = anagram.findAllAnagramsOf(word, 4, 1000);
+        List<String> allAnagrams = anagram.findAllAnagramsOf(word, 3, 1000);
 
         if (allAnagrams.isEmpty()) {
             System.out.printf("\nNo anagrams of \"%s\" found\n", word);
