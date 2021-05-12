@@ -13,11 +13,9 @@ public class Anagram {
         private int minWordLength;
         private int maxWordLength;
         private int maxResults;
-
         private String startFrom;
         private String includeWord;
         private String suffix;
-
         private boolean excludeDuplicates;
         private Set<String> excludeWordsSet;
 
