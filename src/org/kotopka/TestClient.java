@@ -32,16 +32,23 @@ public class TestClient {
         System.out.println("Elapsed time: " + (double)(endTime - startTime) / 1000);
     }
 
+    /*
+        TODO: this testing class requires manually configuring the testing parameters as
+          there is no commandline parsing beyond the basic collection of the string to be
+          anagram-ized.
+     */
     public static void main(String[] args) {
         if (args.length == 0) {
             System.out.println("Usage: java Anagram <word>");
             System.exit(0);
         }
 
+        // TODO: manually call toExclude.add(someWord) to add each word to exclude
         Set<String> toExclude = new HashSet<>();
 
+        // TODO: manually change these parameters to suit the test
         Anagram anagram = new Anagram.Builder("dictionary-large.txt")
-                .setMinWordLength(3)
+                .setMinWordLength(1)
                 .setMaxWordLength(20)
                 .setMaxResults(30000)
                 .excludeDuplicates(true)
@@ -52,14 +59,8 @@ public class TestClient {
 
         String word = String.join(" ",args);
 
-//        findAndPrintSubWords(anagram, word);
-
+        findAndPrintSubWords(anagram, word);
         findAndPrintAnagrams(anagram, word);
-//        anagram.startFrom("");
-//        findAndPrintAnagrams(anagram, word);
-//        anagram.startFrom("");
-//        anagram.setMaxResults(3);
-//        findAndPrintAnagrams(anagram, word);
     }
 
 }
