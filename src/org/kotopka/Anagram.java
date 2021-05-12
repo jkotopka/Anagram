@@ -254,7 +254,22 @@ public class Anagram {
     }
 
     private boolean isAnagramValid(String diff, LinkedList<String> stack) {
-        return (diff.isBlank() && (includeWord.isBlank() || stack.contains(includeWord)));
+        boolean wordWithSuffixFound;
+
+        if (suffix.isBlank())
+            wordWithSuffixFound = true;
+        else
+            wordWithSuffixFound = isWordWithSuffixFound(stack);
+
+        return (diff.isBlank() && wordWithSuffixFound && (includeWord.isBlank() || stack.contains(includeWord)));
+    }
+
+    private boolean isWordWithSuffixFound(LinkedList<String> stack) {
+        for (String s : stack)
+            if (s.endsWith(suffix))
+                return true;
+
+        return false;
     }
 
     private void addAnagramToList(LinkedList<String> anagram, List<String> anagramList) {
