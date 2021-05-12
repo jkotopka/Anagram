@@ -11,6 +11,9 @@ import java.util.*;
 public class Anagram {
 
     private final Dictionary dictionary;
+    private int count;
+    private int max;
+    private int minWordLength;
 
     public Anagram(String dictFile) {
         Objects.requireNonNull(dictFile, "Constructor argument cannot be null");
@@ -47,9 +50,12 @@ public class Anagram {
         return validSubWords;
     }
 
-    public List<String> findAllAnagramsOf(String word) {
+    public List<String> findAllAnagramsOf(String word, int minWordLength, int max) {
         LinkedList<String> stack = new LinkedList<>();
         List<String> anagrams = new ArrayList<>();
+        this.minWordLength = minWordLength;
+        this.max   = max;
+        this.count = 0;
 
         buildAnagramList(word, stack, anagrams);
 
@@ -60,12 +66,18 @@ public class Anagram {
 
     public void buildAnagramList(String word, LinkedList<String> stack, List<String> anagrams) {
         for (String s : findAllValidSubWordsAsSet(word)) {
+            if(s.length() < minWordLength) continue;
+
             stack.push(s);
 
             String diff = Word.subtract(Word.sortLetters(word), Word.sortLetters(s));
 
-            if (diff.isBlank())
+            if (diff.isBlank()) {
                 anagrams.add(String.join(" ", stack));
+                count++;
+
+                if (count == max) return;
+            }
 
             buildAnagramList(diff, stack, anagrams);
             stack.pop();
@@ -108,14 +120,14 @@ public class Anagram {
         if (allSubWords.isEmpty()) {
             System.out.printf("No sub-words of \"%s\" found\n", word);
         } else {
-            System.out.println("\nValid sub-words of \"" + word + "\" found: " + allSubWords.size());
+            System.out.println("Valid sub-words of \"" + word + "\" found: " + allSubWords.size());
             allSubWords.forEach(System.out::println);
         }
 
-        List<String> allAnagrams = anagram.findAllAnagramsOf(word);
+        List<String> allAnagrams = anagram.findAllAnagramsOf(word, 4, 500);
 
         if (allAnagrams.isEmpty()) {
-            System.out.printf("No anagrams of \"%s\" found\n", word);
+            System.out.printf("\nNo anagrams of \"%s\" found\n", word);
         } else {
             System.out.println("\nAll anagrams of " + word + " found: " + allAnagrams.size());
             allAnagrams.forEach(System.out::println);
