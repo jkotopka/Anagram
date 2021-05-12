@@ -40,16 +40,6 @@ public class Anagram {
         return validSubWords;
     }
 
-    public Set<String> findAllValidSubWordsAsSet(String word) {
-        Objects.requireNonNull(word, "Method argument cannot be null");
-
-        Set<String> validSubWords = new TreeSet<>();
-
-        populateSubstringCollection(word, validSubWords);
-
-        return validSubWords;
-    }
-
     public List<String> findAllAnagramsOf(String word, int minWordLength, int max) {
         LinkedList<String> stack = new LinkedList<>();
         List<String> anagrams    = new ArrayList<>();
@@ -83,6 +73,16 @@ public class Anagram {
             buildAnagramList(diff, stack, anagrams);
             stack.pop();
         }
+    }
+
+    public Set<String> findAllValidSubWordsAsSet(String word) {
+        Objects.requireNonNull(word, "Method argument cannot be null");
+
+        Set<String> validSubWords = new TreeSet<>();
+
+        populateSubstringCollection(word, validSubWords);
+
+        return validSubWords;
     }
 
     private void populateSubstringCollection(String word, Collection<String> collection) {
