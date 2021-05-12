@@ -52,16 +52,19 @@ public class Anagram {
 
     public List<String> findAllAnagramsOf(String word, int minWordLength, int max) {
         LinkedList<String> stack = new LinkedList<>();
-        List<String> anagrams = new ArrayList<>();
-        this.minWordLength = minWordLength;
-        this.max   = max;
-        this.count = 0;
+        List<String> anagrams    = new ArrayList<>();
 
+        resetInstanceFieldValues(minWordLength, max);
         buildAnagramList(word, stack, anagrams);
-
         Collections.sort(anagrams);
 
         return anagrams;
+    }
+
+    private void resetInstanceFieldValues(int minWordLength, int max) {
+        this.minWordLength = minWordLength;
+        this.max   = max;
+        this.count = 0;
     }
 
     public void buildAnagramList(String word, LinkedList<String> stack, List<String> anagrams) {
