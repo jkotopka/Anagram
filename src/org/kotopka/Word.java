@@ -37,12 +37,10 @@ public class Word {
         if (subtract.length() > original.length())
             throw new IllegalArgumentException("Can't subtract larger string from smaller string");
 
-        StringBuilder difference = getDifferenceOf(original, subtract);
-
-        return difference.toString().trim();
+        return getDifferenceOf(sortLetters(original), sortLetters(subtract));
     }
 
-    private static StringBuilder getDifferenceOf(String original, String subtract) {
+    private static String getDifferenceOf(String original, String subtract) {
         StringBuilder difference = new StringBuilder();
         int i = 0, j = 0;
 
@@ -53,7 +51,7 @@ public class Word {
                 difference.append(original.charAt(i));
         }
 
-        return difference.append(original.substring(i));
+        return difference.append(original.substring(i)).toString().trim();
     }
 
     public static void main(String[] args) {
