@@ -55,9 +55,9 @@ public class Anagram {
             if (diff.isBlank()) {
                 anagrams.add(String.join(" ", stack));
                 count++;
-
-                if (count == max) return;
             }
+
+            if (count == max) return;
 
             buildAnagramList(diff, stack, anagrams);
             stack.pop();
@@ -99,7 +99,7 @@ public class Anagram {
             System.exit(0);
         }
 
-        Anagram anagram = new Anagram("dictionary-large.txt");
+        Anagram anagram = new Anagram("corncob-lowercase.txt");
         String word = String.join(" ",args);
 
         Set<String> allSubWords = anagram.findAllValidSubWordsAsSet(word);
@@ -111,7 +111,7 @@ public class Anagram {
             allSubWords.forEach(System.out::println);
         }
 
-        List<String> allAnagrams = anagram.findAllAnagramsOf(word, 4, 500);
+        List<String> allAnagrams = anagram.findAllAnagramsOf(word, 4, 1000);
 
         if (allAnagrams.isEmpty()) {
             System.out.printf("\nNo anagrams of \"%s\" found\n", word);
