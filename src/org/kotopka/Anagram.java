@@ -66,8 +66,6 @@ public class Anagram {
 
     public void buildAnagramList(String word, LinkedList<String> stack, List<String> anagrams) {
         for (String s : findAllValidSubWordsAsSet(word)) {
-            if(s.length() < minWordLength) continue;
-
             stack.push(s);
 
             String diff = Word.subtract(Word.sortLetters(word), Word.sortLetters(s));
@@ -85,8 +83,10 @@ public class Anagram {
     }
 
     private void populateSubstringCollection(String word, Collection<String> collection) {
-        for (String subString : generateSubStrings(word))
-            collection.addAll(dictionary.getListOrEmpty(subString));
+        for (String subString : generateSubStrings(word)) {
+            if(subString.length() >= minWordLength)
+                collection.addAll(dictionary.getListOrEmpty(subString));
+        }
     }
 
     private List<String> generateSubStrings(String word) {
