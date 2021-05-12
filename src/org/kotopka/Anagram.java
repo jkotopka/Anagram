@@ -69,15 +69,11 @@ public class Anagram {
 
         Set<String> validSubWords = new TreeSet<>();
 
-        populateSubstringCollection(word, validSubWords);
-
-        return validSubWords;
-    }
-
-    private void populateSubstringCollection(String word, Collection<String> collection) {
         for (String subString : generateSubStrings(word))
             if(subString.length() >= minWordLength)
-                collection.addAll(dictionary.getListOrEmpty(subString));
+                validSubWords.addAll(dictionary.getListOrEmpty(subString));
+
+        return validSubWords;
     }
 
     private List<String> generateSubStrings(String word) {
