@@ -170,6 +170,12 @@ public class Anagram {
         excludeWordsSet.add(word);
     }
 
+    public void setSuffix(String suffix) {
+        Objects.requireNonNull(suffix, "Suffix cannot be null");
+
+        this.suffix = suffix;
+    }
+
     public void shouldExcludeDuplicates(boolean shouldExclude) {
         excludeDuplicates = shouldExclude;
     }
