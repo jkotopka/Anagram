@@ -29,17 +29,6 @@ public class Anagram {
         return dictionary.getListOrEmpty(sortedWord);
     }
 
-    public List<String> findAllValidSubWordsAsList(String word) {
-        Objects.requireNonNull(word, "Method argument cannot be null");
-
-        List<String> validSubWords = new ArrayList<>();
-
-        populateSubstringCollection(word, validSubWords);
-        Collections.sort(validSubWords);
-
-        return validSubWords;
-    }
-
     public List<String> findAllAnagramsOf(String word, int minWordLength, int max) {
         LinkedList<String> stack = new LinkedList<>();
         List<String> anagrams    = new ArrayList<>();
