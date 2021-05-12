@@ -16,6 +16,7 @@ public class Anagram {
 
         private String startFrom;
         private String includeWord;
+        private String suffix;
 
         private boolean excludeDuplicates;
         private Set<String> excludeWordsSet;
@@ -29,6 +30,7 @@ public class Anagram {
             this.maxResults = Integer.MAX_VALUE;
             this.startFrom = "";
             this.includeWord = "";
+            this.suffix = "";
             this.excludeWordsSet = new HashSet<>();
         }
 
@@ -75,6 +77,14 @@ public class Anagram {
             return this;
         }
 
+        public Builder setSuffix(String suffix) {
+            Objects.requireNonNull(suffix);
+
+            this.suffix = suffix;
+
+            return this;
+        }
+
         public Builder excludeDuplicates(boolean shouldExclude) {
             this.excludeDuplicates = shouldExclude;
 
@@ -103,6 +113,7 @@ public class Anagram {
     private int maxResults;
     private String startFrom;
     private String includeWord;
+    private String suffix;
     private boolean excludeDuplicates;
     private final Set<String> excludeWordsSet;
 
@@ -112,6 +123,7 @@ public class Anagram {
         this.maxResults = builder.maxResults;
         this.startFrom = builder.startFrom;
         this.includeWord = builder.includeWord;
+        this.suffix = builder.suffix;
         this.excludeDuplicates = builder.excludeDuplicates;
         this.excludeWordsSet = builder.excludeWordsSet;
 
