@@ -184,14 +184,17 @@ public class Anagram {
 
     private void buildAnagramListRecursively(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
         for (String s : findAllValidSubWordsAsSet(word).tailSet(startWord)) {
-            if (excludeWordsSet.contains(s)) continue;
-            if (excludeDuplicates) excludeWordsSet.add(s.toLowerCase());
+            if (excludeDuplicates) {
+                if (excludeWordsSet.contains(s)) continue;
+
+                excludeWordsSet.add(s.toLowerCase());
+            }
 
             anagram.push(s);
 
             String diff = Word.subtract(word, s);
 
-            if (validateAnagram(diff, anagram))
+            if (isAnagramValid(diff, anagram))
                 addAnagramToList(anagram, anagramList);
 
             if (count == maxResults) return;
@@ -232,7 +235,7 @@ public class Anagram {
         }
     }
 
-    private boolean validateAnagram(String diff, LinkedList<String> stack) {
+    private boolean isAnagramValid(String diff, LinkedList<String> stack) {
         return (diff.isBlank() && (includeWord.isBlank() || stack.contains(includeWord)));
     }
 
