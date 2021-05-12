@@ -171,15 +171,15 @@ public class Anagram {
     }
 
     public List<String> findAllAnagramsOf(String word) {
-        LinkedList<String> stack = new LinkedList<>();
-        List<String> anagrams    = new ArrayList<>();
+        LinkedList<String> anagram = new LinkedList<>();
+        List<String> anagramList   = new ArrayList<>();
 
         count = 0;
 
-        buildAnagramListRecursively(word, startFrom, stack, anagrams);
-        Collections.sort(anagrams);
+        buildAnagramListRecursively(word, startFrom, anagram, anagramList);
+        Collections.sort(anagramList);
 
-        return anagrams;
+        return anagramList;
     }
 
     private void buildAnagramListRecursively(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
