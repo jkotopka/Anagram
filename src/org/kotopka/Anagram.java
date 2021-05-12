@@ -244,6 +244,33 @@ public class Anagram {
         count++;
     }
 
+    private static void findAndPrintSubWords(Anagram anagram, String word) {
+        // TODO: check the tailSet() here later
+        Set<String> allSubWords = anagram.findAllValidSubWordsAsSet(word);
+
+        if (allSubWords.isEmpty()) {
+            System.out.printf("No sub-words of \"%s\" found\n", word);
+        } else {
+            System.out.println("Valid sub-words of \"" + word + "\" found: " + allSubWords.size());
+            allSubWords.forEach(System.out::println);
+        }
+    }
+
+    private static void findAndPrintAnagrams(Anagram anagram, String word) {
+        long startTime = System.currentTimeMillis();
+        List<String> allAnagrams = anagram.findAllAnagramsOf(word);
+        long endTime = System.currentTimeMillis();
+
+        if (allAnagrams.isEmpty()) {
+            System.out.printf("\nNo anagrams of \"%s\" found\n", word);
+        } else {
+            System.out.println("\nAll anagrams of " + word + " found: " + allAnagrams.size());
+            allAnagrams.forEach(System.out::println);
+        }
+
+        System.out.println("Elapsed time: " + (double)(endTime - startTime) / 1000);
+    }
+
     // TODO: one of the words must have a certain suffix?
     //  also includeWordSet and anagram validation
     public static void main(String[] args) {
@@ -283,33 +310,6 @@ public class Anagram {
         anagram.startFrom("ali");
         anagram.setMaxResults(3);
         findAndPrintAnagrams(anagram, word);
-    }
-
-    private static void findAndPrintSubWords(Anagram anagram, String word) {
-        // TODO: check the tailSet() here later
-        Set<String> allSubWords = anagram.findAllValidSubWordsAsSet(word);
-
-        if (allSubWords.isEmpty()) {
-            System.out.printf("No sub-words of \"%s\" found\n", word);
-        } else {
-            System.out.println("Valid sub-words of \"" + word + "\" found: " + allSubWords.size());
-            allSubWords.forEach(System.out::println);
-        }
-    }
-
-    private static void findAndPrintAnagrams(Anagram anagram, String word) {
-        long startTime = System.currentTimeMillis();
-        List<String> allAnagrams = anagram.findAllAnagramsOf(word);
-        long endTime = System.currentTimeMillis();
-
-        if (allAnagrams.isEmpty()) {
-            System.out.printf("\nNo anagrams of \"%s\" found\n", word);
-        } else {
-            System.out.println("\nAll anagrams of " + word + " found: " + allAnagrams.size());
-            allAnagrams.forEach(System.out::println);
-        }
-
-        System.out.println("Elapsed time: " + (double)(endTime - startTime) / 1000);
     }
 
 }
