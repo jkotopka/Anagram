@@ -83,10 +83,9 @@ public class Anagram {
     }
 
     private void populateSubstringCollection(String word, Collection<String> collection) {
-        for (String subString : generateSubStrings(word)) {
+        for (String subString : generateSubStrings(word))
             if(subString.length() >= minWordLength)
                 collection.addAll(dictionary.getListOrEmpty(subString));
-        }
     }
 
     private List<String> generateSubStrings(String word) {
