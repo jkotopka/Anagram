@@ -17,6 +17,7 @@ public class Anagram {
         private int maxWordLength;
         private int maxResults;
 
+        private String startFrom;
         private String includeWord;
 
         private boolean excludeDuplicates;
@@ -29,6 +30,7 @@ public class Anagram {
             this.minWordLength = 1;
             this.maxWordLength = Integer.MAX_VALUE;
             this.maxResults = Integer.MAX_VALUE;
+            this.startFrom = "";
             this.includeWord = "";
             this.excludeWordsSet = new HashSet<>();
         }
@@ -56,6 +58,14 @@ public class Anagram {
                 throw new IllegalArgumentException("Invalid max results: " + maxResults);
 
             this.maxResults = maxResults;
+
+            return this;
+        }
+
+        public Builder startFrom(String word) {
+            Objects.requireNonNull(word);
+
+            this.startFrom = word;
 
             return this;
         }
@@ -94,6 +104,7 @@ public class Anagram {
     private int minWordLength;
     private int maxWordLength;
     private int maxResults;
+    private String startFrom;
     private String includeWord;
     private boolean excludeDuplicates;
     private final Set<String> excludeWordsSet;
@@ -102,6 +113,7 @@ public class Anagram {
         this.minWordLength = builder.minWordLength;
         this.maxWordLength = builder.maxWordLength;
         this.maxResults = builder.maxResults;
+        this.startFrom = builder.startFrom;
         this.includeWord = builder.includeWord;
         this.excludeDuplicates = builder.excludeDuplicates;
         this.excludeWordsSet = builder.excludeWordsSet;
@@ -113,39 +125,45 @@ public class Anagram {
                 .build();
     }
 
-//    private void setMinWordLength(int length) {
-//        if (length <= 0) throw new IllegalArgumentException("Length must be positive");
-//
-//        minWordLength = length;
-//    }
-//
-//    public void setMaxWordLength(int length) {
-//        if (length <= 0) throw new IllegalArgumentException("Length must be positive");
-//
-//        maxWordLength = length;
-//    }
-//
-//    public void setMaxResults(int max) {
-//        if (max <= 0) throw new IllegalArgumentException("Max must be positive");
-//
-//        maxResults = max;
-//    }
-//
-//    public void includeWord(String word) {
-//        Objects.requireNonNull(word, "Word cannot be null");
-//
-//        includeWord = word;
-//    }
-//
-//    public void excludeWord(String word) {
-//        Objects.requireNonNull(word, "Word cannot be null");
-//
-//        excludeWordsSet.add(word);
-//    }
-//
-//    public void shouldExcludeDuplicates(boolean shouldExclude) {
-//        excludeDuplicates = shouldExclude;
-//    }
+    private void setMinWordLength(int length) {
+        if (length <= 0) throw new IllegalArgumentException("Length must be positive");
+
+        minWordLength = length;
+    }
+
+    public void setMaxWordLength(int length) {
+        if (length <= 0) throw new IllegalArgumentException("Length must be positive");
+
+        maxWordLength = length;
+    }
+
+    public void setMaxResults(int max) {
+        if (max <= 0) throw new IllegalArgumentException("Max must be positive");
+
+        maxResults = max;
+    }
+
+    public void startFrom(String word) {
+        Objects.requireNonNull(word, "Word cannot be null");
+
+        startFrom = word;
+    }
+
+    public void includeWord(String word) {
+        Objects.requireNonNull(word, "Word cannot be null");
+
+        includeWord = word;
+    }
+
+    public void excludeWord(String word) {
+        Objects.requireNonNull(word, "Word cannot be null");
+
+        excludeWordsSet.add(word);
+    }
+
+    public void shouldExcludeDuplicates(boolean shouldExclude) {
+        excludeDuplicates = shouldExclude;
+    }
 
     public List<String> findSingleAnagramsOf(String word) {
         Objects.requireNonNull(word, "Method argument cannot be null");
@@ -161,44 +179,41 @@ public class Anagram {
 
         count = 0;
 
-        buildAnagramListRecursively(word, stack, anagrams);
+        buildAnagramListRecursively(word, startFrom, stack, anagrams);
         Collections.sort(anagrams);
 
         return anagrams;
     }
 
-    private void buildAnagramListRecursively(String word, LinkedList<String> stack, List<String> anagrams) {
-        for (String s : findAllValidSubWordsAsSet(word)) {
+    private void buildAnagramListRecursively(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
+        for (String s : findAllValidSubWordsAsSet(word).tailSet(startWord)) {
             if (excludeWordsSet.contains(s)) continue;
             if (excludeDuplicates) excludeWordsSet.add(s.toLowerCase());
 
-            stack.push(s);
+            anagram.push(s);
 
             String diff = Word.subtract(word, s);
 
-            validateAndAddAnagramToList(diff, stack, anagrams);
+            if (validateAnagram(diff, anagram))
+                addAnagramToList(anagram, anagramList);
 
             if (count == maxResults) return;
 
-            buildAnagramListRecursively(diff, stack, anagrams);
+            buildAnagramListRecursively(diff, "", anagram, anagramList);
 
             if (excludeDuplicates) excludeWordsSet.remove(s);
 
-            stack.pop();
+            anagram.pop();
         }
     }
 
-    // TODO: some kind of startAt ability to start the list at a certain word, TreeSet.tailSet()?
     public TreeSet<String> findAllValidSubWordsAsSet(String word) {
         Objects.requireNonNull(word, "Method argument cannot be null");
 
         TreeSet<String> validSubWords = new TreeSet<>();
 
-        for (String subString : generateSubStrings(word)) {
-
+        for (String subString : generateSubStrings(word))
             validSubWords.addAll(dictionary.getListOrEmpty(subString));
-        }
-
 
         return validSubWords;
     }
@@ -220,11 +235,13 @@ public class Anagram {
         }
     }
 
-    private void validateAndAddAnagramToList(String diff, LinkedList<String> stack, List<String> anagrams) {
-        if (diff.isBlank() && (includeWord.isBlank() || stack.contains(includeWord))) {
-            anagrams.add(String.join(" ", stack));
-            count++;
-        }
+    private boolean validateAnagram(String diff, LinkedList<String> stack) {
+        return (diff.isBlank() && (includeWord.isBlank() || stack.contains(includeWord)));
+    }
+
+    private void addAnagramToList(LinkedList<String> anagram, List<String> anagramList) {
+        anagramList.add(String.join(" ", anagram));
+        count++;
     }
 
     // TODO: one of the words must have a certain suffix?
@@ -246,19 +263,31 @@ public class Anagram {
         toExclude.add("acs");
         toExclude.add("HIMS");
 
-        Anagram anagram = new Anagram.Builder("dictionary-large.txt")
-                .setMinWordLength(2)
+        Anagram anagram = new Builder("dictionary-large.txt")
+                .setMinWordLength(3)
                 .setMaxWordLength(10)
-                .setMaxResults(1000)
+                .setMaxResults(30000)
                 .excludeDuplicates(false)
                 .excludeWordSet(toExclude)
-                .includeWord("labs")
+                .startFrom("pens")
+                .includeWord("ali")
                 .build();
 
         String word = String.join(" ",args);
 
+        findAndPrintSubWords(anagram, word);
+
+        findAndPrintAnagrams(anagram, word);
+        anagram.startFrom("pep");
+        findAndPrintAnagrams(anagram, word);
+        anagram.startFrom("ali");
+        anagram.setMaxResults(3);
+        findAndPrintAnagrams(anagram, word);
+    }
+
+    private static void findAndPrintSubWords(Anagram anagram, String word) {
         // TODO: check the tailSet() here later
-        Set<String> allSubWords = anagram.findAllValidSubWordsAsSet(word).tailSet("");
+        Set<String> allSubWords = anagram.findAllValidSubWordsAsSet(word);
 
         if (allSubWords.isEmpty()) {
             System.out.printf("No sub-words of \"%s\" found\n", word);
@@ -266,8 +295,12 @@ public class Anagram {
             System.out.println("Valid sub-words of \"" + word + "\" found: " + allSubWords.size());
             allSubWords.forEach(System.out::println);
         }
+    }
 
+    private static void findAndPrintAnagrams(Anagram anagram, String word) {
+        long startTime = System.currentTimeMillis();
         List<String> allAnagrams = anagram.findAllAnagramsOf(word);
+        long endTime = System.currentTimeMillis();
 
         if (allAnagrams.isEmpty()) {
             System.out.printf("\nNo anagrams of \"%s\" found\n", word);
@@ -275,6 +308,8 @@ public class Anagram {
             System.out.println("\nAll anagrams of " + word + " found: " + allAnagrams.size());
             allAnagrams.forEach(System.out::println);
         }
+
+        System.out.println("Elapsed time: " + (double)(endTime - startTime) / 1000);
     }
 
 }
