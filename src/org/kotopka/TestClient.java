@@ -48,13 +48,14 @@ public class TestClient {
 
         // TODO: manually change these parameters to suit the test
         Anagram anagram = new Anagram.Builder("dictionary-large.txt")
-                .setMinWordLength(1)
+                .setMinWordLength(3)
                 .setMaxWordLength(20)
                 .setMaxResults(30000)
                 .excludeDuplicates(true)
                 .excludeWordSet(toExclude)
                 .startFrom("")
                 .includeWord("")
+                .setSuffix("")
                 .build();
 
         String word = String.join(" ",args);
