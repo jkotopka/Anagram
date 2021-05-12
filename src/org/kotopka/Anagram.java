@@ -43,6 +43,12 @@ public class Anagram {
         maxWordLength = length;
     }
 
+    public void setMaxResults(int max) {
+        if (max <= 0) throw new IllegalArgumentException("Max must be positive");
+
+        maxResults = max;
+    }
+
     public void includeWord(String word) {
         Objects.requireNonNull(word, "Word cannot be null");
 
@@ -88,11 +94,9 @@ public class Anagram {
 
             String diff = Word.subtract(word, s);
 
-            if (diff.isBlank()) {
-                if (includeWord.isBlank() || stack.contains(includeWord)) {
-                    anagrams.add(String.join(" ", stack));
-                    count++;
-                }
+            if (diff.isBlank() && (includeWord.isBlank() || stack.contains(includeWord))) {
+                anagrams.add(String.join(" ", stack));
+                count++;
             }
 
             if (count == maxResults) return;
@@ -153,9 +157,10 @@ public class Anagram {
         anagram.excludeWord("lb");
         anagram.excludeWord("bs");
         anagram.excludeWord("ab");
-//        anagram.includeWord("ball");
+        anagram.includeWord("ball");
         anagram.setMinWordLength(2);
         anagram.setMaxWordLength(4);
+        anagram.setMaxResults(4);
         anagram.shouldExcludeDuplicates(true);
 
 
