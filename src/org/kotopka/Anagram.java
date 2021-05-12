@@ -4,10 +4,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 /**
- * {@code Anagram} - Finds and prints a list of all single-word anagrams from a
- * single input word. Valid words are those contained within a dictionary file supplied during construction.
- * <br><br>
- * This version considers a valid word to be its own anagram and will include it in the output list.
+ * {@code Anagram} - Finds and prints a configurable list of anagrams of input word.
  */
 public class Anagram {
 
@@ -245,7 +242,6 @@ public class Anagram {
     }
 
     private static void findAndPrintSubWords(Anagram anagram, String word) {
-        // TODO: check the tailSet() here later
         Set<String> allSubWords = anagram.findAllValidSubWordsAsSet(word);
 
         if (allSubWords.isEmpty()) {
