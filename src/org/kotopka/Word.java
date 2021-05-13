@@ -17,7 +17,7 @@ public class Word {
     public static String sortLetters(String word) {
         Objects.requireNonNull(word, "String object cannot be null");
 
-        char[] wordChars = word.toUpperCase().toCharArray();
+        char[] wordChars = word.toLowerCase().toCharArray();
 
         Arrays.sort(wordChars);
 
@@ -52,10 +52,6 @@ public class Word {
         }
 
         return difference.append(original.substring(i)).toString().trim();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(subtract(sortLetters("mongolian"), sortLetters("zzzt")));
     }
 
 }
