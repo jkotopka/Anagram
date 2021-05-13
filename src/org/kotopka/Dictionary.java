@@ -98,13 +98,17 @@ public class Dictionary {
     private void addWordToDictionary(String word) {
         String sortedWord = Word.sortLetters(word);
 
-        if (!dictionary.containsKey(sortedWord) && !excludeWordsSet.contains(word))
+        if (validateWordLength(sortedWord) && !dictionary.containsKey(sortedWord) && !excludeWordsSet.contains(word))
             dictionary.put(sortedWord, new ArrayList<>());
 
+        if (validateWordLength(sortedWord) && !excludeWordsSet.contains(word))
+            dictionary.get(sortedWord).add(word);
+    }
+
+    private boolean validateWordLength(String sortedWord) {
         int wordLen = sortedWord.length();
 
-        if (wordLen >= minWordLength && wordLen <= maxWordLength && !excludeWordsSet.contains(word))
-            dictionary.get(sortedWord).add(word);
+        return wordLen >= minWordLength && wordLen <= maxWordLength;
     }
 
     public boolean containsWord(String word) {
