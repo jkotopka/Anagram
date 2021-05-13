@@ -25,10 +25,12 @@ public class Word {
     }
 
     /**
-     * {@code subtract()} - Subtract one substring from another larger string.
+     * {@code subtract()} - Subtract one substring from another larger string. If the entirety of the
+     * smaller string can't be subtracted, returns the original string
      * @param original the original word
      * @param subtract the substring to subtract
-     * @return a sorted {@code String} of the set of letters of the difference between "word" minus "subtract"
+     * @return a sorted {@code String} of the set of letters of the difference between "word"
+     * minus "subtract", or the original string
      */
     public static String subtract(String original, String subtract) {
         Objects.requireNonNull(original, "String object cannot be null");
@@ -50,6 +52,8 @@ public class Word {
             else
                 difference.append(original.charAt(i));
         }
+
+        if (j < subtract.length()) return original;
 
         return difference.append(original.substring(i)).toString().trim();
     }
