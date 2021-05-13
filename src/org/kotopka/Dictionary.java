@@ -98,7 +98,7 @@ public class Dictionary {
     private void addWordToDictionary(String word) {
         String sortedWord = Word.sortLetters(word);
 
-        if (!dictionary.containsKey(sortedWord))
+        if (!dictionary.containsKey(sortedWord) && !excludeWordsSet.contains(word))
             dictionary.put(sortedWord, new ArrayList<>());
 
         int wordLen = sortedWord.length();
