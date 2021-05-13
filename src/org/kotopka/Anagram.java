@@ -1,5 +1,6 @@
 package org.kotopka;
 
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -98,7 +99,6 @@ public class Anagram {
         return anagramList;
     }
 
-    // TODO: try to improve performance here
     private void buildAnagramListRecursively(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
         for (String s : findAllValidSubWordsAsSet(word).tailSet(startWord)) {
             if (excludeDuplicates) {
@@ -107,7 +107,6 @@ public class Anagram {
                 excludeWordsSet.add(s.toLowerCase());
             }
 
-            // TODO: possibly extract this as a method
             anagram.push(s);
 
             String diff = Word.subtract(word, s);
@@ -182,4 +181,30 @@ public class Anagram {
         count++;
     }
 
+    public Set<String> getValidSubStringsOf(String word) {
+        Set<String> subStrings = new TreeSet<>();
+
+        for (String s : generateSubStrings(word))
+            if (dictionary.containsWord(s))
+                subStrings.add(s);
+
+        return subStrings;
+    }
+
+    public static void main(String[] args) {
+        Set<String> exclude = new HashSet<>();
+
+        Dictionary dictionary = new Dictionary.Builder(Paths.get("dictionary-large.txt"))
+                .setMinWordLength(3)
+                .setMaxWordLength(20)
+                .excludeWordsFromSet(exclude)
+                .build();
+
+        Anagram a = new Anagram(dictionary);
+
+        Set<String> sl = a.getValidSubStringsOf("pineapples");
+
+        sl.forEach(System.out::println);
+        System.out.println("length: " + sl.size());
+    }
 }
