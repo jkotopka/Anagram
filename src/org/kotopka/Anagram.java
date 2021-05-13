@@ -115,7 +115,7 @@ public class Anagram {
             // TODO: add "restrictPermutations" boolean and have startWord be either "" or s
             // TODO: possible performance increase: don't search for words, search for sorted-strings
             //  and get the anagram list associated with the string, rebuild the anagrams later
-            buildAnagramListRecursively(diff, s, anagram, anagramList);
+            buildAnagramListRecursively(diff, "", anagram, anagramList);
 
             if (excludeDuplicates) excludeWordsSet.remove(s);
 
