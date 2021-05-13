@@ -26,38 +26,50 @@ public class Anagram {
     }
 
     // TODO: make the "set" methods return "this" Anagram so they can be chained
-    public void setMaxResults(int max) {
+    public Anagram setMaxResults(int max) {
         if (max <= 0) throw new IllegalArgumentException("Max must be positive");
 
         maxResults = max;
+
+        return this;
     }
 
-    public void startFrom(String word) {
+    public Anagram startFrom(String word) {
         Objects.requireNonNull(word, "Word cannot be null");
 
         startFrom = word;
+
+        return this;
     }
 
-    public void includeWord(String word) {
+    public Anagram includeWord(String word) {
         Objects.requireNonNull(word, "Word cannot be null");
 
         includeWord = word;
+
+        return this;
     }
 
-    public void excludeWord(String word) {
+    public Anagram excludeWord(String word) {
         Objects.requireNonNull(word, "Word cannot be null");
 
         excludeWordsSet.add(word);
+
+        return this;
     }
 
-    public void setSuffix(String suffix) {
+    public Anagram setSuffix(String suffix) {
         Objects.requireNonNull(suffix, "Suffix cannot be null");
 
         this.suffix = suffix;
+
+        return this;
     }
 
-    public void shouldExcludeDuplicates(boolean shouldExclude) {
+    public Anagram shouldExcludeDuplicates(boolean shouldExclude) {
         excludeDuplicates = shouldExclude;
+
+        return this;
     }
 
     public List<String> findSingleAnagramsOf(String word) {
