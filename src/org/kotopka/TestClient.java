@@ -54,16 +54,14 @@ public class TestClient {
                 .excludeWordsFromSet(toExclude)
                 .build();
 
-        Anagram anagram = new Anagram(dictionary);
-
-        anagram.setMaxResults(1000)
+        Anagram anagram = new Anagram(dictionary)
+                .setMaxResults(10000)
                 .shouldExcludeDuplicates(true)
-                .shouldRestrictPermutations(false)
+                .shouldRestrictPermutations(true)
                 .startFrom("")
-                .includeWord("john")
+                .includeWord("")
                 .excludeWord("")
                 .setSuffix("");
-
 
         String word = String.join(" ",args);
 
