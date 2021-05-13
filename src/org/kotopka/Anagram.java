@@ -199,18 +199,12 @@ public class Anagram {
 
         wordList.sort(Comparator.comparing(String::length).reversed());
 
-        Map<String, Integer> indexMap = new HashMap<>();
-
-        for (int i = 0; i < wordList.size(); i++) {
-            indexMap.put(wordList.get(i), i);
-        }
-
-        anagramGroupsRecursive(Word.sortLetters(word), wordList, indexMap,0, anagram, anagramList);
+        anagramGroupsRecursive(Word.sortLetters(word), wordList,0, anagram, anagramList);
 
         return anagramList;
     }
 
-    private void anagramGroupsRecursive(String word, List<String> wordList, Map<String, Integer> indexMap, int index, LinkedList<String> anagram, List<List<String>> anagramList) {
+    private void anagramGroupsRecursive(String word, List<String> wordList,  int index, LinkedList<String> anagram, List<List<String>> anagramList) {
         for (int i = index; i < wordList.size(); i++) {
             String current = wordList.get(i);
 
@@ -229,7 +223,7 @@ public class Anagram {
 
             if (restrictPermutations) nextStart = i + 1;
 
-            anagramGroupsRecursive(diff, wordList, indexMap, nextStart, anagram, anagramList);
+            anagramGroupsRecursive(diff, wordList, nextStart, anagram, anagramList);
 
             anagram.pop();
         }
