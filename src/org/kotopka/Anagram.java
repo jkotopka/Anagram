@@ -181,6 +181,7 @@ public class Anagram {
         count++;
     }
 
+    // TODO: TESTING----------------------------------------------------------------------------------------------
     public Set<String> getValidSubStringsOf(String word) {
         Set<String> subStrings = new TreeSet<>();
 
@@ -191,20 +192,80 @@ public class Anagram {
         return subStrings;
     }
 
+    public List<List<String>> findAnagramGroups(String word) {
+        LinkedList<String> anagram = new LinkedList<>();
+        List<List<String>> anagramList = new ArrayList<>();
+        List<String> wordList = new ArrayList<>(getValidSubStringsOf(word));
+
+        wordList.sort(Comparator.comparing(String::length).reversed());
+
+        Map<String, Integer> indexMap = new HashMap<>();
+
+        for (int i = 0; i < wordList.size(); i++) {
+            indexMap.put(wordList.get(i), i);
+        }
+
+        anagramGroupsRecursive(word, wordList, indexMap,0, anagram, anagramList);
+
+        return anagramList;
+    }
+
+    private void anagramGroupsRecursive(String word, List<String> wordList, Map<String, Integer> indexMap, int index, LinkedList<String> anagram, List<List<String>> anagramList) {
+        if (index >= wordList.size()) return;
+
+        for (int i = index; i < wordList.size(); i++) {
+            String current = wordList.get(i);
+            String diff = Word.subtract(word, current);
+
+            if(word.equals(diff)) continue;
+
+            anagram.push(current);
+
+            if (diff.isBlank()) {
+                anagramList.add(List.copyOf(anagram));
+            } else if (dictionary.containsWord(diff)) {
+                anagramGroupsRecursive(diff, wordList, indexMap, indexMap.get(diff) + 1, anagram, anagramList);
+                addAnagram(anagram, anagramList, diff);
+            }
+
+            anagram.pop();
+        }
+    }
+
+    private void addAnagram(LinkedList<String> anagram, List<List<String>> anagramList, String diff) {
+        anagram.push(diff);
+        anagramList.add(List.copyOf(anagram));
+        anagram.pop();
+    }
+
+    public static boolean validateAnagram(String word, String anagram) {
+        return Word.sortLetters(word).equals(Word.sortLetters(anagram).trim());
+    }
+
     public static void main(String[] args) {
         Set<String> exclude = new HashSet<>();
 
         Dictionary dictionary = new Dictionary.Builder(Paths.get("dictionary-large.txt"))
-                .setMinWordLength(3)
+                .setMinWordLength(1)
                 .setMaxWordLength(20)
                 .excludeWordsFromSet(exclude)
                 .build();
 
         Anagram a = new Anagram(dictionary);
+        String word = "horse";
 
-        Set<String> sl = a.getValidSubStringsOf("pineapples");
+        Set<String> sl = a.getValidSubStringsOf(word);
 
         sl.forEach(System.out::println);
         System.out.println("length: " + sl.size());
+
+        List<List<String>> anagrams = a.findAnagramGroups(word);
+        for (List<String> stringLists : anagrams) {
+            for (String s : stringLists) {
+                System.out.print(s + " -> " + dictionary.getListOf(s) + " : ");
+            }
+            System.out.println();
+        }
+        System.out.println("Total: " + anagrams.size());
     }
 }
