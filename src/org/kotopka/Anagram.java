@@ -1,108 +1,11 @@
 package org.kotopka;
 
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
  * {@code Anagram} - Finds and prints a configurable list of anagrams of input word.
  */
 public class Anagram {
-
-    public static class Builder {
-        private final String dictFile;
-        private int minWordLength;
-        private int maxWordLength;
-        private int maxResults;
-        private String startFrom;
-        private String includeWord;
-        private String suffix;
-        private boolean excludeDuplicates;
-        private Set<String> excludeWordsSet;
-
-        public Builder(String dictFile) {
-            Objects.requireNonNull(dictFile);
-
-            this.dictFile = dictFile;
-            this.minWordLength = 1;
-            this.maxWordLength = Integer.MAX_VALUE;
-            this.maxResults = Integer.MAX_VALUE;
-            this.startFrom = "";
-            this.includeWord = "";
-            this.suffix = "";
-            this.excludeWordsSet = new HashSet<>();
-        }
-
-        public Builder setMinWordLength(int minWordLength) {
-            if (minWordLength < 0)
-                throw new IllegalArgumentException("Invalid min word length: " + minWordLength);
-
-            this.minWordLength = minWordLength;
-
-            return this;
-        }
-
-        public Builder setMaxWordLength(int maxWordLength) {
-            if (maxWordLength < 0)
-                throw new IllegalArgumentException("Invalid max word length: " + maxWordLength);
-
-            this.maxWordLength = maxWordLength;
-
-            return this;
-        }
-
-        public Builder setMaxResults(int maxResults) {
-            if (maxResults < 0)
-                throw new IllegalArgumentException("Invalid max results: " + maxResults);
-
-            this.maxResults = maxResults;
-
-            return this;
-        }
-
-        public Builder startFrom(String word) {
-            Objects.requireNonNull(word);
-
-            this.startFrom = word;
-
-            return this;
-        }
-
-        public Builder includeWord(String word) {
-            Objects.requireNonNull(word);
-
-            this.includeWord = word;
-
-            return this;
-        }
-
-        public Builder setSuffix(String suffix) {
-            Objects.requireNonNull(suffix);
-
-            this.suffix = suffix;
-
-            return this;
-        }
-
-        public Builder excludeDuplicates(boolean shouldExclude) {
-            this.excludeDuplicates = shouldExclude;
-
-            return this;
-        }
-
-        public Builder excludeWordSet(Set<String> excludeWordsSet) {
-            Objects.requireNonNull(excludeWordsSet);
-
-            // do NOT want an immutable copy here because it gets updated during use
-            this.excludeWordsSet = excludeWordsSet;
-
-            return this;
-        }
-
-        public Anagram build() {
-            return new Anagram(this);
-        }
-
-    }
 
     private final Dictionary dictionary;
     private int count;
@@ -113,21 +16,16 @@ public class Anagram {
     private boolean excludeDuplicates;
     private final Set<String> excludeWordsSet;
 
-    private Anagram(Builder builder) {
-        this.maxResults = builder.maxResults;
-        this.startFrom = builder.startFrom;
-        this.includeWord = builder.includeWord;
-        this.suffix = builder.suffix;
-        this.excludeDuplicates = builder.excludeDuplicates;
-        this.excludeWordsSet = builder.excludeWordsSet;
-
-        this.dictionary = new Dictionary.Builder(Paths.get(builder.dictFile))
-                .setMinWordLength(builder.minWordLength)
-                .setMaxWordLength(builder.maxWordLength)
-                .excludeWordsFromSet(excludeWordsSet)
-                .build();
+    public Anagram(Dictionary dictionary) {
+        this.dictionary = dictionary;
+        this.maxResults = Integer.MAX_VALUE;
+        this.startFrom = "";
+        this.includeWord = "";
+        this.suffix = "";
+        this.excludeWordsSet = new HashSet<>();
     }
 
+    // TODO: make the "set" methods return "this" Anagram so they can be chained
     public void setMaxResults(int max) {
         if (max <= 0) throw new IllegalArgumentException("Max must be positive");
 
@@ -182,6 +80,7 @@ public class Anagram {
         return anagramList;
     }
 
+    // TODO: try to improve performance here
     private void buildAnagramListRecursively(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
         for (String s : findAllValidSubWordsAsSet(word).tailSet(startWord)) {
             if (excludeDuplicates) {
@@ -190,6 +89,7 @@ public class Anagram {
                 excludeWordsSet.add(s.toLowerCase());
             }
 
+            // TODO: possibly extract this as a method
             anagram.push(s);
 
             String diff = Word.subtract(word, s);
@@ -199,7 +99,11 @@ public class Anagram {
 
             if (count == maxResults) return;
 
-            buildAnagramListRecursively(diff, "", anagram, anagramList);
+            // TODO: setting startWord in the recursion will limit the permutations of strings found
+            // TODO: add "restrictPermutations" boolean and have startWord be either "" or s
+            // TODO: possible performance increase: don't search for words, search for sorted-strings
+            //  and get the anagram list associated with the string, rebuild the anagrams later
+            buildAnagramListRecursively(diff, s, anagram, anagramList);
 
             if (excludeDuplicates) excludeWordsSet.remove(s);
 
