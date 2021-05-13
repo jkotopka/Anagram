@@ -235,21 +235,20 @@ public class Anagram {
         }
     }
 
-    private boolean isAnagramValid(String diff, LinkedList<String> stack) {
+    private boolean isAnagramValid(String diff, LinkedList<String> anagram) {
         boolean wordWithSuffixFound;
 
         if (suffix.isBlank())
             wordWithSuffixFound = true;
         else
-            wordWithSuffixFound = isWordWithSuffixFound(stack);
+            wordWithSuffixFound = isWordWithSuffixFound(anagram);
 
-        return (diff.isBlank() && wordWithSuffixFound && (includeWord.isBlank() || stack.contains(includeWord)));
+        return (diff.isBlank() && wordWithSuffixFound && (includeWord.isBlank() || anagram.contains(includeWord)));
     }
 
-    private boolean isWordWithSuffixFound(LinkedList<String> stack) {
-        for (String s : stack)
-            if (s.endsWith(suffix))
-                return true;
+    private boolean isWordWithSuffixFound(LinkedList<String> anagram) {
+        for (String s : anagram)
+            if (s.endsWith(suffix)) return true;
 
         return false;
     }
