@@ -58,6 +58,7 @@ public class TestClient {
 
         anagram.setMaxResults(1000)
                 .shouldExcludeDuplicates(true)
+                .shouldRestrictPermutations(false)
                 .startFrom("")
                 .includeWord("john")
                 .excludeWord("")
