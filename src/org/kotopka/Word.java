@@ -36,6 +36,7 @@ public class Word {
         Objects.requireNonNull(original, "String object cannot be null");
         Objects.requireNonNull(subtract, "String object cannot be null");
 
+        // TODO: just return the original word if the original len < subtract len
         if (subtract.length() > original.length())
             throw new IllegalArgumentException("Can't subtract larger string from smaller string");
 
