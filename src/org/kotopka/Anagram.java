@@ -14,6 +14,7 @@ public class Anagram {
     private String includeWord;
     private String suffix;
     private boolean excludeDuplicates;
+    private boolean restrictPermutations;
     private final Set<String> excludeWordsSet;
 
     public Anagram(Dictionary dictionary) {
@@ -25,7 +26,6 @@ public class Anagram {
         this.excludeWordsSet = new HashSet<>();
     }
 
-    // TODO: make the "set" methods return "this" Anagram so they can be chained
     public Anagram setMaxResults(int max) {
         if (max <= 0) throw new IllegalArgumentException("Max must be positive");
 
@@ -72,6 +72,12 @@ public class Anagram {
         return this;
     }
 
+    public Anagram shouldRestrictPermutations(boolean shouldRestrict) {
+        restrictPermutations = shouldRestrict;
+
+        return this;
+    }
+
     public List<String> findSingleAnagramsOf(String word) {
         Objects.requireNonNull(word, "Method argument cannot be null");
 
@@ -111,11 +117,13 @@ public class Anagram {
 
             if (count == maxResults) return;
 
-            // TODO: setting startWord in the recursion will limit the permutations of strings found
-            // TODO: add "restrictPermutations" boolean and have startWord be either "" or s
             // TODO: possible performance increase: don't search for words, search for sorted-strings
             //  and get the anagram list associated with the string, rebuild the anagrams later
-            buildAnagramListRecursively(diff, "", anagram, anagramList);
+            String nextStart = "";
+
+            if (restrictPermutations) nextStart = s;
+
+            buildAnagramListRecursively(diff, nextStart, anagram, anagramList);
 
             if (excludeDuplicates) excludeWordsSet.remove(s);
 
