@@ -1,5 +1,6 @@
 package org.kotopka;
 
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,16 +48,32 @@ public class TestClient {
         Set<String> toExclude = new HashSet<>();
 
         // TODO: manually change these parameters to suit the test
-        Anagram anagram = new Anagram.Builder("dictionary-large.txt")
+//        Anagram anagram = new Anagram.Builder("dictionary-large.txt")
+//                .setMinWordLength(3)
+//                .setMaxWordLength(20)
+//                .setMaxResults(30000)
+//                .excludeDuplicates(true)
+//                .excludeWordSet(toExclude)
+//                .startFrom("")
+//                .includeWord("")
+//                .setSuffix("")
+//                .build();
+
+        Dictionary dictionary = new Dictionary.Builder(Paths.get("dictionary-large.txt"))
                 .setMinWordLength(3)
                 .setMaxWordLength(20)
-                .setMaxResults(30000)
-                .excludeDuplicates(true)
-                .excludeWordSet(toExclude)
-                .startFrom("")
-                .includeWord("")
-                .setSuffix("")
+                .excludeWordsFromSet(toExclude)
                 .build();
+
+        Anagram anagram = new Anagram(dictionary);
+
+        anagram.setMaxResults(1000)
+                .shouldExcludeDuplicates(true)
+                .startFrom("")
+                .includeWord("john")
+                .excludeWord("")
+                .setSuffix("");
+
 
         String word = String.join(" ",args);
 
