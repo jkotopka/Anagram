@@ -106,8 +106,6 @@ public class Anagram {
 
     private final Dictionary dictionary;
     private int count;
-    private int minWordLength;
-    private int maxWordLength;
     private int maxResults;
     private String startFrom;
     private String includeWord;
@@ -116,8 +114,6 @@ public class Anagram {
     private final Set<String> excludeWordsSet;
 
     private Anagram(Builder builder) {
-        this.minWordLength = builder.minWordLength;
-        this.maxWordLength = builder.maxWordLength;
         this.maxResults = builder.maxResults;
         this.startFrom = builder.startFrom;
         this.includeWord = builder.includeWord;
@@ -126,22 +122,10 @@ public class Anagram {
         this.excludeWordsSet = builder.excludeWordsSet;
 
         this.dictionary = new Dictionary.Builder(Paths.get(builder.dictFile))
-                .setMinWordLength(minWordLength)
-                .setMaxWordLength(maxWordLength)
+                .setMinWordLength(builder.minWordLength)
+                .setMaxWordLength(builder.maxWordLength)
                 .excludeWordsFromSet(excludeWordsSet)
                 .build();
-    }
-
-    private void setMinWordLength(int length) {
-        if (length <= 0) throw new IllegalArgumentException("Length must be positive");
-
-        minWordLength = length;
-    }
-
-    public void setMaxWordLength(int length) {
-        if (length <= 0) throw new IllegalArgumentException("Length must be positive");
-
-        maxWordLength = length;
     }
 
     public void setMaxResults(int max) {
