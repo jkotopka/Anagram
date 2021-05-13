@@ -205,28 +205,31 @@ public class Anagram {
             indexMap.put(wordList.get(i), i);
         }
 
-        anagramGroupsRecursive(word, wordList, indexMap,0, anagram, anagramList);
+        anagramGroupsRecursive(Word.sortLetters(word), wordList, indexMap,0, anagram, anagramList);
 
         return anagramList;
     }
 
     private void anagramGroupsRecursive(String word, List<String> wordList, Map<String, Integer> indexMap, int index, LinkedList<String> anagram, List<List<String>> anagramList) {
-        if (index >= wordList.size()) return;
-
         for (int i = index; i < wordList.size(); i++) {
             String current = wordList.get(i);
+
+            if (word.length() < current.length()) continue;
+
             String diff = Word.subtract(word, current);
 
             if(word.equals(diff)) continue;
 
             anagram.push(current);
 
-            if (diff.isBlank()) {
+            if (diff.isBlank())
                 anagramList.add(List.copyOf(anagram));
-            } else if (dictionary.containsWord(diff)) {
-                anagramGroupsRecursive(diff, wordList, indexMap, indexMap.get(diff) + 1, anagram, anagramList);
-                addAnagram(anagram, anagramList, diff);
-            }
+
+            int nextStart = 0;
+
+            if (restrictPermutations) nextStart = i + 1;
+
+            anagramGroupsRecursive(diff, wordList, indexMap, nextStart, anagram, anagramList);
 
             anagram.pop();
         }
@@ -251,8 +254,11 @@ public class Anagram {
                 .excludeWordsFromSet(exclude)
                 .build();
 
-        Anagram a = new Anagram(dictionary);
-        String word = "horse";
+        Anagram a = new Anagram(dictionary)
+                .shouldRestrictPermutations(true);
+        String word = "a a pie";
+//        String word = "horse";
+//        String word = "horseradish";
 
         Set<String> sl = a.getValidSubStringsOf(word);
 
@@ -260,9 +266,10 @@ public class Anagram {
         System.out.println("length: " + sl.size());
 
         List<List<String>> anagrams = a.findAnagramGroups(word);
+
         for (List<String> stringLists : anagrams) {
             for (String s : stringLists) {
-                System.out.print(s + " -> " + dictionary.getListOf(s) + " : ");
+                System.out.print(s + " -> " + dictionary.getListOf(s) + " ");
             }
             System.out.println();
         }
