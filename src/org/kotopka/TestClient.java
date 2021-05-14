@@ -13,7 +13,7 @@ public class TestClient {
         if (allSubWords.isEmpty()) {
             System.out.printf("No sub-words of \"%s\" found\n", word);
         } else {
-            System.out.println("Valid sub-words of \"" + word + "\" found: " + allSubWords.size());
+            System.out.printf("Valid sub-words of \"%s\" found: %d\n", word, allSubWords.size());
             allSubWords.forEach(System.out::println);
         }
     }
@@ -26,7 +26,7 @@ public class TestClient {
         if (allAnagrams.isEmpty()) {
             System.out.printf("\nNo anagrams of \"%s\" found\n", word);
         } else {
-            System.out.println("\nAll anagrams of " + word + " found: " + allAnagrams.size());
+            System.out.printf("\nAnagrams of \"%s\" found: %d\n", word, allAnagrams.size());
             allAnagrams.forEach(System.out::println);
         }
 
@@ -64,7 +64,7 @@ public class TestClient {
                 .excludeWord("")
                 .includeWordWithSuffix("");
 
-        String word = String.join(" ",args);
+        String word = String.join(" ", args);
 
         findAndPrintSubWords(anagram, word);
         findAndPrintAnagrams(anagram, word);
