@@ -173,7 +173,8 @@ public class Anagram {
         else
             wordWithSuffixFound = isWordWithSuffixFound(anagram);
 
-        return (diff.isBlank() && wordWithSuffixFound && anagram.size() <= maxWordsInAnagram && (includeWord.isBlank() || anagram.contains(includeWord)));
+        return (diff.isBlank() && wordWithSuffixFound && anagram.size() <= maxWordsInAnagram &&
+                (includeWord.isBlank() || anagram.contains(includeWord)));
     }
 
     private boolean isWordWithSuffixFound(LinkedList<String> anagram) {
