@@ -8,8 +8,13 @@ import java.util.Objects;
 // TODO: make the word class an instanced object containing an actual word
 //  and all of its substrings to allow very fast query of whether another word can be subtracted
 /**
- * {@code Word} - Contains static methods for word-related operations, e.g. sorting letters in the word and
- * subtracting one word from another
+ * {@code Word} - Contains static methods for word-related operations.
+ *
+ * <ul>
+ *     <li>{@code sortLetters()} - For sorting letters in the word.</li>
+ *     <li>{@code subtract()} - For subtracting the letters in one word from another.</li>
+ *     <li>{@code generateSubStrings()} - For generating an exhaustive list of substrings from the word.</li>
+ * </ul>
  */
 public class Word {
 
