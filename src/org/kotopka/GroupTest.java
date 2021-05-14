@@ -38,7 +38,7 @@ public class GroupTest {
     }
 
     public static void main(String[] args) {
-        String str = "abcdefg";
+        String str = "abc";
         recursions = 0;
 
         recur("", str, 0);

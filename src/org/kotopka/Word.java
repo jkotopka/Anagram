@@ -1,6 +1,8 @@
 package org.kotopka;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 // TODO: make the word class an instanced object containing an actual word
@@ -38,7 +40,7 @@ public class Word {
         Objects.requireNonNull(original, "String object cannot be null");
         Objects.requireNonNull(subtract, "String object cannot be null");
 
-        // TODO: just return the original word if the original len < subtract len
+        // TODO: maybe just return the original word if the original len < subtract len, have to think about this
         if (subtract.length() > original.length())
             throw new IllegalArgumentException("Can't subtract larger string from smaller string");
 
@@ -59,6 +61,31 @@ public class Word {
         if (j < subtract.length()) return original;
 
         return difference.append(original.substring(i)).toString().trim();
+    }
+
+    /**
+     * {@code generateSubStrings()} - Generates an exhaustive {@code List<String>} of the subsequences of the input {@code word}.
+     * <p>For example, a list of subsequences of the input string "abc" would be:</p>
+     * {@code a, ab, abc, ac, b, bc, c}
+     * <p>This method runs in {@code O(2^n)} time where {@code n} is {@code word.length()}.</p>
+     * @param word {@code String} of the word used to generate subsequences
+     * @return {@code List<String>} of the subsequences generated
+     */
+    public static List<String> generateSubStrings(String word) {
+        List<String> subStrings = new ArrayList<>();
+
+        generateSubStringsRecursively("", sortLetters(word), 0, subStrings);
+
+        return subStrings;
+    }
+
+    private static void generateSubStringsRecursively(String prefix, String word, int index, List<String> subStrings) {
+        if (index == word.length()) return;
+
+        for (int i = index; i < word.length(); i++) {
+            subStrings.add(prefix + word.charAt(i));
+            generateSubStringsRecursively(prefix + word.charAt(i), word, i + 1, subStrings);
+        }
     }
 
 }
