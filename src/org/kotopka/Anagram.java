@@ -11,6 +11,7 @@ public class Anagram {
     private final Dictionary dictionary;
     private int count;
     private int maxResults;
+    private int maxWordsInAnagram;
     private String startFrom;
     private String includeWord;
     private String suffix;
@@ -21,6 +22,7 @@ public class Anagram {
     public Anagram(Dictionary dictionary) {
         this.dictionary = dictionary;
         this.maxResults = Integer.MAX_VALUE;
+        this.maxWordsInAnagram = Integer.MAX_VALUE;
         this.startFrom = "";
         this.includeWord = "";
         this.suffix = "";
@@ -31,6 +33,14 @@ public class Anagram {
         if (max <= 0) throw new IllegalArgumentException("Max must be positive");
 
         maxResults = max;
+
+        return this;
+    }
+
+    public Anagram setMaxWordsInAnagram(int max) {
+        if (max <= 0) throw new IllegalArgumentException("Max must be positive");
+
+        maxWordsInAnagram = max;
 
         return this;
     }
@@ -116,8 +126,6 @@ public class Anagram {
 
             if (count == maxResults) return;
 
-            // TODO: possible performance increase: don't search for words, search for sorted-strings
-            //  and get the anagram list associated with the string, rebuild the anagrams later
             String nextStart = "";
 
             if (restrictPermutations) nextStart = s;
@@ -166,7 +174,7 @@ public class Anagram {
         else
             wordWithSuffixFound = isWordWithSuffixFound(anagram);
 
-        return (diff.isBlank() && wordWithSuffixFound && (includeWord.isBlank() || anagram.contains(includeWord)));
+        return (diff.isBlank() && wordWithSuffixFound && anagram.size() <= maxWordsInAnagram && (includeWord.isBlank() || anagram.contains(includeWord)));
     }
 
     private boolean isWordWithSuffixFound(LinkedList<String> anagram) {
@@ -229,44 +237,8 @@ public class Anagram {
         }
     }
 
-    private void addAnagram(LinkedList<String> anagram, List<List<String>> anagramList, String diff) {
-        anagram.push(diff);
-        anagramList.add(List.copyOf(anagram));
-        anagram.pop();
-    }
-
     public static boolean validateAnagram(String word, String anagram) {
         return Word.sortLetters(word).equals(Word.sortLetters(anagram).trim());
     }
 
-    public static void main(String[] args) {
-        Set<String> exclude = new HashSet<>();
-
-        Dictionary dictionary = new Dictionary.Builder(Paths.get("dictionary-large.txt"))
-                .setMinWordLength(1)
-                .setMaxWordLength(20)
-                .excludeWordsFromSet(exclude)
-                .build();
-
-        Anagram a = new Anagram(dictionary)
-                .shouldRestrictPermutations(true);
-        String word = "a a pie";
-//        String word = "horse";
-//        String word = "horseradish";
-
-        Set<String> sl = a.getValidSubStringsOf(word);
-
-        sl.forEach(System.out::println);
-        System.out.println("length: " + sl.size());
-
-        List<List<String>> anagrams = a.findAnagramGroups(word);
-
-        for (List<String> stringLists : anagrams) {
-            for (String s : stringLists) {
-                System.out.print(s + " -> " + dictionary.getListOf(s) + " ");
-            }
-            System.out.println();
-        }
-        System.out.println("Total: " + anagrams.size());
-    }
 }
