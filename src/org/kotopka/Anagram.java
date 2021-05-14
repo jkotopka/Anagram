@@ -146,27 +146,10 @@ public class Anagram {
 
         TreeSet<String> validSubWords = new TreeSet<>();
 
-        for (String subString : generateSubStrings(word))
+        for (String subString : Word.generateSubStrings(word))
             validSubWords.addAll(dictionary.getListOrEmpty(subString));
 
         return validSubWords;
-    }
-
-    private List<String> generateSubStrings(String word) {
-        List<String> subStrings = new ArrayList<>();
-
-        generateSubStringsRecursively("", Word.sortLetters(word), 0, subStrings);
-
-        return subStrings;
-    }
-
-    private void generateSubStringsRecursively(String prefix, String word, int index, List<String> subStrings) {
-        if (index == word.length()) return;
-
-        for (int i = index; i < word.length(); i++) {
-            subStrings.add(prefix + word.charAt(i));
-            generateSubStringsRecursively(prefix + word.charAt(i), word, i + 1, subStrings);
-        }
     }
 
     private boolean isAnagramValid(String diff, LinkedList<String> anagram) {
@@ -197,7 +180,7 @@ public class Anagram {
     public Set<String> getValidSubStringsOf(String word) {
         Set<String> subStrings = new TreeSet<>();
 
-        for (String s : generateSubStrings(word))
+        for (String s : Word.generateSubStrings(word))
             if (dictionary.containsWord(s))
                 subStrings.add(s);
 
