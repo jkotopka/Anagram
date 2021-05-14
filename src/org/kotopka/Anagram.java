@@ -17,6 +17,7 @@ public class Anagram {
     private boolean excludeDuplicates;
     private boolean restrictPermutations;
     private final Set<String> excludeWordsSet;
+    private final Map<String, TreeSet<String>> cachedSubWords;
 
     public Anagram(Dictionary dictionary) {
         this.dictionary = dictionary;
@@ -26,6 +27,7 @@ public class Anagram {
         this.includeWord = "";
         this.suffix = "";
         this.excludeWordsSet = new HashSet<>();
+        this.cachedSubWords = new HashMap<>();
     }
 
     public Anagram setMaxResults(int max) {
@@ -108,10 +110,12 @@ public class Anagram {
         return anagramList;
     }
 
-    // XXX: not very happy with this method, sorta code-smelly and probably very inefficient due to building a new
-    // word set every recursion
+    // XXX: not very happy with this method, sorta code-smelly but at least it caches the subWords
     private void buildAnagramListRecursively(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
-        for (String s : findAllValidSubWordsAsSet(word).tailSet(startWord)) {
+        if (!cachedSubWords.containsKey(word))
+            cachedSubWords.put(word, findAllValidSubWordsAsSet(word));
+
+        for (String s : cachedSubWords.get(word).tailSet(startWord)) {
             if (excludeDuplicates) {
                 if (excludeWordsSet.contains(s)) continue;
 
@@ -235,10 +239,6 @@ public class Anagram {
 
             anagram.pop();
         }
-    }
-
-    public static boolean validateAnagram(String word, String anagram) {
-        return Word.sortLetters(word).equals(Word.sortLetters(anagram).trim());
     }
 
 }
