@@ -1,6 +1,5 @@
 package org.kotopka;
 
-import java.io.OutputStream;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
@@ -63,7 +62,7 @@ public class TestClient {
                 .startFrom("")
                 .includeWord("")
                 .excludeWord("")
-                .setSuffix("");
+                .includeWordWithSuffix("");
 
         String word = String.join(" ",args);
 
