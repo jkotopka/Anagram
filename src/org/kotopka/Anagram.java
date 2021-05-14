@@ -101,7 +101,7 @@ public class Anagram {
         return validSubWords;
     }
 
-    public List<String> findSingleAnagramsOf(String word) {
+    public List<String> findSingleWordAnagramsOf(String word) {
         Objects.requireNonNull(word, "Method argument cannot be null");
 
         String sortedWord = Word.sortLetters(word);
@@ -109,7 +109,7 @@ public class Anagram {
         return dictionary.getListOrEmpty(sortedWord);
     }
 
-    public List<String> findAllAnagramsOf(String word) {
+    public List<String> findMultipleWordAnagramsOf(String word) {
         LinkedList<String> anagram = new LinkedList<>();
         List<String> anagramList   = new ArrayList<>();
 
