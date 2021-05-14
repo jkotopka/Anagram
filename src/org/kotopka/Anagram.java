@@ -1,6 +1,5 @@
 package org.kotopka;
 
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
