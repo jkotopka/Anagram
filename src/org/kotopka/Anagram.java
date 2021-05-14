@@ -126,27 +126,27 @@ public class Anagram {
         if (!cachedSubWords.containsKey(word))
             cachedSubWords.put(word, findAllValidSubWordsAsSet(word));
 
-        for (String s : cachedSubWords.get(word).tailSet(startWord)) {
+        for (String subWord : cachedSubWords.get(word).tailSet(startWord)) {
             if (excludeDuplicates) {
-                if (wordsToExclude.contains(s)) continue;
+                if (wordsToExclude.contains(subWord)) continue;
 
-                wordsToExclude.add(s.toLowerCase());
+                wordsToExclude.add(subWord.toLowerCase());
             }
 
-            anagram.push(s);
+            anagram.push(subWord);
 
-            String diff = Word.subtract(word, s);
+            String diff = Word.subtract(word, subWord);
 
             if (isAnagramValid(diff, anagram))
                 addAnagramToList(anagram, anagramList);
 
             if (count == maxResults) return;
 
-            String nextStart = (restrictPermutations) ? s : "";
+            String nextStart = (restrictPermutations) ? subWord : "";
 
             buildAnagramListRecursively(diff, nextStart, anagram, anagramList);
 
-            if (excludeDuplicates) wordsToExclude.remove(s);
+            if (excludeDuplicates) wordsToExclude.remove(subWord);
 
             anagram.pop();
         }
