@@ -123,10 +123,9 @@ public class Anagram {
 
     // XXX: not very happy with this method, sorta code-smelly but at least it caches the subWords
     private void buildAnagramListRecursively(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
-        if (!cachedSubWords.containsKey(word))
-            cachedSubWords.put(word, findAllValidSubWordsAsSet(word));
+        validateSubWordCacheOf(word);
 
-        for (String subWord : cachedSubWords.get(word).tailSet(startWord)) {
+        for (String subWord : getSubWordCacheOf(word, startWord)) {
             if (excludeDuplicates) {
                 if (wordsToExclude.contains(subWord)) continue;
 
@@ -150,6 +149,15 @@ public class Anagram {
 
             anagram.pop();
         }
+    }
+
+    private void validateSubWordCacheOf(String word) {
+        if (!cachedSubWords.containsKey(word))
+            cachedSubWords.put(word, findAllValidSubWordsAsSet(word));
+    }
+
+    private SortedSet<String> getSubWordCacheOf(String word, String startWord) {
+        return cachedSubWords.get(word).tailSet(startWord);
     }
 
     private boolean isAnagramValid(String diff, LinkedList<String> anagram) {
@@ -176,8 +184,12 @@ public class Anagram {
         count++;
     }
 
-    // TODO: TESTING----------------------------------------------------------------------------------------------
-    public Set<String> getValidSubStringsOf(String word) {
+    // TODO: TESTING---------------------------------------------------------------------------------------------------
+    //  these methods have different behavior than the normal anagram methods above and don't really work as one
+    //  might expect, nevertheless, I intend to explore these ideas more in the future hence leaving them here for now
+
+    // TODO: have a Set and List version of this method so that e.g. repeated words in the input could be considered
+    public Set<String> getValidSubstringGroupsOf(String word) {
         Set<String> subStrings = new TreeSet<>();
 
         for (String s : Word.generateSubStrings(word))
@@ -187,22 +199,29 @@ public class Anagram {
         return subStrings;
     }
 
-    public List<List<String>> findAnagramGroups(String word) {
+    public List<List<String>> findAnagramGroupsOf(String word) {
         LinkedList<String> anagram = new LinkedList<>();
         List<List<String>> anagramList = new ArrayList<>();
-        List<String> wordList = new ArrayList<>(getValidSubStringsOf(word));
+        List<String> wordList = new ArrayList<>(getValidSubstringGroupsOf(word));
 
         wordList.sort(Comparator.comparing(String::length).reversed());
 
-        anagramGroupsRecursive(Word.sortLetters(word), wordList,0, anagram, anagramList);
+        // TODO: not sure about this, needs testing, only works if the word (or its anagrams)
+        //  is contained in the wordlist, doesn't really work as expected
+        int startIndex = Math.max(wordList.indexOf(Word.sortLetters(startFrom)), 0);
+
+        findAnagramGroupsRecursively(Word.sortLetters(word), wordList, startIndex, anagram, anagramList);
 
         return anagramList;
     }
 
-    private void anagramGroupsRecursive(String word, List<String> wordList,  int index, LinkedList<String> anagram, List<List<String>> anagramList) {
+    private void findAnagramGroupsRecursively(String word, List<String> wordList, int index,
+                                              LinkedList<String> anagram, List<List<String>> anagramList) {
         for (int i = index; i < wordList.size(); i++) {
             String current = wordList.get(i);
 
+            // XXX: might change the Word class to just return the word if there's a length problem
+            // then this would be unnecessary...
             if (word.length() < current.length()) continue;
 
             String diff = Word.subtract(word, current);
@@ -214,11 +233,9 @@ public class Anagram {
             if (diff.isBlank())
                 anagramList.add(List.copyOf(anagram));
 
-            int nextStart = 0;
+            int nextStart = (restrictPermutations) ? i + 1 : 0;
 
-            if (restrictPermutations) nextStart = i + 1;
-
-            anagramGroupsRecursive(diff, wordList, nextStart, anagram, anagramList);
+            findAnagramGroupsRecursively(diff, wordList, nextStart, anagram, anagramList);
 
             anagram.pop();
         }
