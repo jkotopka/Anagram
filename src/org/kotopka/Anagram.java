@@ -90,6 +90,17 @@ public class Anagram {
         return this;
     }
 
+    public TreeSet<String> findAllValidSubWordsAsSet(String word) {
+        Objects.requireNonNull(word, "Method argument cannot be null");
+
+        TreeSet<String> validSubWords = new TreeSet<>();
+
+        for (String subString : Word.generateSubStrings(word))
+            validSubWords.addAll(dictionary.getListOrEmpty(subString));
+
+        return validSubWords;
+    }
+
     public List<String> findSingleAnagramsOf(String word) {
         Objects.requireNonNull(word, "Method argument cannot be null");
 
@@ -139,17 +150,6 @@ public class Anagram {
 
             anagram.pop();
         }
-    }
-
-    public TreeSet<String> findAllValidSubWordsAsSet(String word) {
-        Objects.requireNonNull(word, "Method argument cannot be null");
-
-        TreeSet<String> validSubWords = new TreeSet<>();
-
-        for (String subString : Word.generateSubStrings(word))
-            validSubWords.addAll(dictionary.getListOrEmpty(subString));
-
-        return validSubWords;
     }
 
     private boolean isAnagramValid(String diff, LinkedList<String> anagram) {
