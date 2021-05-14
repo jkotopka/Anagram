@@ -108,6 +108,8 @@ public class Anagram {
         return anagramList;
     }
 
+    // XXX: not very happy with this method, sorta code-smelly and probably very inefficient due to building a new
+    // word set every recursion
     private void buildAnagramListRecursively(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
         for (String s : findAllValidSubWordsAsSet(word).tailSet(startWord)) {
             if (excludeDuplicates) {
@@ -125,9 +127,7 @@ public class Anagram {
 
             if (count == maxResults) return;
 
-            String nextStart = "";
-
-            if (restrictPermutations) nextStart = s;
+            String nextStart = (restrictPermutations) ? s : "";
 
             buildAnagramListRecursively(diff, nextStart, anagram, anagramList);
 
