@@ -1,5 +1,6 @@
 package org.kotopka;
 
+import java.io.OutputStream;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
@@ -56,6 +57,7 @@ public class TestClient {
 
         Anagram anagram = new Anagram(dictionary)
                 .setMaxResults(10000)
+                .setMaxWordsInAnagram(10)
                 .shouldExcludeDuplicates(true)
                 .shouldRestrictPermutations(true)
                 .startFrom("")
