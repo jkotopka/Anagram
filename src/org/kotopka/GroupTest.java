@@ -3,26 +3,8 @@ package org.kotopka;
 public class GroupTest {
 
     /*
-        Groups: [truncated]
-        a
-        ab
-        ac
-        ad
-        ae
-        abc
-        abd
-        abe
-        abcd
-        abce
-        abcde
-        abde
-        acd
-        ace
-        acde
-        ade
-        ...
-
-        Actual: [truncated]
+        Example:
+        Groups of "abcde": [truncated]
         a
         ab
         abc
@@ -39,18 +21,24 @@ public class GroupTest {
         ad
         ade
         ae
-        ...
+        ... [then so on starting from b, c, etc.]
      */
 
+    static int recursions;
+
     public static void main(String[] args) {
-        String str = "abcde";
+        String str = "abcdefg";
+        recursions = 0;
 
         recur("", str, 0);
 
+        System.out.println("String length: " + str.length());
+        System.out.println("Recursions: " + recursions);
     }
 
+    // 2^n recursions to generate an exhaustive collection of groupings
     public static void recur(String prefix, String str, int index) {
-
+        recursions++;
         if (index == str.length()) return;
 
         for (int i = index; i < str.length(); i++) {
