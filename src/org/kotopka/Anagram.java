@@ -16,7 +16,7 @@ public class Anagram {
     private String suffix;
     private boolean excludeDuplicates;
     private boolean restrictPermutations;
-    private final Set<String> excludeWordsSet;
+    private final Set<String> wordsToExclude;
     private final Map<String, TreeSet<String>> cachedSubWords;
 
     public Anagram(Dictionary dictionary) {
@@ -26,7 +26,7 @@ public class Anagram {
         this.startFrom = "";
         this.includeWord = "";
         this.suffix = "";
-        this.excludeWordsSet = new HashSet<>();
+        this.wordsToExclude = new HashSet<>();
         this.cachedSubWords = new HashMap<>();
     }
 
@@ -65,7 +65,7 @@ public class Anagram {
     public Anagram excludeWord(String word) {
         Objects.requireNonNull(word, "Word cannot be null");
 
-        excludeWordsSet.add(word);
+        wordsToExclude.add(word);
 
         return this;
     }
@@ -117,9 +117,9 @@ public class Anagram {
 
         for (String s : cachedSubWords.get(word).tailSet(startWord)) {
             if (excludeDuplicates) {
-                if (excludeWordsSet.contains(s)) continue;
+                if (wordsToExclude.contains(s)) continue;
 
-                excludeWordsSet.add(s.toLowerCase());
+                wordsToExclude.add(s.toLowerCase());
             }
 
             anagram.push(s);
@@ -135,7 +135,7 @@ public class Anagram {
 
             buildAnagramListRecursively(diff, nextStart, anagram, anagramList);
 
-            if (excludeDuplicates) excludeWordsSet.remove(s);
+            if (excludeDuplicates) wordsToExclude.remove(s);
 
             anagram.pop();
         }
