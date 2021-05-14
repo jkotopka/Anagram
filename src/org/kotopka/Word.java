@@ -3,6 +3,8 @@ package org.kotopka;
 import java.util.Arrays;
 import java.util.Objects;
 
+// TODO: make the word class an instanced object containing an actual word
+//  and all of its substrings to allow very fast query of whether another word can be subtracted
 /**
  * {@code Word} - Contains static methods for word-related operations, e.g. sorting letters in the word and
  * subtracting one word from another
