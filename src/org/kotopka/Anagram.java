@@ -194,20 +194,10 @@ public class Anagram {
     }
 
     // TODO: TESTING----------------------------------------------------------------------------------------------
-    public Set<String> getValidSubStringsOf(String word) {
-        Set<String> subStrings = new TreeSet<>();
-
-        for (String s : generateSubStrings(word))
-            if (dictionary.containsWord(s))
-                subStrings.add(s);
-
-        return subStrings;
-    }
-
     public List<List<String>> findAnagramGroups(String word) {
         LinkedList<String> anagram = new LinkedList<>();
         List<List<String>> anagramList = new ArrayList<>();
-        List<String> wordList = new ArrayList<>(getValidSubStringsOf(word));
+        List<String> wordList = new ArrayList<>(findAllAnagramsOf(word));
 
         wordList.sort(Comparator.comparing(String::length).reversed());
 
