@@ -26,16 +26,6 @@ public class GroupTest {
 
     static int recursions;
 
-    public static void main(String[] args) {
-        String str = "abcdefg";
-        recursions = 0;
-
-        recur("", str, 0);
-
-        System.out.println("String length: " + str.length());
-        System.out.println("Recursions: " + recursions);
-    }
-
     // 2^n recursions to generate an exhaustive collection of groupings
     public static void recur(String prefix, String str, int index) {
         recursions++;
@@ -45,6 +35,16 @@ public class GroupTest {
             System.out.println(prefix + str.charAt(i));
             recur(prefix + str.charAt(i), str, i + 1);
         }
+    }
+
+    public static void main(String[] args) {
+        String str = "abcdefg";
+        recursions = 0;
+
+        recur("", str, 0);
+
+        System.out.println("String length: " + str.length());
+        System.out.println("Recursions: " + recursions);
     }
 
 }
