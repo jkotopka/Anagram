@@ -20,7 +20,7 @@ public class TestClient {
 
     private static void findAndPrintAnagrams(Anagram anagram, String word) {
         long startTime = System.currentTimeMillis();
-        List<String> allAnagrams = anagram.findAllAnagramsOf(word);
+        List<String> allAnagrams = anagram.findMultipleWordAnagramsOf(word);
         long endTime = System.currentTimeMillis();
 
         if (allAnagrams.isEmpty()) {
