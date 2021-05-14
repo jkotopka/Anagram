@@ -70,7 +70,7 @@ public class Anagram {
         return this;
     }
 
-    public Anagram setSuffix(String suffix) {
+    public Anagram includeWordWithSuffix(String suffix) {
         Objects.requireNonNull(suffix, "Suffix cannot be null");
 
         this.suffix = suffix;
