@@ -241,14 +241,14 @@ public class Anagram {
 
             if(word.equals(diff)) continue;
 
+            int nextStart = (restrictPermutations) ? i + 1 : 0;
+
             anagram.push(current);
 
             if (diff.isBlank())
                 anagramList.add(List.copyOf(anagram));
-
-            int nextStart = (restrictPermutations) ? i + 1 : 0;
-
-            findAnagramGroupsRecursively(diff, wordList, nextStart, anagram, anagramList);
+            else
+                findAnagramGroupsRecursively(diff, wordList, nextStart, anagram, anagramList);
 
             anagram.pop();
         }
