@@ -171,28 +171,29 @@ public class CommandlineParser {
             phrase.add(args[argIndex++]);
     }
 
+    public String getOptions() {
+        return "usage: java " + clientProgramName + " <options> input string" + NEWLINE + NEWLINE +
+                "These options affect dictionary creation:" + NEWLINE +
+
+                String.format("\t%-5s\t%s%s", "-d", "Dictionary filename", NEWLINE) +
+                String.format("\t%-5s\t%s%s", "-minwl", "Minimum word length", NEWLINE) +
+                String.format("\t%-5s\t%s%s", "-maxwl", "Maximum word length", NEWLINE) +
+                String.format("\t%-5s\t%s%s", "-ef", "Filename of words to exclude from dictionary", NEWLINE) + NEWLINE +
+
+                "These options affect anagram creation:" + NEWLINE +
+
+                String.format("\t%-5s\t%s%S", "-mr", "Maximum results", NEWLINE) +
+                String.format("\t%-5s\t%s%S", "-mw", "Maximum words in anagram", NEWLINE) +
+                String.format("\t%-5s\t%s%S", "-ed", "Exclude duplicates", NEWLINE) +
+                String.format("\t%-5s\t%s%S", "-rp", "Restrict permutations", NEWLINE) +
+                String.format("\t%-5s\t%s%S", "-sf", "Start from word or letter", NEWLINE) +
+                String.format("\t%-5s\t%s%S", "-iw", "Include word in anagram", NEWLINE) +
+                String.format("\t%-5s\t%s%S", "-iws", "Include word with suffix in anagram", NEWLINE) +
+                String.format("\t%-5s\t%s%S", "-h", "This help message", NEWLINE) + NEWLINE;
+    }
+
     public void printOptions() {
-        String optionMessage =
-            "usage: java " + clientProgramName + " <options> input string" + NEWLINE + NEWLINE +
-            "These options affect dictionary creation:" + NEWLINE +
-
-            String.format("\t%-5s\t%s%s", "-d", "Dictionary filename", NEWLINE) +
-            String.format("\t%-5s\t%s%s", "-minwl", "Minimum word length", NEWLINE) +
-            String.format("\t%-5s\t%s%s", "-maxwl", "Maximum word length", NEWLINE) +
-            String.format("\t%-5s\t%s%s", "-ef", "Filename of words to exclude from dictionary", NEWLINE) + NEWLINE +
-
-             "These options affect anagram creation:" + NEWLINE +
-
-            String.format("\t%-5s\t%s%S", "-mr", "Maximum results", NEWLINE) +
-            String.format("\t%-5s\t%s%S", "-mw", "Maximum words in anagram", NEWLINE) +
-            String.format("\t%-5s\t%s%S", "-ed", "Exclude duplicates", NEWLINE) +
-            String.format("\t%-5s\t%s%S", "-rp", "Restrict permutations", NEWLINE) +
-            String.format("\t%-5s\t%s%S", "-sf", "Start from word or letter", NEWLINE) +
-            String.format("\t%-5s\t%s%S", "-iw", "Include word in anagram", NEWLINE) +
-            String.format("\t%-5s\t%s%S", "-iws", "Include word with suffix in anagram", NEWLINE) +
-            String.format("\t%-5s\t%s%S", "-h", "This help message", NEWLINE) + NEWLINE;
-
-        System.out.println(optionMessage);
+        System.out.println(getOptions());
 
         System.exit(-1);
     }
@@ -224,26 +225,28 @@ public class CommandlineParser {
     public String getSuffix() { return includeWordWithSuffix; }
 
     public void printState() {
-        String state =
-            "--------------------------------" + NEWLINE +
-            "CommandlineParser internal state" + NEWLINE +
-            "--------------------------------" + NEWLINE +
-            "Dictionary filename: " + getDictFile() + NEWLINE +
-            "Min: " + getMinWordLength() + NEWLINE +
-            "Max: " + getMaxWordLength() + NEWLINE +
-            "Max results: " + getMaxResults() + NEWLINE +
-            "Exclude from dictionary filename: " + getExcludeFromDictionaryFilename() + NEWLINE +
-            "Max words in anagram: " + getMaxWordsInAnagram() + NEWLINE +
-            "Exclude Duplicates: " + shouldExcludeDuplicates() + NEWLINE +
-            "Restrict Permutations: " + shouldRestrictPermutations() + NEWLINE +
-            "Start from: " + getStartFrom() + NEWLINE +
-            "Include word: " + getIncludeWord() + NEWLINE +
-            "Exclude word: " + getExcludeWord() + NEWLINE +
-            "Include word with suffix: " + getSuffix() + NEWLINE +
-            "Phrase: " + String.join(" ", getPhrase()) + NEWLINE +
-            "--------------------------------" + NEWLINE;
+        System.out.println(this);
+    }
 
-        System.out.println(state);
+    @Override
+    public String toString() {
+        return "--------------------------------" + NEWLINE +
+                "CommandlineParser internal state" + NEWLINE +
+                "--------------------------------" + NEWLINE +
+                "Dictionary filename: " + getDictFile() + NEWLINE +
+                "Min: " + getMinWordLength() + NEWLINE +
+                "Max: " + getMaxWordLength() + NEWLINE +
+                "Max results: " + getMaxResults() + NEWLINE +
+                "Exclude from dictionary filename: " + getExcludeFromDictionaryFilename() + NEWLINE +
+                "Max words in anagram: " + getMaxWordsInAnagram() + NEWLINE +
+                "Exclude Duplicates: " + shouldExcludeDuplicates() + NEWLINE +
+                "Restrict Permutations: " + shouldRestrictPermutations() + NEWLINE +
+                "Start from: " + getStartFrom() + NEWLINE +
+                "Include word: " + getIncludeWord() + NEWLINE +
+                "Exclude word: " + getExcludeWord() + NEWLINE +
+                "Include word with suffix: " + getSuffix() + NEWLINE +
+                "Phrase: " + String.join(" ", getPhrase()) + NEWLINE +
+                "--------------------------------" + NEWLINE;
     }
 
     public static void main(String[] args) {
