@@ -32,11 +32,13 @@ public class CommandlineParser {
         this.phrase = new ArrayList<>();
         this.validCommands = new HashSet<>();
 
+        // dictionary options
         validCommands.add("-d");
         validCommands.add("-minwl");
         validCommands.add("-maxwl");
         validCommands.add("-ef");
 
+        // anagram options
         validCommands.add("-mr");
         validCommands.add("-mw");
         validCommands.add("-ed");
@@ -46,6 +48,7 @@ public class CommandlineParser {
         validCommands.add("-ew");
         validCommands.add("-iws");
 
+        // help
         validCommands.add("-h");
 
         // dictionary stuff
@@ -72,61 +75,20 @@ public class CommandlineParser {
             validateOption(option);
 
             switch (option) {
-                case "-d":
-                    setDictFileName();
-                    break;
-
-                case "-minwl":
-                    setMinWordLength();
-                    break;
-
-                case "-maxwl":
-                    setMaxWordLength();
-                    break;
-
-                case "-ef":
-                    setExcludeFromDictionaryFilename();
-                    break;
-
-                case "-mr":
-                    setMaxResults();
-                    break;
-
-                case "-mw":
-                    setMaxWordsInAnagram();
-                    break;
-
-                case "-ed":
-                    setExcludeDuplicates();
-                    break;
-
-                case "-rp":
-                    setRestrictPermutations();
-                    break;
-
-                case "-sf":
-                    setStartFrom();
-                    break;
-
-                case "-iw":
-                    setIncludeWord();
-                    break;
-
-                case "-ew":
-                    // TODO: currently only excludes one word, better to make (and return) a set?
-                    setExcludeWord();
-                    break;
-
-                case "-iws":
-                    setIncludeWordWithSuffix();
-                    break;
-
-                case "-h":
-                    printOptions();
-                    break;
-
-                default:
-                    setPhrase();
+                case "-d" -> setDictFileName();
+                case "-minwl" -> setMinWordLength();
+                case "-maxwl" -> setMaxWordLength();
+                case "-ef" -> setExcludeFromDictionaryFilename();
+                case "-mr" -> setMaxResults();
+                case "-mw" -> setMaxWordsInAnagram();
+                case "-ed" -> setExcludeDuplicates();
+                case "-rp" -> setRestrictPermutations();
+                case "-sf" -> setStartFrom();
+                case "-iw" -> setIncludeWord();
+                case "-ew" -> setExcludeWord();
+                case "-iws" -> setIncludeWordWithSuffix();
+                case "-h" -> printOptions();
+                default -> setPhrase();
             }
 
             argIndex++;
@@ -280,7 +242,7 @@ public class CommandlineParser {
     }
 
     public static void main(String[] args) {
-        CommandlineParser clp = new CommandlineParser("commandline_thingy", args);
+        CommandlineParser clp = new CommandlineParser("CommandlineParser", args);
 
         clp.parseArgs();
         clp.printState();
