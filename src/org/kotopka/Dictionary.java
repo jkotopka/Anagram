@@ -3,23 +3,25 @@ package org.kotopka;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
+// TODO: option to build excludeWordsSet from file provided by method argument
 public class Dictionary {
 
     public static class Builder {
+        private Path dictFile;
         private int minWordLength;
         private int maxWordLength;
-        private Path dictFile;
         private final Set<String> excludeWordsSet;
 
-        public Builder(Path dictFile) {
+        public Builder(String dictFile) {
             Objects.requireNonNull(dictFile);
 
+            this.dictFile = Paths.get(dictFile);
             this.minWordLength = 1;
             this.maxWordLength = Integer.MAX_VALUE;
-            this.dictFile = dictFile;
             this.excludeWordsSet = new HashSet<>();
         }
 
