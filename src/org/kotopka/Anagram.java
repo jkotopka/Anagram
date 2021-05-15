@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * {@code Anagram} - Finds and prints a configurable list of anagrams of input word.
  */
-public class Anagram {
+public final class Anagram {
 
     private final Dictionary dictionary;
     private int count;
