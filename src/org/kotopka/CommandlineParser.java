@@ -224,9 +224,7 @@ public class CommandlineParser {
 
     public String getSuffix() { return includeWordWithSuffix; }
 
-    public void printState() {
-        System.out.println(this);
-    }
+    public void printState() { System.out.println(this); }
 
     @Override
     public String toString() {
