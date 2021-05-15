@@ -259,6 +259,9 @@ public class CommandlineParser {
     public String getSuffix() { return includeWordWithSuffix; }
 
     public void printState() {
+        System.out.println("--------------------------------");
+        System.out.println("CommandlineParser internal state");
+        System.out.println("--------------------------------");
         System.out.println("Dictionary filename: " + getDictFile());
         System.out.println("Min: " + getMinWordLength());
         System.out.println("Max: " + getMaxWordLength());
@@ -272,6 +275,8 @@ public class CommandlineParser {
         System.out.println("Exclude word: " + getExcludeWord());
         System.out.println("Include word with suffix: " + getSuffix());
         System.out.println("Phrase: " + String.join(" ", getPhrase()));
+        System.out.println("--------------------------------");
+        System.out.println();
     }
 
     public static void main(String[] args) {
