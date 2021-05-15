@@ -137,7 +137,6 @@ public class CommandlineParser {
         if (option.startsWith("-") && !validCommands.contains(option)) {
             System.out.println("Unknown option: " + option);
             printOptions();
-            System.exit(-1);
         }
     }
 
@@ -150,7 +149,6 @@ public class CommandlineParser {
         } catch (NumberFormatException nfe) {
             System.out.println("Invalid number: " + arg);
             printOptions();
-            System.exit(-1);
         }
 
         return valueFromArg;
@@ -262,11 +260,6 @@ public class CommandlineParser {
 
     public static void main(String[] args) {
         CommandlineParser clp = new CommandlineParser("commandline_thingy", args);
-
-        if(args.length == 0) {
-            clp.printOptions();
-            System.exit(-1);
-        }
 
         clp.parseArgs();
 
