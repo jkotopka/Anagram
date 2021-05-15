@@ -160,15 +160,16 @@ public class Anagram {
 
         if (isAnagramValid(diff, anagram))
             addAnagramToList(anagram, anagramList);
+        else
+            continueBuildingAnagramListRecursively(anagram, anagramList, subWord, diff);
 
-        // XXX: this is where the mind-bender starts...
-        startIndirectRecursion(anagram, anagramList, subWord, diff);
         anagram.pop();
     }
 
-    private void startIndirectRecursion(LinkedList<String> anagram, List<String> anagramList, String subWord, String diff) {
+    private void continueBuildingAnagramListRecursively(LinkedList<String> anagram, List<String> anagramList, String subWord, String diff) {
         String nextStart = (restrictPermutations) ? subWord : "";
 
+        // XXX: here is where the indirect recursion starts
         buildAnagramList(diff, nextStart, anagram, anagramList);
     }
 
