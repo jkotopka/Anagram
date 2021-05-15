@@ -8,7 +8,6 @@ public class CommandlineParser {
 
     private final String clientProgramName;
     private final String[] args;
-    private final List<String> phrase;
     private final HashSet<String> validCommands;
     private int argIndex;
 
@@ -27,11 +26,11 @@ public class CommandlineParser {
     private String includeWord;
     private String excludeWord;
     private String includeWordWithSuffix;
+    private final List<String> phrase;
 
     public CommandlineParser(String clientProgramName, String[] args) {
         this.clientProgramName = clientProgramName;
         this.args = args.clone();
-        this.phrase = new ArrayList<>();
         this.validCommands = new HashSet<>();
 
         // dictionary options
@@ -65,6 +64,7 @@ public class CommandlineParser {
         this.includeWord = "";
         this.excludeWord = "";
         this.includeWordWithSuffix = "";
+        this.phrase = new ArrayList<>();
     }
 
     public void parseArgs() {
@@ -76,6 +76,8 @@ public class CommandlineParser {
 
             validateOption(option);
 
+            // TODO: extract these string literals into some variable/enum or something,
+            //  also use these same variables/enums below in the getOptions() method
             switch (option) {
                 case "-d" -> setDictFileName();
                 case "-minwl" -> setMinWordLength();
@@ -171,6 +173,7 @@ public class CommandlineParser {
             phrase.add(args[argIndex++]);
     }
 
+    // TODO: string literals for commands need to be factored out somewhere as noted above
     public String getOptions() {
         return "usage: java " + clientProgramName + " <options> input string" + NEWLINE + NEWLINE +
                 "These options affect dictionary creation:" + NEWLINE +
