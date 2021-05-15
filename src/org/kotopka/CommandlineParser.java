@@ -7,8 +7,7 @@ public class CommandlineParser {
     private final String[] args;
     private final List<String> phrase;
     private final HashSet<String> validCommands;
-
-    private int currentArg;
+    private int argIndex;
 
     // dictionary stuff
     private int minWordLength;
@@ -59,8 +58,8 @@ public class CommandlineParser {
     }
 
     public void parseArgs() {
-        while (currentArg < args.length) {
-            String command = args[currentArg];
+        while (argIndex < args.length) {
+            String command = args[argIndex];
 
             validateCommand(command);
 
@@ -118,7 +117,7 @@ public class CommandlineParser {
                     setPhrase();
             }
 
-            currentArg++;
+            argIndex++;
         }
     }
 
@@ -132,7 +131,7 @@ public class CommandlineParser {
 
     private int getIntValueFromArg() {
         int valueFromArg = 0;
-        String arg = args[++currentArg];
+        String arg = args[++argIndex];
 
         try {
             valueFromArg = Integer.parseInt(arg);
@@ -178,7 +177,7 @@ public class CommandlineParser {
     }
 
     private void setExcludeFromDictionaryFilename() {
-        excludeFromDictionaryFilename = args[++currentArg];
+        excludeFromDictionaryFilename = args[++argIndex];
     }
 
     private void setMaxResults() {
@@ -198,24 +197,24 @@ public class CommandlineParser {
     }
 
     private void setStartFrom() {
-        startFrom = args[++currentArg];
+        startFrom = args[++argIndex];
     }
 
     private void setIncludeWord() {
-        includeWord = args[++currentArg];
+        includeWord = args[++argIndex];
     }
 
     private void setExcludeWord() {
-        excludeWord = args[++currentArg];
+        excludeWord = args[++argIndex];
     }
 
     private void setIncludeWordWithSuffix() {
-        includeWordWithSuffix = args[++currentArg];
+        includeWordWithSuffix = args[++argIndex];
     }
 
     private void setPhrase() {
-        while (currentArg < args.length)
-            phrase.add(args[currentArg++]);
+        while (argIndex < args.length)
+            phrase.add(args[argIndex++]);
     }
 
     public int getMinWordLength() { return minWordLength; }
