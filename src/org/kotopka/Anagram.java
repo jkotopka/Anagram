@@ -135,6 +135,7 @@ public class Anagram {
             cachedSubWords.put(word, findAllValidSubWordsAsSet(word));
     }
 
+    // TODO: move this method down below buildAnagramsFromSubWords()
     private SortedSet<String> getSubWordCacheOf(String word, String startWord) {
         return cachedSubWords.get(word).tailSet(startWord);
     }
@@ -153,6 +154,7 @@ public class Anagram {
         }
     }
 
+    // TODO: rearrange arguments ctrl+f6
     private void buildAnagram(String word, LinkedList<String> anagram, List<String> anagramList, String subWord) {
         String diff = Word.subtract(word, subWord);
 
@@ -166,6 +168,7 @@ public class Anagram {
         anagram.pop();
     }
 
+    // TODO: rearrange arguments ctrl+f6
     private void continueBuildingAnagramRecursively(LinkedList<String> anagram, List<String> anagramList, String subWord, String diff) {
         String nextStart = (restrictPermutations) ? subWord : "";
 
@@ -185,6 +188,7 @@ public class Anagram {
                 (includeWord.isBlank() || anagram.contains(includeWord)));
     }
 
+    // TODO: have List<String> anagram interface type
     private boolean isWordWithSuffixFound(LinkedList<String> anagram) {
         for (String s : anagram)
             if (s.endsWith(suffix)) return true;
@@ -192,6 +196,7 @@ public class Anagram {
         return false;
     }
 
+    // TODO: have List<String> anagram interface type
     private void addAnagramToList(LinkedList<String> anagram, List<String> anagramList) {
         anagramList.add(String.join(" ", anagram));
         count++;
@@ -232,11 +237,6 @@ public class Anagram {
                                               LinkedList<String> anagram, List<List<String>> anagramList) {
         for (int i = index; i < wordList.size(); i++) {
             String current = wordList.get(i);
-
-            // XXX: might change the Word class to just return the word if there's a length problem
-            // then this would be unnecessary...
-            if (word.length() < current.length()) continue;
-
             String diff = Word.subtract(word, current);
 
             if(word.equals(diff)) continue;
