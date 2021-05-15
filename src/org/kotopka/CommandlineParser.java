@@ -172,26 +172,27 @@ public class CommandlineParser {
     }
 
     public void printOptions() {
-        System.out.println("usage: java " + clientProgramName + " <options> input string");
-        System.out.println(NEWLINE + "These options affect dictionary creation:");
+        String optionMessage =
+            "usage: java " + clientProgramName + " <options> input string" + NEWLINE + NEWLINE +
+            "These options affect dictionary creation:" + NEWLINE +
 
-        System.out.printf("\t%-5s\t%s%s", "-d", "Dictionary filename", NEWLINE);
-        System.out.printf("\t%-5s\t%s%s", "-minwl", "Minimum word length", NEWLINE);
-        System.out.printf("\t%-5s\t%s%s", "-maxwl", "Maximum word length", NEWLINE);
-        System.out.printf("\t%-5s\t%s%s", "-ef", "Filename of words to exclude from dictionary", NEWLINE);
+            String.format("\t%-5s\t%s%s", "-d", "Dictionary filename", NEWLINE) +
+            String.format("\t%-5s\t%s%s", "-minwl", "Minimum word length", NEWLINE) +
+            String.format("\t%-5s\t%s%s", "-maxwl", "Maximum word length", NEWLINE) +
+            String.format("\t%-5s\t%s%s", "-ef", "Filename of words to exclude from dictionary", NEWLINE) + NEWLINE +
 
-        System.out.println(NEWLINE + "These options affect anagram creation:");
+             "These options affect anagram creation:" + NEWLINE +
 
-        System.out.printf("\t%-5s\t%s%S", "-mr", "Maximum results", NEWLINE);
-        System.out.printf("\t%-5s\t%s%S", "-mw", "Maximum words in anagram", NEWLINE);
-        System.out.printf("\t%-5s\t%s%S", "-ed", "Exclude duplicates", NEWLINE);
-        System.out.printf("\t%-5s\t%s%S", "-rp", "Restrict permutations", NEWLINE);
-        System.out.printf("\t%-5s\t%s%S", "-sf", "Start from word or letter", NEWLINE);
-        System.out.printf("\t%-5s\t%s%S", "-iw", "Include word in anagram", NEWLINE);
-        System.out.printf("\t%-5s\t%s%S", "-iws", "Include word with suffix in anagram", NEWLINE);
-        System.out.printf("\t%-5s\t%s%S", "-h", "This help message", NEWLINE);
+            String.format("\t%-5s\t%s%S", "-mr", "Maximum results", NEWLINE) +
+            String.format("\t%-5s\t%s%S", "-mw", "Maximum words in anagram", NEWLINE) +
+            String.format("\t%-5s\t%s%S", "-ed", "Exclude duplicates", NEWLINE) +
+            String.format("\t%-5s\t%s%S", "-rp", "Restrict permutations", NEWLINE) +
+            String.format("\t%-5s\t%s%S", "-sf", "Start from word or letter", NEWLINE) +
+            String.format("\t%-5s\t%s%S", "-iw", "Include word in anagram", NEWLINE) +
+            String.format("\t%-5s\t%s%S", "-iws", "Include word with suffix in anagram", NEWLINE) +
+            String.format("\t%-5s\t%s%S", "-h", "This help message", NEWLINE) + NEWLINE;
 
-        System.out.println();
+        System.out.println(optionMessage);
 
         System.exit(-1);
     }
