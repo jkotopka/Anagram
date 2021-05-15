@@ -1,7 +1,6 @@
 package org.kotopka;
 
 import java.nio.file.Paths;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -33,38 +32,31 @@ public class TestClient {
         System.out.println("Elapsed time: " + (double)(endTime - startTime) / 1000);
     }
 
-    /*
-        TODO: this testing class requires manually configuring the testing parameters as
-          there is no commandline parsing beyond the basic collection of the string to be
-          anagram-ized.
-     */
     public static void main(String[] args) {
-        if (args.length == 0) {
-            System.out.println("Usage: java Anagram <word>");
-            System.exit(0);
-        }
+        CommandlineParser clp = new CommandlineParser("TestClient", args);
 
-        // TODO: manually call toExclude.add(someWord) to add each word to exclude
-        Set<String> toExclude = new HashSet<>();
+        clp.parseArgs();
 
-        // TODO: manually change these parameters to suit the test
-        Dictionary dictionary = new Dictionary.Builder(Paths.get("dictionary-large.txt"))
-                .setMinWordLength(3)
-                .setMaxWordLength(20)
-                .excludeWordsFromSet(toExclude)
+        Dictionary dictionary = new Dictionary.Builder("dictionary-large.txt")
+                .setDictionaryFile(clp.getDictFile())
+                .setMinWordLength(clp.getMinWordLength())
+                .setMaxWordLength(clp.getMaxWordLength())
+                .excludeWordsFromFile(clp.getExcludeFromDictionaryFilename())
                 .build();
 
         Anagram anagram = new Anagram(dictionary)
-                .setMaxResults(10000)
-                .setMaxWordsInAnagram(10)
-                .shouldExcludeDuplicates(true)
-                .shouldRestrictPermutations(true)
-                .startFrom("")
-                .includeWord("")
-                .excludeWord("")
-                .includeWordWithSuffix("");
+                .setMaxResults(clp.getMaxResults())
+                .setMaxWordsInAnagram(clp.getMaxWordsInAnagram())
+                .shouldExcludeDuplicates(clp.shouldExcludeDuplicates())
+                .shouldRestrictPermutations(clp.shouldRestrictPermutations())
+                .startFrom(clp.getStartFrom())
+                .includeWord(clp.getIncludeWord())
+                .excludeWord(clp.getExcludeWord())
+                .includeWordWithSuffix(clp.getSuffix());
 
-        String word = String.join(" ", args);
+        String word = clp.getPhrase();
+
+        clp.printState();
 
         findAndPrintSubWords(anagram, word);
         findAndPrintAnagrams(anagram, word);
