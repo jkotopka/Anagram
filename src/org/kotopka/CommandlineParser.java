@@ -63,12 +63,15 @@ public class CommandlineParser {
     }
 
     public void parseArgs() {
+        if (args.length == 0)
+            printOptions();
+
         while (argIndex < args.length) {
-            String command = args[argIndex];
+            String option = args[argIndex];
 
-            validateCommand(command);
+            validateOption(option);
 
-            switch (command) {
+            switch (option) {
                 case "-d":
                     setDictFileName();
                     break;
@@ -130,9 +133,9 @@ public class CommandlineParser {
         }
     }
 
-    private void validateCommand(String command) {
-        if (command.startsWith("-") && !validCommands.contains(command)) {
-            System.out.println("Unknown command: " + command);
+    private void validateOption(String option) {
+        if (option.startsWith("-") && !validCommands.contains(option)) {
+            System.out.println("Unknown option: " + option);
             printOptions();
             System.exit(-1);
         }
@@ -145,7 +148,6 @@ public class CommandlineParser {
         try {
             valueFromArg = Integer.parseInt(arg);
         } catch (NumberFormatException nfe) {
-//            nfe.printStackTrace();
             System.out.println("Invalid number: " + arg);
             printOptions();
             System.exit(-1);
@@ -229,6 +231,7 @@ public class CommandlineParser {
 
         System.out.println();
 
+        System.exit(-1);
     }
 
     public String getDictFile() { return dictFile; }
@@ -243,9 +246,9 @@ public class CommandlineParser {
 
     public int getMaxWordsInAnagram() { return maxWordsInAnagram; }
 
-    public boolean isExcludeDuplicates() { return excludeDuplicates; }
+    public boolean shouldExcludeDuplicates() { return excludeDuplicates; }
 
-    public boolean isRestrictPermutations() { return restrictPermutations; }
+    public boolean shouldRestrictPermutations() { return restrictPermutations; }
 
     public String getStartFrom() { return  startFrom; }
 
@@ -273,8 +276,8 @@ public class CommandlineParser {
         System.out.println("Max results: " + clp.getMaxResults());
         System.out.println("Exclude from dictionary filename: " + clp.getExcludeFromDictionaryFilename());
         System.out.println("Max words in anagram: " + clp.getMaxWordsInAnagram());
-        System.out.println("Exclude Duplicates: " + clp.isExcludeDuplicates());
-        System.out.println("Restrict Permutations: " + clp.isRestrictPermutations());
+        System.out.println("Exclude Duplicates: " + clp.shouldExcludeDuplicates());
+        System.out.println("Restrict Permutations: " + clp.shouldRestrictPermutations());
         System.out.println("Start from: " + clp.getStartFrom());
         System.out.println("Include word: " + clp.getIncludeWord());
         System.out.println("Exclude word: " + clp.getExcludeWord());
