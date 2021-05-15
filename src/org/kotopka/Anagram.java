@@ -135,11 +135,6 @@ public class Anagram {
             cachedSubWords.put(word, findAllValidSubWordsAsSet(word));
     }
 
-    // TODO: move this method down below buildAnagramsFromSubWords()
-    private SortedSet<String> getSubWordCacheOf(String word, String startWord) {
-        return cachedSubWords.get(word).tailSet(startWord);
-    }
-
     private void buildAnagramsFromSubWords(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
         for (String subWord : getSubWordCacheOf(word, startWord)) {
             if (excludeDuplicates) {
@@ -152,6 +147,10 @@ public class Anagram {
 
             if (excludeDuplicates) wordsToExclude.remove(subWord);
         }
+    }
+
+    private SortedSet<String> getSubWordCacheOf(String word, String startWord) {
+        return cachedSubWords.get(word).tailSet(startWord);
     }
 
     private void buildAnagram(String word, String subWord, LinkedList<String> anagram, List<String> anagramList) {
