@@ -176,7 +176,7 @@ public class Anagram {
         buildAnagramList(diff, nextStart, anagram, anagramList);
     }
 
-    private boolean isAnagramValid(String diff, LinkedList<String> anagram) {
+    private boolean isAnagramValid(String diff, List<String> anagram) {
         boolean wordWithSuffixFound;
 
         if (suffix.isBlank())
@@ -188,16 +188,14 @@ public class Anagram {
                 (includeWord.isBlank() || anagram.contains(includeWord)));
     }
 
-    // TODO: have List<String> anagram interface type
-    private boolean isWordWithSuffixFound(LinkedList<String> anagram) {
+    private boolean isWordWithSuffixFound(List<String> anagram) {
         for (String s : anagram)
             if (s.endsWith(suffix)) return true;
 
         return false;
     }
 
-    // TODO: have List<String> anagram interface type
-    private void addAnagramToList(LinkedList<String> anagram, List<String> anagramList) {
+    private void addAnagramToList(List<String> anagram, List<String> anagramList) {
         anagramList.add(String.join(" ", anagram));
         count++;
     }
