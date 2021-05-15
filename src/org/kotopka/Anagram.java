@@ -115,16 +115,31 @@ public class Anagram {
 
         count = 0;
 
-        buildAnagramListRecursively(word, startFrom, anagram, anagramList);
+        buildAnagramList(word, startFrom, anagram, anagramList);
         Collections.sort(anagramList);
 
         return anagramList;
     }
 
-    // XXX: not very happy with this method, sorta code-smelly but at least it caches the subWords
-    private void buildAnagramListRecursively(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
-        validateSubWordCacheOf(word);
+    // TODO: refactored a bit with extracted methods, not sure if cleaner,
+    //  mostly not sure if having the "recursive" call in another method is bad practice or not
+    private void buildAnagramList(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
+        if (count == maxResults) return;
 
+        validateSubWordCache(word);
+        buildAnagramsFromSubWords(word, startWord, anagram, anagramList);
+    }
+
+    private void validateSubWordCache(String word) {
+        if (!cachedSubWords.containsKey(word))
+            cachedSubWords.put(word, findAllValidSubWordsAsSet(word));
+    }
+
+    private SortedSet<String> getSubWordCacheOf(String word, String startWord) {
+        return cachedSubWords.get(word).tailSet(startWord);
+    }
+
+    private void buildAnagramsFromSubWords(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
         for (String subWord : getSubWordCacheOf(word, startWord)) {
             if (excludeDuplicates) {
                 if (wordsToExclude.contains(subWord)) continue;
@@ -132,32 +147,29 @@ public class Anagram {
                 wordsToExclude.add(subWord.toLowerCase());
             }
 
-            anagram.push(subWord);
-
-            String diff = Word.subtract(word, subWord);
-
-            if (isAnagramValid(diff, anagram))
-                addAnagramToList(anagram, anagramList);
-
-            if (count == maxResults) return;
-
-            String nextStart = (restrictPermutations) ? subWord : "";
-
-            buildAnagramListRecursively(diff, nextStart, anagram, anagramList);
+            buildAnagram(word, anagram, anagramList, subWord);
 
             if (excludeDuplicates) wordsToExclude.remove(subWord);
-
-            anagram.pop();
         }
     }
 
-    private void validateSubWordCacheOf(String word) {
-        if (!cachedSubWords.containsKey(word))
-            cachedSubWords.put(word, findAllValidSubWordsAsSet(word));
+    private void buildAnagram(String word, LinkedList<String> anagram, List<String> anagramList, String subWord) {
+        String diff = Word.subtract(word, subWord);
+
+        anagram.push(subWord);
+
+        if (isAnagramValid(diff, anagram))
+            addAnagramToList(anagram, anagramList);
+
+        // XXX: this is where the mind-bender starts...
+        startIndirectRecursion(anagram, anagramList, subWord, diff);
+        anagram.pop();
     }
 
-    private SortedSet<String> getSubWordCacheOf(String word, String startWord) {
-        return cachedSubWords.get(word).tailSet(startWord);
+    private void startIndirectRecursion(LinkedList<String> anagram, List<String> anagramList, String subWord, String diff) {
+        String nextStart = (restrictPermutations) ? subWord : "";
+
+        buildAnagramList(diff, nextStart, anagram, anagramList);
     }
 
     private boolean isAnagramValid(String diff, LinkedList<String> anagram) {
