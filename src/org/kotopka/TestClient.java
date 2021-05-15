@@ -32,30 +32,30 @@ public class TestClient {
     }
 
     public static void main(String[] args) {
-        CommandlineParser clp = new CommandlineParser("TestClient", args);
+        CommandlineParser parser = new CommandlineParser("TestClient", args);
 
-        clp.parseArgs();
+        parser.parseArgs();
 
         Dictionary dictionary = new Dictionary.Builder("dictionary-large.txt")
-                .setDictionaryFile(clp.getDictFile())
-                .setMinWordLength(clp.getMinWordLength())
-                .setMaxWordLength(clp.getMaxWordLength())
-                .excludeWordsFromFile(clp.getExcludeFromDictionaryFilename())
+                .setDictionaryFile(parser.getDictFile())
+                .setMinWordLength(parser.getMinWordLength())
+                .setMaxWordLength(parser.getMaxWordLength())
+                .excludeWordsFromFile(parser.getExcludeFromDictionaryFilename())
                 .build();
 
         Anagram anagram = new Anagram(dictionary)
-                .setMaxResults(clp.getMaxResults())
-                .setMaxWordsInAnagram(clp.getMaxWordsInAnagram())
-                .shouldExcludeDuplicates(clp.shouldExcludeDuplicates())
-                .shouldRestrictPermutations(clp.shouldRestrictPermutations())
-                .startFrom(clp.getStartFrom())
-                .includeWord(clp.getIncludeWord())
-                .excludeWord(clp.getExcludeWord())
-                .includeWordWithSuffix(clp.getSuffix());
+                .setMaxResults(parser.getMaxResults())
+                .setMaxWordsInAnagram(parser.getMaxWordsInAnagram())
+                .shouldExcludeDuplicates(parser.shouldExcludeDuplicates())
+                .shouldRestrictPermutations(parser.shouldRestrictPermutations())
+                .startFrom(parser.getStartFrom())
+                .includeWord(parser.getIncludeWord())
+                .excludeWord(parser.getExcludeWord())
+                .includeWordWithSuffix(parser.getSuffix());
 
-        String word = clp.getPhrase();
+        String word = parser.getPhrase();
 
-        clp.printState();
+        parser.printState();
 
         findAndPrintSubWords(anagram, word);
         findAndPrintAnagrams(anagram, word);
