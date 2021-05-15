@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-// TODO: make the word class an instanced object containing an actual word
-//  and all of its substrings to allow very fast query of whether another word can be subtracted
 /**
  * {@code Word} - Contains static methods for word-related operations.
  *
@@ -16,7 +14,9 @@ import java.util.Objects;
  *     <li>{@code generateSubStrings()} - For generating an exhaustive list of substrings from the word.</li>
  * </ul>
  */
-public class Word {
+public final class Word {
+
+    private Word() {} // ensure non-instantiability.
 
     /**
      * {@code sortLetters()} - Sorts the letters in the word in alphabetical order
