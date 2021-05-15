@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
-// TODO: option to build excludeWordsSet from file provided by method argument
 public class Dictionary {
 
     public static class Builder {
@@ -45,10 +44,11 @@ public class Dictionary {
             return this;
         }
 
-        public Builder setDictionaryFile(Path filename) {
+        public Builder setDictionaryFile(String filename) {
             Objects.requireNonNull(filename);
 
-            this.dictFile = filename;
+            if (!filename.isBlank())
+                this.dictFile = Paths.get(filename);
 
             return this;
         }
@@ -106,6 +106,7 @@ public class Dictionary {
                 ews.forEach(excludeWordsSet::add);
             } catch (IOException e) {
                 System.err.println("Error reading exclude words file!");
+                System.exit(-1);
             }
         }
 
@@ -113,6 +114,7 @@ public class Dictionary {
             dfs.forEach(this::addWordToDictionary);
         } catch (IOException e) {
             System.err.println("Error reading dictionary file!");
+            System.exit(-1);
         }
     }
 
