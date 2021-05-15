@@ -148,14 +148,13 @@ public class Anagram {
                 wordsToExclude.add(subWord.toLowerCase());
             }
 
-            buildAnagram(word, anagram, anagramList, subWord);
+            buildAnagram(word, subWord, anagram, anagramList);
 
             if (excludeDuplicates) wordsToExclude.remove(subWord);
         }
     }
 
-    // TODO: rearrange arguments ctrl+f6
-    private void buildAnagram(String word, LinkedList<String> anagram, List<String> anagramList, String subWord) {
+    private void buildAnagram(String word, String subWord, LinkedList<String> anagram, List<String> anagramList) {
         String diff = Word.subtract(word, subWord);
 
         anagram.push(subWord);
@@ -163,13 +162,12 @@ public class Anagram {
         if (isAnagramValid(diff, anagram))
             addAnagramToList(anagram, anagramList);
         else
-            continueBuildingAnagramRecursively(anagram, anagramList, subWord, diff);
+            continueBuildingAnagramRecursively(diff, subWord, anagram, anagramList);
 
         anagram.pop();
     }
 
-    // TODO: rearrange arguments ctrl+f6
-    private void continueBuildingAnagramRecursively(LinkedList<String> anagram, List<String> anagramList, String subWord, String diff) {
+    private void continueBuildingAnagramRecursively(String diff, String subWord, LinkedList<String> anagram, List<String> anagramList) {
         String nextStart = (restrictPermutations) ? subWord : "";
 
         // XXX: here is where the indirect recursion starts
