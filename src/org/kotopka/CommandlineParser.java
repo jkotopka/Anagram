@@ -10,6 +10,7 @@ public class CommandlineParser {
     private int argIndex;
 
     // dictionary stuff
+    private String dictFile;
     private int minWordLength;
     private int maxWordLength;
     private String excludeFromDictionaryFilename;
@@ -29,6 +30,7 @@ public class CommandlineParser {
         this.phrase = new ArrayList<>();
         this.validCommands = new HashSet<>();
 
+        validCommands.add("-d");
         validCommands.add("-minwl");
         validCommands.add("-maxwl");
         validCommands.add("-ef");
@@ -45,6 +47,7 @@ public class CommandlineParser {
         validCommands.add("-h");
 
         // dictionary stuff
+        this.dictFile = "";
         this.maxWordLength = Integer.MAX_VALUE;
         this.excludeFromDictionaryFilename = "";
 
@@ -64,6 +67,10 @@ public class CommandlineParser {
             validateCommand(command);
 
             switch (command) {
+                case "-d":
+                    setDictFileName();
+                    break;
+
                 case "-minwl":
                     setMinWordLength();
                     break;
@@ -145,27 +152,8 @@ public class CommandlineParser {
         return valueFromArg;
     }
 
-    private void printOptions() {
-        System.out.println("usage: java CommandlineParser <options> input string");
-        System.out.println("\nThese options affect dictionary creation:");
-
-        System.out.printf("\t%-5s\t%s", "-minwl", "Minimum word length\n");
-        System.out.printf("\t%-5s\t%s", "-maxwl", "Maximum word length\n");
-        System.out.printf("\t%-5s\t%s", "-ef", "Filename of words to exclude from dictionary\n");
-
-        System.out.println("\nThese options affect anagram creation:");
-
-        System.out.printf("\t%-5s\t%s", "-mr", "Maximum results\n");
-        System.out.printf("\t%-5s\t%s", "-mw", "Maximum words in anagram\n");
-        System.out.printf("\t%-5s\t%s", "-ed", "Exclude duplicates\n");
-        System.out.printf("\t%-5s\t%s", "-rp", "Restrict permutations\n");
-        System.out.printf("\t%-5s\t%s", "-sf", "Start from word or letter\n");
-        System.out.printf("\t%-5s\t%s", "-iw", "Include word in anagram\n");
-        System.out.printf("\t%-5s\t%s", "-iws", "Include word with suffix in anagram\n");
-        System.out.printf("\t%-5s\t%s", "-h", "This help message\n");
-
-        System.out.println();
-
+    private void setDictFileName() {
+        dictFile = args[++argIndex];
     }
 
     private void setMinWordLength() {
@@ -217,6 +205,32 @@ public class CommandlineParser {
             phrase.add(args[argIndex++]);
     }
 
+    public void printOptions() {
+        System.out.println("usage: java CommandlineParser <options> input string");
+        System.out.println("\nThese options affect dictionary creation:");
+
+        System.out.printf("\t%-5s\t%s", "-d", "Dictionary filename\n");
+        System.out.printf("\t%-5s\t%s", "-minwl", "Minimum word length\n");
+        System.out.printf("\t%-5s\t%s", "-maxwl", "Maximum word length\n");
+        System.out.printf("\t%-5s\t%s", "-ef", "Filename of words to exclude from dictionary\n");
+
+        System.out.println("\nThese options affect anagram creation:");
+
+        System.out.printf("\t%-5s\t%s", "-mr", "Maximum results\n");
+        System.out.printf("\t%-5s\t%s", "-mw", "Maximum words in anagram\n");
+        System.out.printf("\t%-5s\t%s", "-ed", "Exclude duplicates\n");
+        System.out.printf("\t%-5s\t%s", "-rp", "Restrict permutations\n");
+        System.out.printf("\t%-5s\t%s", "-sf", "Start from word or letter\n");
+        System.out.printf("\t%-5s\t%s", "-iw", "Include word in anagram\n");
+        System.out.printf("\t%-5s\t%s", "-iws", "Include word with suffix in anagram\n");
+        System.out.printf("\t%-5s\t%s", "-h", "This help message\n");
+
+        System.out.println();
+
+    }
+
+    public String getDictFile() { return dictFile; }
+
     public int getMinWordLength() { return minWordLength; }
 
     public int getMaxWordLength() { return maxWordLength; }
@@ -244,8 +258,14 @@ public class CommandlineParser {
     public static void main(String[] args) {
         CommandlineParser clp = new CommandlineParser(args);
 
+        if(args.length == 0) {
+            clp.printOptions();
+            System.exit(-1);
+        }
+
         clp.parseArgs();
 
+        System.out.println("Dictionary filename: " + clp.getDictFile());
         System.out.println("Min: " + clp.getMinWordLength());
         System.out.println("Max: " + clp.getMaxWordLength());
         System.out.println("Max results: " + clp.getMaxResults());
