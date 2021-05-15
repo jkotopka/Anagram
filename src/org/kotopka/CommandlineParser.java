@@ -4,6 +4,7 @@ import java.util.*;
 
 public class CommandlineParser {
 
+    private final String clientProgramName;
     private final String[] args;
     private final List<String> phrase;
     private final HashSet<String> validCommands;
@@ -25,7 +26,8 @@ public class CommandlineParser {
     private String excludeWord;
     private String includeWordWithSuffix;
 
-    public CommandlineParser(String[] args) {
+    public CommandlineParser(String clientProgramName, String[] args) {
+        this.clientProgramName = clientProgramName;
         this.args = args.clone();
         this.phrase = new ArrayList<>();
         this.validCommands = new HashSet<>();
@@ -206,7 +208,7 @@ public class CommandlineParser {
     }
 
     public void printOptions() {
-        System.out.println("usage: java CommandlineParser <options> input string");
+        System.out.println("usage: java " + clientProgramName + " <options> input string");
         System.out.println("\nThese options affect dictionary creation:");
 
         System.out.printf("\t%-5s\t%s", "-d", "Dictionary filename\n");
@@ -256,7 +258,7 @@ public class CommandlineParser {
     public String getSuffix() { return includeWordWithSuffix; }
 
     public static void main(String[] args) {
-        CommandlineParser clp = new CommandlineParser(args);
+        CommandlineParser clp = new CommandlineParser("commandline_thingy", args);
 
         if(args.length == 0) {
             clp.printOptions();
