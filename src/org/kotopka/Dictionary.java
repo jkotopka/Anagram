@@ -15,6 +15,7 @@ public class Dictionary {
         private int minWordLength;
         private int maxWordLength;
         private final Set<String> excludeWordsSet;
+        private String excludeWordsFilename;
 
         public Builder(String dictFile) {
             Objects.requireNonNull(dictFile);
@@ -23,6 +24,7 @@ public class Dictionary {
             this.minWordLength = 1;
             this.maxWordLength = Integer.MAX_VALUE;
             this.excludeWordsSet = new HashSet<>();
+            this.excludeWordsFilename = "";
         }
 
         public Builder setMinWordLength(int minWordLength) {
@@ -69,6 +71,14 @@ public class Dictionary {
             return this;
         }
 
+        public Builder excludeWordsFromFile(String excludeWordsFilename) {
+            Objects.requireNonNull(excludeWordsFilename);
+
+            this.excludeWordsFilename = excludeWordsFilename;
+
+            return this;
+        }
+
         public Dictionary build() {
             if (maxWordLength < minWordLength)
                 throw new IllegalArgumentException("Max word length cannot be smaller than min word length");
@@ -89,10 +99,21 @@ public class Dictionary {
         this.excludeWordsSet = builder.excludeWordsSet;
         this.dictionary = new HashMap<>();
 
+        String excludeWordsFilename = builder.excludeWordsFilename;
+
+        if (!excludeWordsFilename.isBlank()) {
+            try (Stream<String> ews = Files.lines(Paths.get(excludeWordsFilename))) {
+                ews.forEach(excludeWordsSet::add);
+            } catch (IOException e) {
+                System.err.println("Error reading exclude words file!");
+                e.printStackTrace();
+            }
+        }
+
         try (Stream<String> dfs = Files.lines(builder.dictFile)) {
             dfs.forEach(this::addWordToDictionary);
         } catch (IOException e) {
-            System.err.println("Error building dictionary file!");
+            System.err.println("Error reading dictionary file!");
             e.printStackTrace();
         }
     }
