@@ -161,12 +161,12 @@ public class Anagram {
         if (isAnagramValid(diff, anagram))
             addAnagramToList(anagram, anagramList);
         else
-            continueBuildingAnagramListRecursively(anagram, anagramList, subWord, diff);
+            continueBuildingAnagramRecursively(anagram, anagramList, subWord, diff);
 
         anagram.pop();
     }
 
-    private void continueBuildingAnagramListRecursively(LinkedList<String> anagram, List<String> anagramList, String subWord, String diff) {
+    private void continueBuildingAnagramRecursively(LinkedList<String> anagram, List<String> anagramList, String subWord, String diff) {
         String nextStart = (restrictPermutations) ? subWord : "";
 
         // XXX: here is where the indirect recursion starts
