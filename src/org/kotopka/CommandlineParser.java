@@ -258,23 +258,26 @@ public class CommandlineParser {
 
     public String getSuffix() { return includeWordWithSuffix; }
 
+    public void printState() {
+        System.out.println("Dictionary filename: " + getDictFile());
+        System.out.println("Min: " + getMinWordLength());
+        System.out.println("Max: " + getMaxWordLength());
+        System.out.println("Max results: " + getMaxResults());
+        System.out.println("Exclude from dictionary filename: " + getExcludeFromDictionaryFilename());
+        System.out.println("Max words in anagram: " + getMaxWordsInAnagram());
+        System.out.println("Exclude Duplicates: " + shouldExcludeDuplicates());
+        System.out.println("Restrict Permutations: " + shouldRestrictPermutations());
+        System.out.println("Start from: " + getStartFrom());
+        System.out.println("Include word: " + getIncludeWord());
+        System.out.println("Exclude word: " + getExcludeWord());
+        System.out.println("Include word with suffix: " + getSuffix());
+        System.out.println("Phrase: " + String.join(" ", getPhrase()));
+    }
+
     public static void main(String[] args) {
         CommandlineParser clp = new CommandlineParser("commandline_thingy", args);
 
         clp.parseArgs();
-
-        System.out.println("Dictionary filename: " + clp.getDictFile());
-        System.out.println("Min: " + clp.getMinWordLength());
-        System.out.println("Max: " + clp.getMaxWordLength());
-        System.out.println("Max results: " + clp.getMaxResults());
-        System.out.println("Exclude from dictionary filename: " + clp.getExcludeFromDictionaryFilename());
-        System.out.println("Max words in anagram: " + clp.getMaxWordsInAnagram());
-        System.out.println("Exclude Duplicates: " + clp.shouldExcludeDuplicates());
-        System.out.println("Restrict Permutations: " + clp.shouldRestrictPermutations());
-        System.out.println("Start from: " + clp.getStartFrom());
-        System.out.println("Include word: " + clp.getIncludeWord());
-        System.out.println("Exclude word: " + clp.getExcludeWord());
-        System.out.println("Include word with suffix: " + clp.getSuffix());
-        System.out.println("Phrase: " + String.join(" ", clp.getPhrase()));
+        clp.printState();
     }
 }
