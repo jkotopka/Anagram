@@ -106,7 +106,6 @@ public class Dictionary {
                 ews.forEach(excludeWordsSet::add);
             } catch (IOException e) {
                 System.err.println("Error reading exclude words file!");
-                e.printStackTrace();
             }
         }
 
@@ -114,7 +113,6 @@ public class Dictionary {
             dfs.forEach(this::addWordToDictionary);
         } catch (IOException e) {
             System.err.println("Error reading dictionary file!");
-            e.printStackTrace();
         }
     }
 
