@@ -11,6 +11,7 @@ public enum Option {
     MAX_WORD_LENGTH("-maxwl"),
     EXCLUDE_FROM_DICT_FILE("-ef"),
     MAX_RESULTS("-mr"),
+    TIMEOUT("-to"),
     MAX_WORDS("-mw"),
     EXCLUDE_DUPLICATES("-ed"),
     RESTRICT_PERMUTATIONS("-rp"),
