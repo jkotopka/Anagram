@@ -224,6 +224,7 @@ public class CommandlineParser {
                 "Min: " + getMinWordLength() + NEWLINE +
                 "Max: " + getMaxWordLength() + NEWLINE +
                 "Max results: " + getMaxResults() + NEWLINE +
+                "Max timeout: " + getMaxTimeout() + NEWLINE +
                 "Exclude from dictionary filename: " + getExcludeFromDictionaryFilename() + NEWLINE +
                 "Max words in anagram: " + getMaxWordsInAnagram() + NEWLINE +
                 "Exclude Duplicates: " + shouldExcludeDuplicates() + NEWLINE +
