@@ -53,7 +53,8 @@ public final class Anagram {
     public Anagram setMaxTimeoutInSeconds(int seconds) {
         if (seconds <= 0) throw new IllegalArgumentException("Seconds must be positive");
 
-        maxTimeout = seconds * 1000;
+        int timeInMillis = seconds * 1000;
+        maxTimeout = (timeInMillis > 0) ? timeInMillis : Integer.MAX_VALUE;
 
         return this;
     }
