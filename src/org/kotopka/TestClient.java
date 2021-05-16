@@ -48,6 +48,7 @@ public class TestClient {
         Anagram anagram = new Anagram(dictionary)
                 .setMaxResults(parser.getMaxResults())
                 .setMaxWordsInAnagram(parser.getMaxWordsInAnagram())
+                .setMaxTimeoutInSeconds(parser.getMaxTimeout())
                 .shouldExcludeDuplicates(parser.shouldExcludeDuplicates())
                 .shouldRestrictPermutations(parser.shouldRestrictPermutations())
                 .startFrom(parser.getStartFrom())
