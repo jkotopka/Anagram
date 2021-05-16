@@ -34,7 +34,7 @@ public class CommandlineParser {
         this.validCommands = new HashSet<>();
 
         for (Option o : Option.values())
-            validCommands.add(o.value());
+            validCommands.add(o.toString());
 
         // dictionary stuff
         this.dictFile = "";
@@ -83,7 +83,7 @@ public class CommandlineParser {
 
     private void validateOption(String option) {
         if (option.startsWith("-") && !validCommands.contains(option)) {
-            System.out.println("Unknown option: " + option);
+            System.err.println("Unknown option: " + option);
             printOptions();
         }
     }
@@ -95,7 +95,7 @@ public class CommandlineParser {
         try {
             valueFromArg = Integer.parseInt(arg);
         } catch (NumberFormatException nfe) {
-            System.out.println("Invalid number: " + arg);
+            System.err.println("Invalid number: " + arg);
             printOptions();
         }
 
@@ -157,26 +157,25 @@ public class CommandlineParser {
         return  "usage: java " + clientProgramName + " <options> input string" + NEWLINE + NEWLINE +
                 "These options affect dictionary creation:" + NEWLINE +
 
-                String.format("\t%-5s\t%s%s", Option.DICT_FILE.value(), "Dictionary filename", NEWLINE) +
-                String.format("\t%-5s\t%s%s", Option.MIN_WORD_LENGTH.value(), "Minimum word length", NEWLINE) +
-                String.format("\t%-5s\t%s%s", Option.MAX_WORD_LENGTH.value(), "Maximum word length", NEWLINE) +
-                String.format("\t%-5s\t%s%s", Option.EXCLUDE_FROM_DICT_FILE.value(), "Filename of words to exclude from dictionary", NEWLINE) + NEWLINE +
+                String.format("\t%-5s\t%s%s", Option.DICT_FILE, "Dictionary filename", NEWLINE) +
+                String.format("\t%-5s\t%s%s", Option.MIN_WORD_LENGTH, "Minimum word length", NEWLINE) +
+                String.format("\t%-5s\t%s%s", Option.MAX_WORD_LENGTH, "Maximum word length", NEWLINE) +
+                String.format("\t%-5s\t%s%s", Option.EXCLUDE_FROM_DICT_FILE, "Filename of words to exclude from dictionary", NEWLINE) + NEWLINE +
 
                 "These options affect anagram creation:" + NEWLINE +
 
-                String.format("\t%-5s\t%s%S", Option.MAX_RESULTS.value(), "Maximum results", NEWLINE) +
-                String.format("\t%-5s\t%s%S", Option.MAX_WORDS.value(), "Maximum words in anagram", NEWLINE) +
-                String.format("\t%-5s\t%s%S", Option.EXCLUDE_DUPLICATES.value(), "Exclude duplicates", NEWLINE) +
-                String.format("\t%-5s\t%s%S", Option.RESTRICT_PERMUTATIONS.value(), "Restrict permutations", NEWLINE) +
-                String.format("\t%-5s\t%s%S", Option.START_FROM.value(), "Start from word or letter", NEWLINE) +
-                String.format("\t%-5s\t%s%S", Option.INCLUDE_WORD.value(), "Include word in anagram", NEWLINE) +
-                String.format("\t%-5s\t%s%S", Option.INCLUDE_WORD_WITH_SUFFIX.value(), "Include word with suffix in anagram", NEWLINE) +
-                String.format("\t%-5s\t%s%S", Option.HELP.value(), "This help message", NEWLINE);
+                String.format("\t%-5s\t%s%S", Option.MAX_RESULTS, "Maximum results", NEWLINE) +
+                String.format("\t%-5s\t%s%S", Option.MAX_WORDS, "Maximum words in anagram", NEWLINE) +
+                String.format("\t%-5s\t%s%S", Option.EXCLUDE_DUPLICATES, "Exclude duplicates", NEWLINE) +
+                String.format("\t%-5s\t%s%S", Option.RESTRICT_PERMUTATIONS, "Restrict permutations", NEWLINE) +
+                String.format("\t%-5s\t%s%S", Option.START_FROM, "Start from word or letter", NEWLINE) +
+                String.format("\t%-5s\t%s%S", Option.INCLUDE_WORD, "Include word in anagram", NEWLINE) +
+                String.format("\t%-5s\t%s%S", Option.INCLUDE_WORD_WITH_SUFFIX, "Include word with suffix in anagram", NEWLINE) +
+                String.format("\t%-5s\t%s%S", Option.HELP, "This help message", NEWLINE);
     }
 
     public void printOptions() {
         System.out.println(getOptions());
-
         System.exit(-1);
     }
 
@@ -225,7 +224,7 @@ public class CommandlineParser {
                 "Include word: " + getIncludeWord() + NEWLINE +
                 "Exclude word: " + getExcludeWord() + NEWLINE +
                 "Include word with suffix: " + getSuffix() + NEWLINE +
-                "Phrase: " + String.join(" ", getPhrase()) + NEWLINE +
+                "Phrase: " + getPhrase() + NEWLINE +
                 "--------------------------------" + NEWLINE;
     }
 
