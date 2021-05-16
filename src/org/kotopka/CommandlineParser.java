@@ -20,6 +20,7 @@ public class CommandlineParser {
     // anagram stuff
     private int maxResults;
     private int maxWordsInAnagram;
+    private int maxTimeout;
     private boolean excludeDuplicates;
     private boolean restrictPermutations;
     private String startFrom;
@@ -44,6 +45,7 @@ public class CommandlineParser {
         // anagram stuff
         this.maxResults = Integer.MAX_VALUE;
         this.maxWordsInAnagram = Integer.MAX_VALUE;
+        this.maxTimeout = Integer.MAX_VALUE;
         this.startFrom = "";
         this.includeWord = "";
         this.excludeWord = "";
@@ -67,6 +69,7 @@ public class CommandlineParser {
                 case EXCLUDE_FROM_DICT_FILE -> setExcludeFromDictionaryFilename();
                 case MAX_RESULTS -> setMaxResults();
                 case MAX_WORDS -> setMaxWordsInAnagram();
+                case TIMEOUT -> setMaxTimeout();
                 case EXCLUDE_DUPLICATES -> setExcludeDuplicates();
                 case RESTRICT_PERMUTATIONS -> setRestrictPermutations();
                 case START_FROM -> setStartFrom();
@@ -124,6 +127,8 @@ public class CommandlineParser {
         maxWordsInAnagram = getIntValueFromArg();
     }
 
+    private void setMaxTimeout() { maxTimeout = getIntValueFromArg(); }
+
     private void setExcludeDuplicates() {
         excludeDuplicates = true;
     }
@@ -166,6 +171,7 @@ public class CommandlineParser {
 
                 String.format("\t%-5s\t%s%S", Option.MAX_RESULTS, "Maximum results", NEWLINE) +
                 String.format("\t%-5s\t%s%S", Option.MAX_WORDS, "Maximum words in anagram", NEWLINE) +
+                String.format("\t%-5s\t%s%S", Option.TIMEOUT, "Timeout in seconds", NEWLINE) +
                 String.format("\t%-5s\t%s%S", Option.EXCLUDE_DUPLICATES, "Exclude duplicates", NEWLINE) +
                 String.format("\t%-5s\t%s%S", Option.RESTRICT_PERMUTATIONS, "Restrict permutations", NEWLINE) +
                 String.format("\t%-5s\t%s%S", Option.START_FROM, "Start from word or letter", NEWLINE) +
@@ -190,6 +196,8 @@ public class CommandlineParser {
     public String getExcludeFromDictionaryFilename() { return excludeFromDictionaryFilename; }
 
     public int getMaxWordsInAnagram() { return maxWordsInAnagram; }
+
+    public int getMaxTimeout() { return maxTimeout; }
 
     public boolean shouldExcludeDuplicates() { return excludeDuplicates; }
 
