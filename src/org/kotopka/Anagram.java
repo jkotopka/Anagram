@@ -11,6 +11,8 @@ public final class Anagram {
     private int count;
     private int maxResults;
     private int maxWordsInAnagram;
+    private int maxTimeout;
+    private final long startTime;
     private String startFrom;
     private String includeWord;
     private String suffix;
@@ -23,6 +25,8 @@ public final class Anagram {
         this.dictionary = dictionary;
         this.maxResults = Integer.MAX_VALUE;
         this.maxWordsInAnagram = Integer.MAX_VALUE;
+        this.maxTimeout = Integer.MAX_VALUE;
+        this.startTime = System.currentTimeMillis();
         this.startFrom = "";
         this.includeWord = "";
         this.suffix = "";
@@ -42,6 +46,14 @@ public final class Anagram {
         if (max <= 0) throw new IllegalArgumentException("Max must be positive");
 
         maxWordsInAnagram = max;
+
+        return this;
+    }
+
+    public Anagram setMaxTimeoutInSeconds(int seconds) {
+        if (seconds <= 0) throw new IllegalArgumentException("Seconds must be positive");
+
+        maxTimeout = seconds * 1000;
 
         return this;
     }
@@ -151,6 +163,11 @@ public final class Anagram {
     }
 
     private void buildAnagram(String word, String subWord, LinkedList<String> anagram, List<String> anagramList) {
+        // XXX: not exactly the best method to terminate the search after timeout but sorta works,
+        // also not sure where to place this check for maximum effectiveness, I think here is a good place
+        // because it will be caught in the indirect recursion
+        if (System.currentTimeMillis() - startTime > maxTimeout) return;
+
         String diff = Word.subtract(word, subWord);
 
         anagram.push(subWord);
