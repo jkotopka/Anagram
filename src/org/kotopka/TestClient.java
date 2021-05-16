@@ -5,13 +5,15 @@ import java.util.Set;
 
 public class TestClient {
 
+    private static final String NEWLINE = System.lineSeparator();
+
     private static void findAndPrintSubWords(Anagram anagram, String word) {
         Set<String> allSubWords = anagram.findAllValidSubWordsAsSet(word);
 
         if (allSubWords.isEmpty()) {
-            System.out.printf("No sub-words of \"%s\" found\n", word);
+            System.out.println("No sub-words of \"" + word + "\" found");
         } else {
-            System.out.printf("Valid sub-words of \"%s\" found: %d\n", word, allSubWords.size());
+            System.out.println("Valid sub-words of \"" + word + "\" found: " + allSubWords.size());
             allSubWords.forEach(System.out::println);
         }
     }
@@ -22,13 +24,13 @@ public class TestClient {
         long endTime = System.currentTimeMillis();
 
         if (allAnagrams.isEmpty()) {
-            System.out.printf("\nNo anagrams of \"%s\" found\n", word);
+            System.out.println(NEWLINE + "No anagrams of \"" + word + "\" found");
         } else {
-            System.out.printf("\nAnagrams of \"%s\" found: %d\n", word, allAnagrams.size());
+            System.out.println(NEWLINE + "Anagrams of \"" + word + "\" found: " + allAnagrams.size());
             allAnagrams.forEach(System.out::println);
         }
 
-        System.out.println("Elapsed time: " + (double)(endTime - startTime) / 1000);
+        System.out.println("Elapsed time: " + (double)(endTime - startTime) / 1000 + " seconds");
     }
 
     public static void main(String[] args) {
