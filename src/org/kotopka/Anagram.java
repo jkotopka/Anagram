@@ -123,7 +123,6 @@ public final class Anagram {
 
     // TODO: refactored a bit with extracted methods, not sure if cleaner,
     //  mostly not sure if having the "recursive" call in another method is bad practice or not
-    // TODO: rename startWord startFromWord
     private void buildAnagramList(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
         if (count == maxResults) return;
 
