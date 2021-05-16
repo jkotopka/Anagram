@@ -166,13 +166,6 @@ public final class Anagram {
         anagram.pop();
     }
 
-    private void continueBuildingAnagramRecursively(String diff, String subWord, LinkedList<String> anagram, List<String> anagramList) {
-        String nextStart = (restrictPermutations) ? subWord : "";
-
-        // XXX: here is where the indirect recursion starts
-        buildAnagramList(diff, nextStart, anagram, anagramList);
-    }
-
     private boolean isAnagramValid(String diff, List<String> anagram) {
         boolean wordWithSuffixFound;
 
@@ -195,6 +188,13 @@ public final class Anagram {
     private void addAnagramToList(List<String> anagram, List<String> anagramList) {
         anagramList.add(String.join(" ", anagram));
         count++;
+    }
+
+    private void continueBuildingAnagramRecursively(String diff, String subWord, LinkedList<String> anagram, List<String> anagramList) {
+        String nextStart = (restrictPermutations) ? subWord : "";
+
+        // XXX: here is where the indirect recursion starts
+        buildAnagramList(diff, nextStart, anagram, anagramList);
     }
 
     // TODO: TESTING---------------------------------------------------------------------------------------------------
