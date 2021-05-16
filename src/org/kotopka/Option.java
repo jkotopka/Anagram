@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Option {
+
     DICT_FILE("-d"),
     MIN_WORD_LENGTH("-minwl"),
     MAX_WORD_LENGTH("-maxwl"),
@@ -20,22 +21,21 @@ public enum Option {
     HELP("-h"),
     NO_OPTION("");
 
-    private final String value;
+    private final String label;
 
     private static final Map<String, Option> ENUM_MAP;
 
-    Option(String value) {
-        this.value = value;
+    Option(String label) {
+        this.label = label;
     }
 
-    public String value() { return this.value; }
+    public String getLabel() { return this.label; }
 
     static {
         Map<String, Option> map = new HashMap<>();
 
-        for (Option o : Option.values()) {
-            map.put(o.value(), o);
-        }
+        for (Option o : Option.values())
+            map.put(o.getLabel(), o);
 
         ENUM_MAP = Collections.unmodifiableMap(map);
     }
@@ -47,4 +47,6 @@ public enum Option {
             return NO_OPTION;
     }
 
+    @Override
+    public String toString() { return this.label; }
 }
