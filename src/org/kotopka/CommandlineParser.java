@@ -33,24 +33,8 @@ public class CommandlineParser {
         this.args = args.clone();
         this.validCommands = new HashSet<>();
 
-        // dictionary options
-        validCommands.add("-d");
-        validCommands.add("-minwl");
-        validCommands.add("-maxwl");
-        validCommands.add("-ef");
-
-        // anagram options
-        validCommands.add("-mr");
-        validCommands.add("-mw");
-        validCommands.add("-ed");
-        validCommands.add("-rp");
-        validCommands.add("-sf");
-        validCommands.add("-iw");
-        validCommands.add("-ew");
-        validCommands.add("-iws");
-
-        // help
-        validCommands.add("-h");
+        for (Option o : Option.values())
+            validCommands.add(o.value());
 
         // dictionary stuff
         this.dictFile = "";
@@ -76,22 +60,20 @@ public class CommandlineParser {
 
             validateOption(option);
 
-            // TODO: extract these string literals into some variable/enum or something,
-            //  also use these same variables/enums below in the getOptions() method
-            switch (option) {
-                case "-d" -> setDictFileName();
-                case "-minwl" -> setMinWordLength();
-                case "-maxwl" -> setMaxWordLength();
-                case "-ef" -> setExcludeFromDictionaryFilename();
-                case "-mr" -> setMaxResults();
-                case "-mw" -> setMaxWordsInAnagram();
-                case "-ed" -> setExcludeDuplicates();
-                case "-rp" -> setRestrictPermutations();
-                case "-sf" -> setStartFrom();
-                case "-iw" -> setIncludeWord();
-                case "-ew" -> setExcludeWord();
-                case "-iws" -> setIncludeWordWithSuffix();
-                case "-h" -> printOptions();
+            switch (Option.get(option)) {
+                case DICT_FILE -> setDictFileName();
+                case MIN_WORD_LENGTH -> setMinWordLength();
+                case MAX_WORD_LENGTH -> setMaxWordLength();
+                case EXCLUDE_FROM_DICT_FILE -> setExcludeFromDictionaryFilename();
+                case MAX_RESULTS -> setMaxResults();
+                case MAX_WORDS -> setMaxWordsInAnagram();
+                case EXCLUDE_DUPLICATES -> setExcludeDuplicates();
+                case RESTRICT_PERMUTATIONS -> setRestrictPermutations();
+                case START_FROM -> setStartFrom();
+                case INCLUDE_WORD -> setIncludeWord();
+                case EXCLUDE_WORD -> setExcludeWord();
+                case INCLUDE_WORD_WITH_SUFFIX -> setIncludeWordWithSuffix();
+                case HELP -> printOptions();
                 default -> setPhrase();
             }
 
@@ -136,9 +118,7 @@ public class CommandlineParser {
         excludeFromDictionaryFilename = args[++argIndex];
     }
 
-    private void setMaxResults() {
-        maxResults = getIntValueFromArg();
-    }
+    private void setMaxResults() { maxResults = getIntValueFromArg(); }
 
     private void setMaxWordsInAnagram() {
         maxWordsInAnagram = getIntValueFromArg();
@@ -173,26 +153,25 @@ public class CommandlineParser {
             phrase.add(args[argIndex++]);
     }
 
-    // TODO: string literals for commands need to be factored out somewhere as noted above
     public String getOptions() {
-        return "usage: java " + clientProgramName + " <options> input string" + NEWLINE + NEWLINE +
+        return  "usage: java " + clientProgramName + " <options> input string" + NEWLINE + NEWLINE +
                 "These options affect dictionary creation:" + NEWLINE +
 
-                String.format("\t%-5s\t%s%s", "-d", "Dictionary filename", NEWLINE) +
-                String.format("\t%-5s\t%s%s", "-minwl", "Minimum word length", NEWLINE) +
-                String.format("\t%-5s\t%s%s", "-maxwl", "Maximum word length", NEWLINE) +
-                String.format("\t%-5s\t%s%s", "-ef", "Filename of words to exclude from dictionary", NEWLINE) + NEWLINE +
+                String.format("\t%-5s\t%s%s", Option.DICT_FILE.value(), "Dictionary filename", NEWLINE) +
+                String.format("\t%-5s\t%s%s", Option.MIN_WORD_LENGTH.value(), "Minimum word length", NEWLINE) +
+                String.format("\t%-5s\t%s%s", Option.MAX_WORD_LENGTH.value(), "Maximum word length", NEWLINE) +
+                String.format("\t%-5s\t%s%s", Option.EXCLUDE_FROM_DICT_FILE.value(), "Filename of words to exclude from dictionary", NEWLINE) + NEWLINE +
 
                 "These options affect anagram creation:" + NEWLINE +
 
-                String.format("\t%-5s\t%s%S", "-mr", "Maximum results", NEWLINE) +
-                String.format("\t%-5s\t%s%S", "-mw", "Maximum words in anagram", NEWLINE) +
-                String.format("\t%-5s\t%s%S", "-ed", "Exclude duplicates", NEWLINE) +
-                String.format("\t%-5s\t%s%S", "-rp", "Restrict permutations", NEWLINE) +
-                String.format("\t%-5s\t%s%S", "-sf", "Start from word or letter", NEWLINE) +
-                String.format("\t%-5s\t%s%S", "-iw", "Include word in anagram", NEWLINE) +
-                String.format("\t%-5s\t%s%S", "-iws", "Include word with suffix in anagram", NEWLINE) +
-                String.format("\t%-5s\t%s%S", "-h", "This help message", NEWLINE) + NEWLINE;
+                String.format("\t%-5s\t%s%S", Option.MAX_RESULTS.value(), "Maximum results", NEWLINE) +
+                String.format("\t%-5s\t%s%S", Option.MAX_WORDS.value(), "Maximum words in anagram", NEWLINE) +
+                String.format("\t%-5s\t%s%S", Option.EXCLUDE_DUPLICATES.value(), "Exclude duplicates", NEWLINE) +
+                String.format("\t%-5s\t%s%S", Option.RESTRICT_PERMUTATIONS.value(), "Restrict permutations", NEWLINE) +
+                String.format("\t%-5s\t%s%S", Option.START_FROM.value(), "Start from word or letter", NEWLINE) +
+                String.format("\t%-5s\t%s%S", Option.INCLUDE_WORD.value(), "Include word in anagram", NEWLINE) +
+                String.format("\t%-5s\t%s%S", Option.INCLUDE_WORD_WITH_SUFFIX.value(), "Include word with suffix in anagram", NEWLINE) +
+                String.format("\t%-5s\t%s%S", Option.HELP.value(), "This help message", NEWLINE);
     }
 
     public void printOptions() {
@@ -231,7 +210,7 @@ public class CommandlineParser {
 
     @Override
     public String toString() {
-        return "--------------------------------" + NEWLINE +
+        return  "--------------------------------" + NEWLINE +
                 "CommandlineParser internal state" + NEWLINE +
                 "--------------------------------" + NEWLINE +
                 "Dictionary filename: " + getDictFile() + NEWLINE +
