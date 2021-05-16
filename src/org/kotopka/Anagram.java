@@ -124,8 +124,6 @@ public final class Anagram {
     // TODO: refactored a bit with extracted methods, not sure if cleaner,
     //  mostly not sure if having the "recursive" call in another method is bad practice or not
     private void buildAnagramList(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
-        if (count == maxResults) return;
-
         validateSubWordCache(word);
         buildAnagramsFromSubWords(word, startWord, anagram, anagramList);
     }
@@ -146,6 +144,7 @@ public final class Anagram {
             buildAnagram(word, subWord, anagram, anagramList);
 
             if (excludeDuplicates) wordsToExclude.remove(subWord);
+            if (count == maxResults) return;
         }
     }
 
