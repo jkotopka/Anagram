@@ -34,7 +34,7 @@ public class TestClient {
     }
 
     public static void main(String[] args) {
-        CommandlineParser parser = new CommandlineParser("TestClient", args);
+        OldCommandlineParser parser = new OldCommandlineParser("TestClient", args);
 
         parser.parseArgs();
 

@@ -2,7 +2,7 @@ package org.kotopka;
 
 import java.util.*;
 
-public class CommandlineParser {
+public class OldCommandlineParser {
 
     private final static String NEWLINE = System.lineSeparator();
 
@@ -29,12 +29,12 @@ public class CommandlineParser {
     private String includeWordWithSuffix;
     private final List<String> phrase;
 
-    public CommandlineParser(String clientProgramName, String[] args) {
+    public OldCommandlineParser(String clientProgramName, String[] args) {
         this.clientProgramName = clientProgramName;
         this.args = args.clone();
         this.validCommands = new HashSet<>();
 
-        for (Option o : Option.values())
+        for (OptionSwitches o : OptionSwitches.values())
             validCommands.add(o.toString());
 
         // dictionary stuff
@@ -62,7 +62,7 @@ public class CommandlineParser {
 
             validateOption(option);
 
-            switch (Option.get(option)) {
+            switch (OptionSwitches.get(option)) {
                 case DICT_FILE -> setDictFileName();
                 case MIN_WORD_LENGTH -> setMinWordLength();
                 case MAX_WORD_LENGTH -> setMaxWordLength();
@@ -162,22 +162,22 @@ public class CommandlineParser {
         return  "usage: java " + clientProgramName + " <options> input string" + NEWLINE + NEWLINE +
                 "These options affect dictionary creation:" + NEWLINE +
 
-                String.format("\t%-5s\t%s%s", Option.DICT_FILE, "Dictionary filename", NEWLINE) +
-                String.format("\t%-5s\t%s%s", Option.MIN_WORD_LENGTH, "Minimum word length", NEWLINE) +
-                String.format("\t%-5s\t%s%s", Option.MAX_WORD_LENGTH, "Maximum word length", NEWLINE) +
-                String.format("\t%-5s\t%s%s", Option.EXCLUDE_FROM_DICT_FILE, "Filename of words to exclude from dictionary", NEWLINE) + NEWLINE +
+                String.format("\t%-5s\t%s%s", OptionSwitches.DICT_FILE, "Dictionary filename", NEWLINE) +
+                String.format("\t%-5s\t%s%s", OptionSwitches.MIN_WORD_LENGTH, "Minimum word length", NEWLINE) +
+                String.format("\t%-5s\t%s%s", OptionSwitches.MAX_WORD_LENGTH, "Maximum word length", NEWLINE) +
+                String.format("\t%-5s\t%s%s", OptionSwitches.EXCLUDE_FROM_DICT_FILE, "Filename of words to exclude from dictionary", NEWLINE) + NEWLINE +
 
                 "These options affect anagram creation:" + NEWLINE +
 
-                String.format("\t%-5s\t%s%S", Option.MAX_RESULTS, "Maximum results", NEWLINE) +
-                String.format("\t%-5s\t%s%S", Option.MAX_WORDS, "Maximum words in anagram", NEWLINE) +
-                String.format("\t%-5s\t%s%S", Option.TIMEOUT, "Timeout in seconds", NEWLINE) +
-                String.format("\t%-5s\t%s%S", Option.EXCLUDE_DUPLICATES, "Exclude duplicates", NEWLINE) +
-                String.format("\t%-5s\t%s%S", Option.RESTRICT_PERMUTATIONS, "Restrict permutations", NEWLINE) +
-                String.format("\t%-5s\t%s%S", Option.START_FROM, "Start from word or letter", NEWLINE) +
-                String.format("\t%-5s\t%s%S", Option.INCLUDE_WORD, "Include word in anagram", NEWLINE) +
-                String.format("\t%-5s\t%s%S", Option.INCLUDE_WORD_WITH_SUFFIX, "Include word with suffix in anagram", NEWLINE) +
-                String.format("\t%-5s\t%s%S", Option.HELP, "This help message", NEWLINE);
+                String.format("\t%-5s\t%s%S", OptionSwitches.MAX_RESULTS, "Maximum results", NEWLINE) +
+                String.format("\t%-5s\t%s%S", OptionSwitches.MAX_WORDS, "Maximum words in anagram", NEWLINE) +
+                String.format("\t%-5s\t%s%S", OptionSwitches.TIMEOUT, "Timeout in seconds", NEWLINE) +
+                String.format("\t%-5s\t%s%S", OptionSwitches.EXCLUDE_DUPLICATES, "Exclude duplicates", NEWLINE) +
+                String.format("\t%-5s\t%s%S", OptionSwitches.RESTRICT_PERMUTATIONS, "Restrict permutations", NEWLINE) +
+                String.format("\t%-5s\t%s%S", OptionSwitches.START_FROM, "Start from word or letter", NEWLINE) +
+                String.format("\t%-5s\t%s%S", OptionSwitches.INCLUDE_WORD, "Include word in anagram", NEWLINE) +
+                String.format("\t%-5s\t%s%S", OptionSwitches.INCLUDE_WORD_WITH_SUFFIX, "Include word with suffix in anagram", NEWLINE) +
+                String.format("\t%-5s\t%s%S", OptionSwitches.HELP, "This help message", NEWLINE);
     }
 
     public void printOptions() {
@@ -218,7 +218,7 @@ public class CommandlineParser {
     @Override
     public String toString() {
         return  "--------------------------------" + NEWLINE +
-                "CommandlineParser internal state" + NEWLINE +
+                "OldCommandlineParser internal state" + NEWLINE +
                 "--------------------------------" + NEWLINE +
                 "Dictionary filename: " + getDictFile() + NEWLINE +
                 "Min: " + getMinWordLength() + NEWLINE +
@@ -238,7 +238,7 @@ public class CommandlineParser {
     }
 
     public static void main(String[] args) {
-        CommandlineParser clp = new CommandlineParser("CommandlineParser", args);
+        OldCommandlineParser clp = new OldCommandlineParser("OldCommandlineParser", args);
 
         clp.parseArgs();
         clp.printState();
