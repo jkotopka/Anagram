@@ -76,11 +76,9 @@ public class NewTestClient {
                 .excludeWord(parser.getOption(Switch.EXCLUDE_WORD).getString())
                 .includeWordWithSuffix(parser.getOption(Switch.INCLUDE_WORD_WITH_SUFFIX).getString());
 
-
-        System.out.println(parser.getOption(Switch.COLLECT_PHRASE).getString());
-        String word = parser.getOption(Switch.COLLECT_PHRASE).getString();
-
         parser.printState();
+
+        String word = parser.getOption(Switch.COLLECT_PHRASE).getString();
 
         findAndPrintSubWords(anagram, word);
         findAndPrintAnagrams(anagram, word);
