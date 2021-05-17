@@ -1,4 +1,7 @@
-package org.kotopka;
+package org.kotopka.deprecated;
+
+import org.kotopka.Anagram;
+import org.kotopka.Dictionary;
 
 import java.util.List;
 import java.util.Set;

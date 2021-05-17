@@ -1,4 +1,4 @@
-package org.kotopka;
+package org.kotopka.deprecated;
 
 import java.util.*;
 
