@@ -146,11 +146,11 @@ public final class Anagram {
 
     private void buildAnagramsFromSubWords(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
         for (String subWord : getSubWordCacheOf(word, startWord)) {
-            if (excludeDuplicates) {
-                if (wordsToExclude.contains(subWord)) continue;
+            if (wordsToExclude.contains(subWord))
+                continue;
 
+            if (excludeDuplicates)
                 wordsToExclude.add(subWord.toLowerCase());
-            }
 
             buildAnagram(word, subWord, anagram, anagramList);
 
