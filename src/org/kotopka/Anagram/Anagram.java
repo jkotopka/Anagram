@@ -1,4 +1,7 @@
-package org.kotopka;
+package org.kotopka.Anagram;
+
+import org.kotopka.Dictionary;
+import org.kotopka.Word;
 
 import java.util.*;
 
@@ -7,7 +10,7 @@ import java.util.*;
  */
 public final class Anagram {
 
-    private final Dictionary dictionary;
+    private final org.kotopka.Dictionary dictionary;
     private int count;
     private int maxResults;
     private int maxWordsInAnagram;

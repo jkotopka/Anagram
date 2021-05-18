@@ -1,7 +1,8 @@
-package org.kotopka;
+package org.kotopka.Anagram;
 
 import org.kotopka.CommandlineParser.Parser;
 import org.kotopka.CommandlineParser.Switch;
+import org.kotopka.Dictionary;
 
 public class AnagramFactory {
 
