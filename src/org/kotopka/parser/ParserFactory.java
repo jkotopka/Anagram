@@ -22,6 +22,7 @@ public class ParserFactory {
                     new ExcludeDuplicates(),
                     new HelpMessage(),
                     new ExtendedHelpMessage(),
+                    new PrintState(),
                     new CollectPhrase()
                 );
 

@@ -48,16 +48,17 @@ public class AnagramFinder {
             System.out.println("Usage: java AnagramFinder <options> string to anagramize");
             System.out.println("Options:");
             commandlineParser.printHelp();
-            System.out.println("To get extended help on an option use the -xh switch");
+            System.out.println("To get extended help on an option use the -xh switch followed by the option");
             System.exit(-1);
         }
 
         Dictionary dictionary = DictionaryFactory.getDictionary(commandlineParser);
         Anagram anagram = AnagramFactory.getAnagram(commandlineParser, dictionary);
-
-        commandlineParser.printState();
-
         String word = commandlineParser.getOption(Switch.COLLECT_PHRASE).getString();
+
+        // XXX: this is pretty janky but has to be called after the Parser::parseArgs() method
+        if (commandlineParser.getOption(Switch.PRINT_STATE).getBool())
+            commandlineParser.printState();
 
         findAndPrintSubWords(anagram, word);
         findAndPrintAnagrams(anagram, word);

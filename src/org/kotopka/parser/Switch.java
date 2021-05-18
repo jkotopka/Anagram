@@ -21,6 +21,7 @@ public enum Switch {
     INCLUDE_WORD_WITH_SUFFIX("-iws"),
     HELP("-h"),
     EXTENDED_HELP("-xh"),
+    PRINT_STATE("-ps"),
     COLLECT_PHRASE(""), // XXX: not really a proper switch
     DEFAULT_DELIMITER("-");
 
