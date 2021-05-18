@@ -1,7 +1,12 @@
 package org.kotopka;
 
-import org.kotopka.CommandlineParser.Parser;
-import org.kotopka.CommandlineParser.Switch;
+import org.kotopka.anagram.Anagram;
+import org.kotopka.anagram.AnagramFactory;
+import org.kotopka.parser.Parser;
+import org.kotopka.parser.ParserFactory;
+import org.kotopka.parser.Switch;
+import org.kotopka.dictionary.Dictionary;
+import org.kotopka.dictionary.DictionaryFactory;
 
 import java.util.List;
 import java.util.Set;
