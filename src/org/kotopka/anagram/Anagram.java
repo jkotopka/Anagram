@@ -1,7 +1,7 @@
 package org.kotopka.anagram;
 
 import org.kotopka.dictionary.Dictionary;
-import org.kotopka.Word;
+import org.kotopka.word.Word;
 
 import java.util.*;
 

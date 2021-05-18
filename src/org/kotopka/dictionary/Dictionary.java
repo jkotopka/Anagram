@@ -1,6 +1,6 @@
 package org.kotopka.dictionary;
 
-import org.kotopka.Word;
+import org.kotopka.word.Word;
 
 import java.io.IOException;
 import java.nio.file.Files;
