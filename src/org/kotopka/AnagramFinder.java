@@ -41,16 +41,19 @@ public class AnagramFinder {
         System.out.println("Elapsed time: " + (double)(endTime - startTime) / 1000 + " seconds");
     }
 
+    private static void printHelp(Parser commandlineParser) {
+        System.out.println("Usage: java " + AnagramFinder.class.getSimpleName() + " <options> string to anagramize");
+        System.out.println("Options:");
+        commandlineParser.printHelp();
+        System.out.println("To get extended help on an option use the -xh switch followed by the option");
+        System.exit(-1);
+    }
+
     public static void main(String[] args) {
         Parser commandlineParser = ParserFactory.getParser(args);
 
-        if (args.length == 0) {
-            System.out.println("Usage: java " + AnagramFinder.class.getSimpleName() + " <options> string to anagramize");
-            System.out.println("Options:");
-            commandlineParser.printHelp();
-            System.out.println("To get extended help on an option use the -xh switch followed by the option");
-            System.exit(-1);
-        }
+        if (args.length == 0)
+            printHelp(commandlineParser);
 
         Dictionary dictionary = DictionaryFactory.getDictionary(commandlineParser);
         Anagram anagram = AnagramFactory.getAnagram(commandlineParser, dictionary);
