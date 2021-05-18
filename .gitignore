@@ -2,7 +2,6 @@
 /out/
 /.idea/.gitignore
 /.idea/checkstyle-idea.xml
-/chisholm_anagrams.txt
 /corncob-lowercase.txt
 /.idea/misc.xml
 /.idea/modules.xml
