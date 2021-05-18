@@ -1,7 +1,5 @@
 package org.kotopka.parser;
 
-import org.kotopka.parser.*;
-
 public class ParserFactory {
 
     public static Parser getParser(String[] args) {
