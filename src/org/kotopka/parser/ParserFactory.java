@@ -1,6 +1,6 @@
-package org.kotopka;
+package org.kotopka.parser;
 
-import org.kotopka.CommandlineParser.*;
+import org.kotopka.parser.*;
 
 public class ParserFactory {
 
