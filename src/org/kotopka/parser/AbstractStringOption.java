@@ -1,8 +1,8 @@
-package org.kotopka.CommandlineParser;
+package org.kotopka.parser;
 
-public class AbstractIntOption extends AbstractOption {
+public class AbstractStringOption extends AbstractOption {
 
-    int value;
+    String value = "";
 
     @Override
     public String getState() {
@@ -10,18 +10,12 @@ public class AbstractIntOption extends AbstractOption {
     }
 
     @Override
-    public int getInt() { return value; }
+    public String getString() { return value; }
 
     @Override
     public void execute(Parser parser) {
-        String arg = "";
-
         try {
-            arg = parser.getNextArg();
-            value = Integer.parseInt(arg);
-        } catch (NumberFormatException nfe) {
-            System.err.println("Invalid number format: " + arg);
-            System.exit(-1);
+            value = parser.getNextArg();
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             System.err.println(commandlineSwitch + ": Cannot parse argument! Please ensure the correct parameter was provided.");
             System.exit(-1);

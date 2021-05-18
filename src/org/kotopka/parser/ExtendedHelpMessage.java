@@ -1,6 +1,4 @@
-package org.kotopka.CommandlineParser;
-
-import java.util.List;
+package org.kotopka.parser;
 
 public class ExtendedHelpMessage extends AbstractBooleanOption {
 

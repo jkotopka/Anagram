@@ -1,4 +1,4 @@
-package org.kotopka.CommandlineParser;
+package org.kotopka.parser;
 
 public abstract class AbstractOption implements Option {
 

@@ -1,4 +1,4 @@
-package org.kotopka.CommandlineParser;
+package org.kotopka.parser;
 
 import java.util.Collections;
 import java.util.HashMap;
