@@ -14,7 +14,7 @@ import java.util.Set;
 public class AnagramFinder {
 
     private static final String NEWLINE = System.lineSeparator();
-    private static boolean anagramThreadIsRunning;
+    private static volatile boolean anagramThreadIsRunning;
 
     private static void findAndPrintSubWords(Anagram anagram, String word) {
         Set<String> allSubWords = anagram.findAllValidSubWordsAsSet(word);
@@ -52,7 +52,7 @@ public class AnagramFinder {
         System.exit(-1);
     }
 
-    private static void printRunningMessage() {
+    private static void printGeneratingAnagramsMessage() {
         System.out.println();
 
         try {
@@ -81,12 +81,12 @@ public class AnagramFinder {
         Anagram anagram = AnagramFactory.getAnagram(commandlineParser, dictionary);
         String word = commandlineParser.getOption(Switch.COLLECT_PHRASE).getString();
 
-        Thread notifyUser = new Thread(AnagramFinder::printRunningMessage);
+        Thread printGeneratingAnagramsMessage = new Thread(AnagramFinder::printGeneratingAnagramsMessage);
         Thread findAnagrams = new Thread(() -> findAndPrintAnagrams(anagram, word));
 
         findAndPrintSubWords(anagram, word);
 
-        notifyUser.start();
+        printGeneratingAnagramsMessage.start();
         findAnagrams.start();
 
         anagramThreadIsRunning = true;
