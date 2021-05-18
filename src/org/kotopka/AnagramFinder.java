@@ -45,7 +45,7 @@ public class AnagramFinder {
         Parser commandlineParser = ParserFactory.getParser(args);
 
         if (args.length == 0) {
-            System.out.println("Usage: java AnagramFinder <options> string to anagramize");
+            System.out.println("Usage: java " + AnagramFinder.class.getSimpleName() + " <options> string to anagramize");
             System.out.println("Options:");
             commandlineParser.printHelp();
             System.out.println("To get extended help on an option use the -xh switch followed by the option");
