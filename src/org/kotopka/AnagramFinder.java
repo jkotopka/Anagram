@@ -6,7 +6,7 @@ import org.kotopka.CommandlineParser.Switch;
 import java.util.List;
 import java.util.Set;
 
-public class NewTestClient {
+public class AnagramFinder {
 
     private static final String NEWLINE = System.lineSeparator();
 
