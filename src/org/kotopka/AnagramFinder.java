@@ -43,6 +43,15 @@ public class AnagramFinder {
 
     public static void main(String[] args) {
         Parser commandlineParser = ParserFactory.getParser(args);
+
+        if (args.length == 0) {
+            System.out.println("Usage: java AnagramFinder <options> string to anagramize");
+            System.out.println("Options:");
+            commandlineParser.printHelp();
+            System.out.println("To get extended help on an option use the -xh switch");
+            System.exit(-1);
+        }
+
         Dictionary dictionary = DictionaryFactory.getDictionary(commandlineParser);
         Anagram anagram = AnagramFactory.getAnagram(commandlineParser, dictionary);
 
