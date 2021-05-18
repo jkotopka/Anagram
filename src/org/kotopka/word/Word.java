@@ -1,4 +1,4 @@
-package org.kotopka;
+package org.kotopka.word;
 
 import java.util.ArrayList;
 import java.util.Arrays;
