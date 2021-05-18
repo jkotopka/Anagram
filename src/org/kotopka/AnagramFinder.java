@@ -14,7 +14,7 @@ import java.util.Set;
 public class AnagramFinder {
 
     private static final String NEWLINE = System.lineSeparator();
-    private static boolean threadRun;
+    private static boolean anagramThreadIsRunning;
 
     private static void findAndPrintSubWords(Anagram anagram, String word) {
         Set<String> allSubWords = anagram.findAllValidSubWordsAsSet(word);
@@ -32,7 +32,7 @@ public class AnagramFinder {
         List<String> allAnagrams = anagram.findMultipleWordAnagramsOf(word);
         long endTime = System.currentTimeMillis();
 
-        threadRun = false;
+        anagramThreadIsRunning = false;
 
         if (allAnagrams.isEmpty()) {
             System.out.println(NEWLINE + "No anagrams of \"" + word + "\" found");
@@ -58,7 +58,7 @@ public class AnagramFinder {
         try {
             System.out.print("Generating anagrams");
 
-            while (threadRun) {
+            while (anagramThreadIsRunning) {
                 System.out.print(".");
                 Thread.sleep(500);
             }
@@ -84,12 +84,12 @@ public class AnagramFinder {
         Thread notifyUser = new Thread(AnagramFinder::printRunningMessage);
         Thread findAnagrams = new Thread(() -> findAndPrintAnagrams(anagram, word));
 
-        threadRun = true;
-
         findAndPrintSubWords(anagram, word);
 
         notifyUser.start();
         findAnagrams.start();
+
+        anagramThreadIsRunning = true;
     }
 
 }
