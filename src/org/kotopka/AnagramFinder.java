@@ -81,15 +81,15 @@ public class AnagramFinder {
         if (commandlineParser.getOption(Switch.PRINT_STATE).getBool())
             commandlineParser.printState();
 
-        Thread t1 = new Thread(AnagramFinder::printRunningMessage);
-        Thread t2 = new Thread(() -> findAndPrintAnagrams(anagram, word));
+        Thread notifyUser = new Thread(AnagramFinder::printRunningMessage);
+        Thread findAnagrams = new Thread(() -> findAndPrintAnagrams(anagram, word));
 
         threadRun = true;
 
         findAndPrintSubWords(anagram, word);
 
-        t1.start();
-        t2.start();
+        notifyUser.start();
+        findAnagrams.start();
     }
 
 }
