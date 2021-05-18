@@ -1,7 +1,7 @@
-package org.kotopka;
+package org.kotopka.dictionary;
 
-import org.kotopka.CommandlineParser.Parser;
-import org.kotopka.CommandlineParser.Switch;
+import org.kotopka.parser.Parser;
+import org.kotopka.parser.Switch;
 
 public class DictionaryFactory {
 
