@@ -2,7 +2,7 @@ package org.kotopka.parser;
 
 public class RestrictPermutations extends AbstractBooleanOption{
 
-    public RestrictPermutations( ) {
+    public RestrictPermutations() {
         this.commandlineSwitch = Switch.RESTRICT_PERMUTATIONS;
         this.description = "Restrict permutations";
         this.extendedHelpMessage =
