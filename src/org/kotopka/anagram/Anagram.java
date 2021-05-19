@@ -36,6 +36,8 @@ public final class Anagram {
         this.cachedSubWords = new HashMap<>();
     }
 
+    // NOTICE: all of the "set" methods return "this" so they can be chained.
+    // if not called in a chained fashion, the return value can safely be ignored
     public Anagram setMaxResults(int max) {
         if (max <= 0) throw new IllegalArgumentException("Max must be positive");
 
@@ -61,7 +63,7 @@ public final class Anagram {
         return this;
     }
 
-    public Anagram startFrom(String word) {
+    public Anagram setStartFrom(String word) {
         Objects.requireNonNull(word, "Word cannot be null");
 
         startFrom = word;
@@ -69,7 +71,7 @@ public final class Anagram {
         return this;
     }
 
-    public Anagram includeWord(String word) {
+    public Anagram setIncludeWord(String word) {
         Objects.requireNonNull(word, "Word cannot be null");
 
         includeWord = word;
@@ -77,7 +79,7 @@ public final class Anagram {
         return this;
     }
 
-    public Anagram excludeWord(String word) {
+    public Anagram setExcludeWord(String word) {
         Objects.requireNonNull(word, "Word cannot be null");
 
         wordsToExclude.add(word);
@@ -85,7 +87,7 @@ public final class Anagram {
         return this;
     }
 
-    public Anagram includeWordWithSuffix(String suffix) {
+    public Anagram setIncludeWordWithSuffix(String suffix) {
         Objects.requireNonNull(suffix, "Suffix cannot be null");
 
         this.suffix = suffix;
@@ -93,13 +95,13 @@ public final class Anagram {
         return this;
     }
 
-    public Anagram shouldExcludeDuplicates(boolean shouldExclude) {
+    public Anagram setShouldExcludeDuplicates(boolean shouldExclude) {
         excludeDuplicates = shouldExclude;
 
         return this;
     }
 
-    public Anagram shouldRestrictPermutations(boolean shouldRestrict) {
+    public Anagram setShouldRestrictPermutations(boolean shouldRestrict) {
         restrictPermutations = shouldRestrict;
 
         return this;
