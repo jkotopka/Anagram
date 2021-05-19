@@ -2,7 +2,7 @@ package org.kotopka.parser;
 
 public class MaxWordLen extends AbstractIntOption {
 
-    public MaxWordLen( ) {
+    public MaxWordLen() {
         this.commandlineSwitch = Switch.MAX_WORD_LENGTH;
         this.description = "Maximum word length";
         this.value = Integer.MAX_VALUE;
