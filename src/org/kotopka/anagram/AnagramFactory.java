@@ -4,8 +4,11 @@ import org.kotopka.parser.Parser;
 import org.kotopka.parser.Switch;
 import org.kotopka.dictionary.Dictionary;
 
-public class AnagramFactory {
+public final class AnagramFactory {
 
+    private AnagramFactory() {} // enforce non-instantiability
+
+    // reading those lines is pretty tedious hence why they're consigned to this factory method
     public static Anagram getAnagram(Parser parser, Dictionary dictionary) {
         return new Anagram(dictionary)
                 .setMaxResults(parser.getOption(Switch.MAX_RESULTS).getInt())
