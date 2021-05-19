@@ -52,12 +52,12 @@ public class TestClient {
                 .setMaxResults(parser.getMaxResults())
                 .setMaxWordsInAnagram(parser.getMaxWordsInAnagram())
                 .setMaxTimeoutInSeconds(parser.getMaxTimeout())
-                .shouldExcludeDuplicates(parser.shouldExcludeDuplicates())
-                .shouldRestrictPermutations(parser.shouldRestrictPermutations())
-                .startFrom(parser.getStartFrom())
-                .includeWord(parser.getIncludeWord())
-                .excludeWord(parser.getExcludeWord())
-                .includeWordWithSuffix(parser.getSuffix());
+                .setShouldExcludeDuplicates(parser.shouldExcludeDuplicates())
+                .setShouldRestrictPermutations(parser.shouldRestrictPermutations())
+                .setStartFrom(parser.getStartFrom())
+                .setIncludeWord(parser.getIncludeWord())
+                .setExcludeWord(parser.getExcludeWord())
+                .setIncludeWordWithSuffix(parser.getSuffix());
 
         String word = parser.getPhrase();
 
