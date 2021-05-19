@@ -7,8 +7,8 @@ public interface Option {
     String getExtendedHelp();
     String getState();
     void execute(Parser parser);
-    default int getInt() { return  0; }
-    default boolean getBool() { return false; }
-    default String getString() { return ""; }
 
+    default int getInt() { throw new UnsupportedOperationException("Operation not supported"); }
+    default boolean getBool() { throw new UnsupportedOperationException("Operation not supported"); }
+    default String getString() { throw new UnsupportedOperationException("Operation not supported"); }
 }
