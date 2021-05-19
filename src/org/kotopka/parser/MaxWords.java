@@ -2,7 +2,7 @@ package org.kotopka.parser;
 
 public class MaxWords extends AbstractIntOption {
 
-    public MaxWords( ) {
+    public MaxWords() {
         this.commandlineSwitch = Switch.MAX_WORDS;
         this.description = "Max words";
         this.value = Integer.MAX_VALUE;
