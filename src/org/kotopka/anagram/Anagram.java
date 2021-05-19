@@ -11,7 +11,6 @@ import java.util.*;
 public final class Anagram {
 
     private final Dictionary dictionary;
-    private int count;
     private int maxResults;
     private int maxWordsInAnagram;
     private int maxTimeout;
@@ -129,8 +128,6 @@ public final class Anagram {
         LinkedList<String> anagram = new LinkedList<>();
         List<String> anagramList   = new ArrayList<>();
 
-        count = 0;
-
         buildAnagramList(word, startFrom, anagram, anagramList);
         Collections.sort(anagramList);
 
@@ -158,7 +155,7 @@ public final class Anagram {
             buildAnagram(word, subWord, anagram, anagramList);
 
             if (excludeDuplicates) wordsToExclude.remove(subWord);
-            if (count == maxResults) return;
+            if (anagramList.size() == maxResults) return;
         }
     }
 
@@ -205,7 +202,6 @@ public final class Anagram {
 
     private void addAnagramToList(List<String> anagram, List<String> anagramList) {
         anagramList.add(String.join(" ", anagram));
-        count++;
     }
 
     private void continueBuildingAnagramRecursively(String diff, String subWord, LinkedList<String> anagram, List<String> anagramList) {
