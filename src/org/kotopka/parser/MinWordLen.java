@@ -2,7 +2,7 @@ package org.kotopka.parser;
 
 public class MinWordLen extends AbstractIntOption {
 
-    public MinWordLen( ) {
+    public MinWordLen() {
         this.commandlineSwitch = Switch.MIN_WORD_LENGTH;
         this.description = "Minimum word length";
         this.extendedHelpMessage =
