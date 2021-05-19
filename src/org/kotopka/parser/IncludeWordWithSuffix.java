@@ -2,7 +2,7 @@ package org.kotopka.parser;
 
 public class IncludeWordWithSuffix extends AbstractStringOption {
 
-    public IncludeWordWithSuffix( ) {
+    public IncludeWordWithSuffix() {
         this.commandlineSwitch = Switch.INCLUDE_WORD_WITH_SUFFIX;
         this.description = "Include word with suffix";
         this.extendedHelpMessage =
