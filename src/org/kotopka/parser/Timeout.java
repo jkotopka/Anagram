@@ -2,7 +2,7 @@ package org.kotopka.parser;
 
 public class Timeout extends AbstractIntOption {
     
-    public Timeout( ) {
+    public Timeout() {
         this.commandlineSwitch = Switch.TIMEOUT;
         this.description = "Timeout";
         this.value = Integer.MAX_VALUE;
