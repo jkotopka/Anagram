@@ -2,7 +2,7 @@ package org.kotopka.parser;
 
 public class MaxResults extends AbstractIntOption {
 
-    public MaxResults( ) {
+    public MaxResults() {
         this.commandlineSwitch = Switch.MAX_RESULTS;
         this.description = "Max results";
         this.value = Integer.MAX_VALUE;
