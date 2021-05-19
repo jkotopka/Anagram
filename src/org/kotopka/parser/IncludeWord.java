@@ -2,7 +2,7 @@ package org.kotopka.parser;
 
 public class IncludeWord extends AbstractStringOption {
 
-    public IncludeWord( ) {
+    public IncludeWord() {
         this.commandlineSwitch = Switch.INCLUDE_WORD;
         this.description = "Include word";
         this.extendedHelpMessage =
