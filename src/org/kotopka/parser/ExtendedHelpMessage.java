@@ -27,7 +27,7 @@ public class ExtendedHelpMessage extends AbstractBooleanOption {
         if (parser.hasNextArg())
             arg = parser.getNextArg();
         else
-            arg = commandlineSwitch.getLabel(); // if called without an <option> parameter
+            arg = commandlineSwitch.getLabel(); // get help on this very topic if called without an <option> parameter
 
         return arg;
     }
