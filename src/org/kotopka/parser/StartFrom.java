@@ -2,7 +2,7 @@ package org.kotopka.parser;
 
 public class StartFrom extends AbstractStringOption {
 
-    public StartFrom( ) {
+    public StartFrom() {
         this.commandlineSwitch = Switch.START_FROM;
         this.description = "Start from";
         this.extendedHelpMessage =
