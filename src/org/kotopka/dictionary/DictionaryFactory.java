@@ -3,6 +3,9 @@ package org.kotopka.dictionary;
 import org.kotopka.parser.Parser;
 import org.kotopka.parser.Switch;
 
+/**
+ * {@code DictionaryFactory} - Creates a {@code Dictionary} object with options passed to the commandline {@code Parser} object.
+ */
 public class DictionaryFactory {
 
     public static Dictionary getDictionary(Parser parser) {
