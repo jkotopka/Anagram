@@ -4,6 +4,10 @@ import org.kotopka.parser.Parser;
 import org.kotopka.parser.Switch;
 import org.kotopka.dictionary.Dictionary;
 
+/**
+ * {@code AnagramFactory} - Creates an Anagram object from commandline
+ * options passed to the {@code Parser} object and the {@code Dictionary} object.
+ */
 public final class AnagramFactory {
 
     private AnagramFactory() {} // enforce non-instantiability
