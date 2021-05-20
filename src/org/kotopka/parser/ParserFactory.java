@@ -1,5 +1,10 @@
 package org.kotopka.parser;
 
+/**
+ * {@code ParserFactory} - Creates a {@code Parser} object with various commandline {@code Option} objects as parameters.
+ * The {@code Option} objects are used to collect the values associated with the commandline switches, to be passed on to
+ * the {@code Dictionary} and {@code Anagram} objects as anagram generation constraints.
+ */
 public class ParserFactory {
 
     public static Parser getParser(String[] args) {
