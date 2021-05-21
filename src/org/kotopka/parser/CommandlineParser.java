@@ -2,6 +2,10 @@ package org.kotopka.parser;
 
 import java.util.*;
 
+/**
+ * {@code CommandlineParser} - Implementation of the {@code Parser} interface used to collect commandline options with
+ * a configurable set of {@code Option} objects, one for each commandline switch to be parsed.
+ */
 public class CommandlineParser implements Parser {
 
     private int argIndex;
