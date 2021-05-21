@@ -1,5 +1,8 @@
 package org.kotopka.parser;
 
+/**
+ * {@code Option} - Interface for {@code Option} objects used in classes that implement the {@code Parser} interface.
+ */
 public interface Option {
 
     Switch getSwitch();
