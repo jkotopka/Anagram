@@ -1,5 +1,8 @@
 package org.kotopka.parser;
 
+/**
+ * {@code Parser} - Interface for objects used in command-line parsing.
+ */
 public interface Parser {
 
     Parser addOption(Option option);
