@@ -9,6 +9,11 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
+/**
+ * {@code Dictionary} - Contains the words used in anagram generation. The {@code Dictionary} object is a key-value
+ * dictionary that uses the letters of the word in alphabetically-sorted form as the key and each word that has the
+ * same sorted form is stored in a collection which is the value.
+ */
 public class Dictionary {
 
     public static class Builder {
