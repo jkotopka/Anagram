@@ -6,7 +6,7 @@ import org.kotopka.word.Word;
 import java.util.*;
 
 /**
- * {@code Anagram} - Finds and prints a configurable list of anagrams of input word.
+ * {@code Anagram} - Finds and prints a configurable list of anagrams of input phrase.
  */
 public final class Anagram {
 
