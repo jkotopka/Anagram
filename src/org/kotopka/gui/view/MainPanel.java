@@ -2,6 +2,7 @@ package org.kotopka.gui.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class MainPanel extends JPanel {
 
@@ -45,7 +46,6 @@ public class MainPanel extends JPanel {
         this.subWordPanel = new JPanel();
 
         setupPanel();
-        setupListeners();
     }
 
     private void setupPanel() {
@@ -81,13 +81,33 @@ public class MainPanel extends JPanel {
         outputPanel.add(subWordPanel);
     }
 
-    private void setupListeners() {
-        // only the one really...
-        button.addActionListener(e -> {
-            anagramString = textField.getText();
-        });
+    public String getAnagramString() {
+        return textField.getText();
     }
 
-    public String getAnagramString() { return anagramString; }
+    public void setAnagram(java.util.List<String> anagrams) {
+        StringBuilder sb = new StringBuilder();
 
+        for (String s : anagrams) {
+            sb.append(s);
+            sb.append(System.lineSeparator());
+        }
+
+        anagramTextArea.setText(sb.toString());
+    }
+
+    public void setSubWords(java.util.Set<String> subWords) {
+        StringBuilder sb = new StringBuilder();
+
+        for (String s : subWords) {
+            sb.append(s);
+            sb.append(System.lineSeparator());
+        }
+
+        subWordsTextArea.setText(sb.toString());
+    }
+
+    public void addActionListener(ActionListener e) {
+        button.addActionListener(e);
+    }
 }
