@@ -14,6 +14,10 @@ public class MainController {
         Dictionary dictionary = new Dictionary.Builder("dictionary-large.txt").build();
         Anagram anagram = new Anagram(dictionary);
 
+        invokeAnagramGenerate(anagram);
+    }
+
+    private void invokeAnagramGenerate(Anagram anagram) {
         frame.addActionListener(e -> {
             String anagramString = frame.getAnagramString();
             java.util.List<String> anagrams = anagram.findMultipleWordAnagramsOf(anagramString);
