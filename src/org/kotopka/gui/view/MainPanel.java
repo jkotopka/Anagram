@@ -24,8 +24,6 @@ public class MainPanel extends JPanel {
     private final JScrollPane subWordsScrollPane;
     private final JPanel subWordPanel;
 
-    private String anagramString;
-
     public MainPanel() {
         this.innerPanel = new JPanel();
         this.textEntryPanel = new JPanel();
