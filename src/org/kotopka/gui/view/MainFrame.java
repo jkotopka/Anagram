@@ -1,6 +1,7 @@
 package org.kotopka.gui.view;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 public class MainFrame extends JFrame {
 
@@ -36,5 +37,21 @@ public class MainFrame extends JFrame {
         optionsMenuItem.addActionListener(e -> {
             optionsDialog.setVisible(true);
         });
+    }
+
+    public String getAnagramString() {
+        return mainPanel.getAnagramString();
+    }
+
+    public void setAnagram(java.util.List<String> anagrams) {
+        mainPanel.setAnagram(anagrams);
+    }
+
+    public void setSubWords(java.util.Set<String> subWords) {
+        mainPanel.setSubWords(subWords);
+    }
+
+    public void addActionListener(ActionListener e) {
+        mainPanel.addActionListener(e);
     }
 }
