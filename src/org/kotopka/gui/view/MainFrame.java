@@ -39,6 +39,10 @@ public class MainFrame extends JFrame {
         });
     }
 
+    public String[] getOptions() {
+        return optionsDialog.getOptionsArgs();
+    }
+
     public String getAnagramString() {
         return mainPanel.getAnagramString();
     }
