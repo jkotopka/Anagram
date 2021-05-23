@@ -1,20 +1,19 @@
 package org.kotopka.gui.controller;
 
 import org.kotopka.anagram.Anagram;
-import org.kotopka.dictionary.Dictionary;
+import org.kotopka.gui.model.AnagramGenerator;
 import org.kotopka.gui.view.MainFrame;
 
 public class MainController {
 
     private final MainFrame frame;
+    private final AnagramGenerator anagramGenerator;
 
     public MainController() {
         this.frame = new MainFrame();
+        this.anagramGenerator = new AnagramGenerator();
 
-        Dictionary dictionary = new Dictionary.Builder("dictionary-large.txt").build();
-        Anagram anagram = new Anagram(dictionary);
-
-        invokeAnagramGenerate(anagram);
+        invokeAnagramGenerate(anagramGenerator.getAnagram());
     }
 
     private void invokeAnagramGenerate(Anagram anagram) {
