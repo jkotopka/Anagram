@@ -40,6 +40,7 @@ public class OptionsPanel extends JPanel {
         super(new BorderLayout());
 
         this.dialog = dialog;
+        this.optionsArgs = new ArrayList<>();
 
         numberFormat = NumberFormat.getNumberInstance();
 
