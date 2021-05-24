@@ -20,12 +20,6 @@ public class MainController {
         optionsDialog.setVisible(true);
     }
 
-    public void updateOptions() {
-        String[] args = optionsDialog.getArgs();
-
-        anagramGenerator = new AnagramGenerator(args, this);
-    }
-
     public void updateOptions(String[] args) {
         anagramGenerator = new AnagramGenerator(args, this);
     }
