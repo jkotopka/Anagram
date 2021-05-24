@@ -15,8 +15,6 @@ public class MainController {
     public MainController() {
         this.mainFrame = new MainFrame(this);
         this.optionsDialog = new OptionsDialog(this);
-
-        updateOptions(new String[0]);
     }
 
     public void showOptionsDialog() {
