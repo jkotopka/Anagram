@@ -24,6 +24,7 @@ public class OptionsDialog extends JDialog {
     private final JLabel maxTimeoutLabel;
     private final JLabel restrictPermutationsLabel;
     private final JLabel excludeDuplicatesLabel;
+    private final JLabel startFromLabel;
     private final JLabel includeWordLabel;
     private final JLabel excludeWordLabel;
 
@@ -35,6 +36,7 @@ public class OptionsDialog extends JDialog {
     private final JFormattedTextField maxTimeoutField;
     private final JCheckBox restrictPermutationsCheckBox;
     private final JCheckBox excludeDuplicatesCheckBox;
+    private final JTextField startFromField;
     private final JTextField includeWordField;
     private final JTextField excludeWordField;
 
@@ -72,6 +74,10 @@ public class OptionsDialog extends JDialog {
 
         this.excludeDuplicatesLabel = new JLabel("Exclude duplicate words: ");
         this.excludeDuplicatesCheckBox = new JCheckBox();
+
+        this.startFromLabel = new JLabel("Start from word: ");
+        this.startFromField = new JTextField();
+
 
         this.includeWordLabel = new JLabel("Include word: ");
         this.includeWordField = new JTextField();
@@ -115,6 +121,9 @@ public class OptionsDialog extends JDialog {
 
         excludeDuplicatesLabel.setLabelFor(excludeDuplicatesCheckBox);
 
+        startFromLabel.setLabelFor(startFromField);
+        startFromField.setColumns(10);
+
         includeWordLabel.setLabelFor(includeWordField);
         includeWordField.setColumns(10);
 
@@ -131,6 +140,7 @@ public class OptionsDialog extends JDialog {
         labelPane.add(maxTimeoutLabel);
         labelPane.add(restrictPermutationsLabel);
         labelPane.add(excludeDuplicatesLabel);
+        labelPane.add(startFromLabel);
         labelPane.add(includeWordLabel);
         labelPane.add(excludeWordLabel);
 
@@ -144,6 +154,7 @@ public class OptionsDialog extends JDialog {
         inputPane.add(maxTimeoutField);
         inputPane.add(restrictPermutationsCheckBox);
         inputPane.add(excludeDuplicatesCheckBox);
+        inputPane.add(startFromField);
         inputPane.add(includeWordField);
         inputPane.add(excludeWordField);
 
@@ -204,6 +215,11 @@ public class OptionsDialog extends JDialog {
 
         if (excludeDuplicatesCheckBox.isSelected())
             optionsArgs.add(Switch.EXCLUDE_DUPLICATES.getLabel());
+
+        if (!startFromField.getText().isBlank()) {
+            optionsArgs.add(Switch.START_FROM.getLabel());
+            optionsArgs.add(startFromField.getText());
+        }
 
         if (!includeWordField.getText().isBlank()) {
             optionsArgs.add(Switch.INCLUDE_WORD.getLabel());
