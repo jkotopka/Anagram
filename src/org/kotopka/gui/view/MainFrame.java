@@ -162,10 +162,10 @@ public class MainFrame extends JFrame {
 
     private void setupActionListeners() {
         optionsMenuItem.addActionListener(e -> mainController.showOptionsDialog());
-        button.addActionListener(e -> generateAnagrams());
+        button.addActionListener(e -> generateAnagramsAndUpdateDisplay());
     }
 
-    private void generateAnagrams() {
+    private void generateAnagramsAndUpdateDisplay() {
         Thread generator = new Thread(() -> {
             String input = textField.getText();
 
