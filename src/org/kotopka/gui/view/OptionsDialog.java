@@ -1,28 +1,176 @@
 package org.kotopka.gui.view;
 
 import org.kotopka.gui.controller.MainController;
+import org.kotopka.parser.Switch;
 
 import javax.swing.*;
+import java.awt.*;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class OptionsDialog extends JDialog {
 
-    private final OptionsPanel optionsPanel;
+    private MainController mainController;
 
-    // TODO: put OptionsPanel stuff directly in this class
+    // panel stuff
+    private final JPanel mainPanel;
+
+    // labels
+    private final JLabel maxWordLenLabel;
+    private final JLabel minWordLenLabel;
+    private final JLabel restrictPermutationsLabel;
+    private final JLabel includeWordLabel;
+    private final JLabel excludeWordLabel;
+
+    // fields
+    private JFormattedTextField maxWordLenField;
+    private JFormattedTextField minWordLenField;
+    private JCheckBox restrictPermutationsCheckBox;
+    private JTextField includeWordField;
+    private JTextField excludeWordField;
+
+    // buttons
+    private JButton okButton;
+    private JButton cancelButton;
+
+    // integer number format
+    private NumberFormat numberFormat;
+
+    private List<String> optionsArgs;
+
     public OptionsDialog(MainController mainController) {
+        this.mainController = mainController;
+        this.mainPanel = new JPanel();
+        this.optionsArgs = new ArrayList<>();
 
-        this.optionsPanel = new OptionsPanel(this, mainController);
+        this.numberFormat = NumberFormat.getNumberInstance();
 
+        this.maxWordLenLabel = new JLabel("Max word length: ");
+        this.maxWordLenField = new JFormattedTextField(numberFormat);
+
+        this.minWordLenLabel = new JLabel("Min word length: ");
+        this.minWordLenField = new JFormattedTextField(numberFormat);
+
+        this.restrictPermutationsLabel = new JLabel("Restrict permutations: ");
+        this.restrictPermutationsCheckBox = new JCheckBox();
+
+        this.includeWordLabel = new JLabel("Include word: ");
+        this.includeWordField = new JTextField();
+
+        this.excludeWordLabel = new JLabel("Exclude word: ");
+        this.excludeWordField = new JTextField();
+
+        this.okButton = new JButton("Ok");
+        this.cancelButton = new JButton("Cancel");
+
+        setupPanel();
+        setupFrame();
+        setupButtonListeners();
+    }
+
+    private void setupPanel() {
+        mainPanel.setLayout(new BorderLayout());
+
+        maxWordLenLabel.setLabelFor(maxWordLenField);
+        maxWordLenField.setValue(10);
+        maxWordLenField.setColumns(10);
+
+        minWordLenLabel.setLabelFor(minWordLenField);
+        minWordLenField.setValue(1);
+        minWordLenField.setColumns(10);
+
+        restrictPermutationsLabel.setLabelFor(restrictPermutationsCheckBox);
+
+        includeWordLabel.setLabelFor(includeWordField);
+        includeWordField.setColumns(10);
+
+        excludeWordLabel.setLabelFor(excludeWordField);
+        excludeWordField.setColumns(10);
+
+        // layout labels in a panel
+        JPanel labelPane = new JPanel(new GridLayout(0, 1));
+        labelPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        labelPane.add(maxWordLenLabel);
+        labelPane.add(minWordLenLabel);
+        labelPane.add(restrictPermutationsLabel);
+        labelPane.add(includeWordLabel);
+        labelPane.add(excludeWordLabel);
+
+        // layout the inputs
+        JPanel inputPane = new JPanel(new GridLayout(0, 1));
+        inputPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        inputPane.add(maxWordLenField);
+        inputPane.add(minWordLenField);
+        inputPane.add(restrictPermutationsCheckBox);
+        inputPane.add(includeWordField);
+        inputPane.add(excludeWordField);
+
+        /// layout the ok/cancel buttons
+        JPanel buttonPane = new JPanel(new GridLayout(0, 1));
+        buttonPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        buttonPane.add(okButton);
+        buttonPane.add(cancelButton);
+
+        // populate the panel
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        mainPanel.add(labelPane, BorderLayout.CENTER);
+        mainPanel.add(inputPane, BorderLayout.LINE_END);
+        mainPanel.add(buttonPane, BorderLayout.AFTER_LAST_LINE);
+    }
+
+    private void setupFrame() {
         setTitle("Options");
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        setContentPane(optionsPanel);
+        setContentPane(mainPanel);
         setModal(true);
         setResizable(false);
         pack();
     }
 
-//    public String[] getOptionsArgs() {
-//        return optionsPanel.getOptionsArgs();
-//    }
+    public void setupButtonListeners() {
+        // setup the buttons
+        okButton.addActionListener(e -> {
+            optionsArgs = new ArrayList<>();
+
+            // TODO: extract these as methods
+            // set up the optionsArgs list as if it were an array
+            optionsArgs.add(Switch.MIN_WORD_LENGTH.getLabel());
+            optionsArgs.add(minWordLenField.getText());
+
+            optionsArgs.add(Switch.MAX_WORD_LENGTH.getLabel());
+            optionsArgs.add(maxWordLenField.getText());
+
+            if (restrictPermutationsCheckBox.isSelected())
+                optionsArgs.add(Switch.RESTRICT_PERMUTATIONS.getLabel());
+
+            if (!includeWordField.getText().isBlank()) {
+                optionsArgs.add(Switch.INCLUDE_WORD.getLabel());
+                optionsArgs.add(includeWordField.getText());
+            }
+
+            if (!excludeWordField.getText().isBlank()) {
+                optionsArgs.add(Switch.EXCLUDE_WORD.getLabel());
+                optionsArgs.add(excludeWordField.getText());
+            }
+
+            // TODO: Testing
+            // build array out of optionsArgs then build Parser from args[]
+            String[] args = optionsArgs.toArray(new String[0]);
+
+            System.out.println(Arrays.toString(args));
+
+            mainController.updateOptions(args);
+
+//            dialog.setVisible(false);
+            this.dispose();
+        });
+
+        cancelButton.addActionListener(e -> {
+//            dialog.setVisible(false);
+            this.dispose();
+        });
+    }
 
 }
