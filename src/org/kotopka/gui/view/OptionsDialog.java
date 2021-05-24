@@ -1,7 +1,6 @@
 package org.kotopka.gui.view;
 
 import org.kotopka.gui.controller.MainController;
-import org.kotopka.parser.MaxResults;
 import org.kotopka.parser.Switch;
 
 import javax.swing.*;
@@ -21,6 +20,7 @@ public class OptionsDialog extends JDialog {
     private final JLabel maxWordLenLabel;
     private final JLabel minWordLenLabel;
     private final JLabel maxResultsLabel;
+    private final JLabel maxWordsInAnagramLabel;
     private final JLabel restrictPermutationsLabel;
     private final JLabel excludeDuplicatesLabel;
     private final JLabel includeWordLabel;
@@ -30,6 +30,7 @@ public class OptionsDialog extends JDialog {
     private final JFormattedTextField maxWordLenField;
     private final JFormattedTextField minWordLenField;
     private final JFormattedTextField maxResultsField;
+    private final JFormattedTextField maxWordsInAnagramField;
     private final JCheckBox restrictPermutationsCheckBox;
     private final JCheckBox excludeDuplicatesCheckBox;
     private final JTextField includeWordField;
@@ -54,6 +55,9 @@ public class OptionsDialog extends JDialog {
 
         this.maxResultsLabel = new JLabel("Max results: ");
         this.maxResultsField = new JFormattedTextField(numberFormat);
+
+        this.maxWordsInAnagramLabel = new JLabel("Max words in anagram: ");
+        this.maxWordsInAnagramField = new JFormattedTextField(numberFormat);
 
         this.restrictPermutationsLabel = new JLabel("Restrict permutations: ");
         this.restrictPermutationsCheckBox = new JCheckBox();
@@ -90,6 +94,10 @@ public class OptionsDialog extends JDialog {
         maxResultsField.setValue(10000);
         maxResultsField.setColumns(10);
 
+        maxWordsInAnagramLabel.setLabelFor(maxWordsInAnagramField);
+        maxWordsInAnagramField.setValue(10);
+        maxWordsInAnagramField.setColumns(10);
+
         restrictPermutationsLabel.setLabelFor(restrictPermutationsCheckBox);
 
         excludeDuplicatesLabel.setLabelFor(excludeDuplicatesCheckBox);
@@ -106,6 +114,7 @@ public class OptionsDialog extends JDialog {
         labelPane.add(maxWordLenLabel);
         labelPane.add(minWordLenLabel);
         labelPane.add(maxResultsLabel);
+        labelPane.add(maxWordsInAnagramLabel);
         labelPane.add(restrictPermutationsLabel);
         labelPane.add(excludeDuplicatesLabel);
         labelPane.add(includeWordLabel);
@@ -117,6 +126,7 @@ public class OptionsDialog extends JDialog {
         inputPane.add(maxWordLenField);
         inputPane.add(minWordLenField);
         inputPane.add(maxResultsField);
+        inputPane.add(maxWordsInAnagramField);
         inputPane.add(restrictPermutationsCheckBox);
         inputPane.add(excludeDuplicatesCheckBox);
         inputPane.add(includeWordField);
@@ -159,6 +169,9 @@ public class OptionsDialog extends JDialog {
 
             optionsArgs.add(Switch.MAX_RESULTS.getLabel());
             optionsArgs.add(maxResultsField.getText());
+
+            optionsArgs.add(Switch.MAX_WORDS.getLabel());
+            optionsArgs.add(maxWordsInAnagramField.getText());
 
             if (restrictPermutationsCheckBox.isSelected())
                 optionsArgs.add(Switch.RESTRICT_PERMUTATIONS.getLabel());
