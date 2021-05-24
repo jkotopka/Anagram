@@ -6,6 +6,7 @@ import org.kotopka.dictionary.Dictionary;
 import org.kotopka.dictionary.DictionaryFactory;
 import org.kotopka.gui.controller.MainController;
 import org.kotopka.parser.Parser;
+import org.kotopka.parser.ParserFactory;
 
 import java.util.Collection;
 import java.util.List;
@@ -20,8 +21,10 @@ public class AnagramGenerator {
     private int subWordCount;
     private double executionTimeInSeconds;
 
-    public AnagramGenerator(Parser parser, MainController mainController) {
+    public AnagramGenerator(String[] args, MainController mainController) {
         this.mainController = mainController;
+
+        Parser parser = ParserFactory.getParser(args);
 
         System.out.println("Building a new anagram generator");
         parser.printState();
