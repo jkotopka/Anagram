@@ -1,6 +1,7 @@
 package org.kotopka.gui.view;
 
 import org.kotopka.gui.controller.MainController;
+import org.kotopka.parser.MaxResults;
 import org.kotopka.parser.Switch;
 
 import javax.swing.*;
@@ -19,6 +20,7 @@ public class OptionsDialog extends JDialog {
     // labels
     private final JLabel maxWordLenLabel;
     private final JLabel minWordLenLabel;
+    private final JLabel maxResultsLabel;
     private final JLabel restrictPermutationsLabel;
     private final JLabel excludeDuplicatesLabel;
     private final JLabel includeWordLabel;
@@ -27,6 +29,7 @@ public class OptionsDialog extends JDialog {
     // fields
     private final JFormattedTextField maxWordLenField;
     private final JFormattedTextField minWordLenField;
+    private final JFormattedTextField maxResultsField;
     private final JCheckBox restrictPermutationsCheckBox;
     private final JCheckBox excludeDuplicatesCheckBox;
     private final JTextField includeWordField;
@@ -48,6 +51,9 @@ public class OptionsDialog extends JDialog {
 
         this.minWordLenLabel = new JLabel("Min word length: ");
         this.minWordLenField = new JFormattedTextField(numberFormat);
+
+        this.maxResultsLabel = new JLabel("Max results: ");
+        this.maxResultsField = new JFormattedTextField(numberFormat);
 
         this.restrictPermutationsLabel = new JLabel("Restrict permutations: ");
         this.restrictPermutationsCheckBox = new JCheckBox();
@@ -80,6 +86,10 @@ public class OptionsDialog extends JDialog {
         minWordLenField.setValue(1);
         minWordLenField.setColumns(10);
 
+        maxResultsLabel.setLabelFor(maxResultsField);
+        maxResultsField.setValue(10000);
+        maxResultsField.setColumns(10);
+
         restrictPermutationsLabel.setLabelFor(restrictPermutationsCheckBox);
 
         excludeDuplicatesLabel.setLabelFor(excludeDuplicatesCheckBox);
@@ -95,6 +105,7 @@ public class OptionsDialog extends JDialog {
         labelPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         labelPane.add(maxWordLenLabel);
         labelPane.add(minWordLenLabel);
+        labelPane.add(maxResultsLabel);
         labelPane.add(restrictPermutationsLabel);
         labelPane.add(excludeDuplicatesLabel);
         labelPane.add(includeWordLabel);
@@ -105,6 +116,7 @@ public class OptionsDialog extends JDialog {
         inputPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         inputPane.add(maxWordLenField);
         inputPane.add(minWordLenField);
+        inputPane.add(maxResultsField);
         inputPane.add(restrictPermutationsCheckBox);
         inputPane.add(excludeDuplicatesCheckBox);
         inputPane.add(includeWordField);
@@ -144,6 +156,9 @@ public class OptionsDialog extends JDialog {
 
             optionsArgs.add(Switch.MAX_WORD_LENGTH.getLabel());
             optionsArgs.add(maxWordLenField.getText());
+
+            optionsArgs.add(Switch.MAX_RESULTS.getLabel());
+            optionsArgs.add(maxResultsField.getText());
 
             if (restrictPermutationsCheckBox.isSelected())
                 optionsArgs.add(Switch.RESTRICT_PERMUTATIONS.getLabel());
