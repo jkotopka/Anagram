@@ -214,6 +214,8 @@ public class OptionsDialog extends JDialog {
         setIncludeWordWithSuffix(optionsArgs);
 
         this.args = optionsArgs.toArray(new String[0]);
+
+        mainController.updateOptions(args);
     }
 
     private void setMinWordLength(List<String> optionsArgs) {
