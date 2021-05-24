@@ -42,6 +42,8 @@ public class OptionsDialog extends JDialog {
     private final JButton okButton;
     private final JButton cancelButton;
 
+    private String[] args;
+
     public OptionsDialog(MainController mainController) {
         this.mainController = mainController;
         this.mainPanel = new JPanel();
@@ -174,9 +176,7 @@ public class OptionsDialog extends JDialog {
             this.dispose();
         });
 
-        cancelButton.addActionListener(e -> {
-            this.dispose();
-        });
+        cancelButton.addActionListener(e -> this.dispose());
     }
 
     private void updateOptions() {
@@ -215,9 +215,13 @@ public class OptionsDialog extends JDialog {
             optionsArgs.add(excludeWordField.getText());
         }
 
-        String[] args = optionsArgs.toArray(new String[0]);
+        this.args = optionsArgs.toArray(new String[0]);
 
         mainController.updateOptions(args);
+    }
+
+    public String[] getArgs() {
+        return args;
     }
 
 }
