@@ -27,6 +27,7 @@ public class OptionsDialog extends JDialog {
     private final JLabel startFromLabel;
     private final JLabel includeWordLabel;
     private final JLabel excludeWordLabel;
+    private final JLabel includeSuffixLabel;
 
     // fields
     private final JFormattedTextField maxWordLenField;
@@ -39,6 +40,7 @@ public class OptionsDialog extends JDialog {
     private final JTextField startFromField;
     private final JTextField includeWordField;
     private final JTextField excludeWordField;
+    private final JTextField includeSuffixField;
 
     // buttons
     private final JButton okButton;
@@ -78,12 +80,14 @@ public class OptionsDialog extends JDialog {
         this.startFromLabel = new JLabel("Start from word: ");
         this.startFromField = new JTextField();
 
-
         this.includeWordLabel = new JLabel("Include word: ");
         this.includeWordField = new JTextField();
 
         this.excludeWordLabel = new JLabel("Exclude word: ");
         this.excludeWordField = new JTextField();
+
+        this.includeSuffixLabel = new JLabel("Include word with suffix: ");
+        this.includeSuffixField = new JTextField();
 
         this.okButton = new JButton("Ok");
         this.cancelButton = new JButton("Cancel");
@@ -130,6 +134,9 @@ public class OptionsDialog extends JDialog {
         excludeWordLabel.setLabelFor(excludeWordField);
         excludeWordField.setColumns(10);
 
+        includeSuffixLabel.setLabelFor(includeSuffixField);
+        includeSuffixField.setColumns(10);
+
         // layout labels in a panel
         JPanel labelPane = new JPanel(new GridLayout(0, 1));
         labelPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -143,6 +150,7 @@ public class OptionsDialog extends JDialog {
         labelPane.add(startFromLabel);
         labelPane.add(includeWordLabel);
         labelPane.add(excludeWordLabel);
+        labelPane.add(includeSuffixLabel);
 
         // layout the inputs
         JPanel inputPane = new JPanel(new GridLayout(0, 1));
@@ -157,6 +165,7 @@ public class OptionsDialog extends JDialog {
         inputPane.add(startFromField);
         inputPane.add(includeWordField);
         inputPane.add(excludeWordField);
+        inputPane.add(includeSuffixField);
 
         /// layout the ok/cancel buttons
         JPanel buttonPane = new JPanel(new GridLayout(0, 1));
@@ -194,7 +203,6 @@ public class OptionsDialog extends JDialog {
         List<String> optionsArgs = new ArrayList<>();
 
         // TODO: extract these as methods
-        // set up the optionsArgs list as if it were an array
         optionsArgs.add(Switch.MIN_WORD_LENGTH.getLabel());
         optionsArgs.add(minWordLenField.getText());
 
@@ -229,6 +237,11 @@ public class OptionsDialog extends JDialog {
         if (!excludeWordField.getText().isBlank()) {
             optionsArgs.add(Switch.EXCLUDE_WORD.getLabel());
             optionsArgs.add(excludeWordField.getText());
+        }
+
+        if (!includeSuffixField.getText().isBlank()) {
+            optionsArgs.add(Switch.INCLUDE_WORD_WITH_SUFFIX.getLabel());
+            optionsArgs.add(includeSuffixField.getText());
         }
 
         this.args = optionsArgs.toArray(new String[0]);
