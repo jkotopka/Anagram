@@ -36,7 +36,7 @@ public class OptionsDialog extends JDialog {
     private final JButton cancelButton;
 
     // integer number format
-    private NumberFormat numberFormat;
+    private final NumberFormat numberFormat;
 
     public OptionsDialog(MainController mainController) {
         this.mainController = mainController;
