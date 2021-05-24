@@ -1,38 +1,56 @@
 package org.kotopka.gui.controller;
 
-import org.kotopka.anagram.Anagram;
 import org.kotopka.gui.model.AnagramGenerator;
 import org.kotopka.gui.view.MainFrame;
+import org.kotopka.gui.view.OptionsDialog;
 import org.kotopka.parser.Parser;
 import org.kotopka.parser.ParserFactory;
 
-import java.util.Arrays;
-
 public class MainController {
 
-    private final MainFrame frame;
+    private final MainFrame mainFrame;
+    private final OptionsDialog optionsDialog;
+    private AnagramGenerator anagramGenerator;
 
     public MainController() {
-        this.frame = new MainFrame();
+        this.mainFrame = new MainFrame(this);
+        this.optionsDialog = new OptionsDialog(this);
 
-        invokeAnagramGenerate();
+        updateOptions(new String[0]);
     }
 
-    private void invokeAnagramGenerate() {
-        frame.addActionListener(e -> {
-            String[] args = frame.getOptions();
-
-            System.out.println("In invokeAnagramGenerate(): " + Arrays.toString(args));
-
-            Parser parser = ParserFactory.getParser(args);
-            AnagramGenerator anagramGenerator = new AnagramGenerator(parser);
-            Anagram anagram = anagramGenerator.getAnagram();
-            String anagramString = frame.getAnagramString();
-            java.util.List<String> anagrams = anagram.findMultipleWordAnagramsOf(anagramString);
-            java.util.Set<String> subWords = anagram.findAllValidSubWordsAsSet(anagramString);
-
-            frame.setAnagram(anagrams);
-            frame.setSubWords(subWords);
-        });
+    public void showOptionsDialog() {
+        optionsDialog.setLocationRelativeTo(mainFrame);
+        optionsDialog.setVisible(true);
     }
+
+    public void updateOptions(String[] args) {
+        // TODO: move parser creation into AnagramGenerator?
+        Parser parser = ParserFactory.getParser(args);
+
+        anagramGenerator = new AnagramGenerator(parser, this);
+    }
+
+    public void generateAnagrams(String inputString) {
+        // TODO: spawn a thread for a progress bar or something
+        anagramGenerator.generateAnagrams(inputString);
+    }
+
+    public void generateSubWords(String inputString) {
+        anagramGenerator.generateSubWords(inputString);
+    }
+
+    public void updateAnagrams(String anagrams) {
+        mainFrame.setAnagramTextArea(anagrams);
+    }
+
+    public void updateSubWords(String subWords) {
+        mainFrame.setSubWordsTextArea(subWords);
+    }
+
+    public void updateStatus() {
+        String status = anagramGenerator.getStatus();
+        mainFrame.setStatusBar(status);
+    }
+
 }
