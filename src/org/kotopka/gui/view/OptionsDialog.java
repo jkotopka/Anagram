@@ -21,6 +21,7 @@ public class OptionsDialog extends JDialog {
     private final JLabel maxWordLenLabel;
     private final JLabel minWordLenLabel;
     private final JLabel restrictPermutationsLabel;
+    private final JLabel excludeDuplicatesLabel;
     private final JLabel includeWordLabel;
     private final JLabel excludeWordLabel;
 
@@ -28,6 +29,7 @@ public class OptionsDialog extends JDialog {
     private final JFormattedTextField maxWordLenField;
     private final JFormattedTextField minWordLenField;
     private final JCheckBox restrictPermutationsCheckBox;
+    private final JCheckBox excludeDuplicatesCheckBox;
     private final JTextField includeWordField;
     private final JTextField excludeWordField;
 
@@ -52,6 +54,9 @@ public class OptionsDialog extends JDialog {
 
         this.restrictPermutationsLabel = new JLabel("Restrict permutations: ");
         this.restrictPermutationsCheckBox = new JCheckBox();
+
+        this.excludeDuplicatesLabel = new JLabel("Exclude duplicate words: ");
+        this.excludeDuplicatesCheckBox = new JCheckBox();
 
         this.includeWordLabel = new JLabel("Include word: ");
         this.includeWordField = new JTextField();
@@ -80,6 +85,8 @@ public class OptionsDialog extends JDialog {
 
         restrictPermutationsLabel.setLabelFor(restrictPermutationsCheckBox);
 
+        excludeDuplicatesLabel.setLabelFor(excludeDuplicatesCheckBox);
+
         includeWordLabel.setLabelFor(includeWordField);
         includeWordField.setColumns(10);
 
@@ -92,6 +99,7 @@ public class OptionsDialog extends JDialog {
         labelPane.add(maxWordLenLabel);
         labelPane.add(minWordLenLabel);
         labelPane.add(restrictPermutationsLabel);
+        labelPane.add(excludeDuplicatesLabel);
         labelPane.add(includeWordLabel);
         labelPane.add(excludeWordLabel);
 
@@ -101,6 +109,7 @@ public class OptionsDialog extends JDialog {
         inputPane.add(maxWordLenField);
         inputPane.add(minWordLenField);
         inputPane.add(restrictPermutationsCheckBox);
+        inputPane.add(excludeDuplicatesCheckBox);
         inputPane.add(includeWordField);
         inputPane.add(excludeWordField);
 
@@ -143,6 +152,9 @@ public class OptionsDialog extends JDialog {
 
             if (restrictPermutationsCheckBox.isSelected())
                 optionsArgs.add(Switch.RESTRICT_PERMUTATIONS.getLabel());
+
+            if (excludeDuplicatesCheckBox.isSelected())
+                optionsArgs.add(Switch.EXCLUDE_DUPLICATES.getLabel());
 
             if (!includeWordField.getText().isBlank()) {
                 optionsArgs.add(Switch.INCLUDE_WORD.getLabel());
