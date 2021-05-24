@@ -189,7 +189,7 @@ public class OptionsDialog extends JDialog {
         pack();
     }
 
-    public void setupButtonListeners() {
+    private void setupButtonListeners() {
         // setup the buttons
         okButton.addActionListener(e -> {
             updateOptions();
@@ -202,51 +202,84 @@ public class OptionsDialog extends JDialog {
     private void updateOptions() {
         List<String> optionsArgs = new ArrayList<>();
 
-        // TODO: extract these as methods
-        optionsArgs.add(Switch.MIN_WORD_LENGTH.getLabel());
-        optionsArgs.add(minWordLenField.getText());
-
-        optionsArgs.add(Switch.MAX_WORD_LENGTH.getLabel());
-        optionsArgs.add(maxWordLenField.getText());
-
-        optionsArgs.add(Switch.MAX_RESULTS.getLabel());
-        optionsArgs.add(maxResultsField.getText());
-
-        optionsArgs.add(Switch.MAX_WORDS.getLabel());
-        optionsArgs.add(maxWordsInAnagramField.getText());
-
-        optionsArgs.add(Switch.TIMEOUT.getLabel());
-        optionsArgs.add(maxTimeoutField.getText());
-
-        if (restrictPermutationsCheckBox.isSelected())
-            optionsArgs.add(Switch.RESTRICT_PERMUTATIONS.getLabel());
-
-        if (excludeDuplicatesCheckBox.isSelected())
-            optionsArgs.add(Switch.EXCLUDE_DUPLICATES.getLabel());
-
-        if (!startFromField.getText().isBlank()) {
-            optionsArgs.add(Switch.START_FROM.getLabel());
-            optionsArgs.add(startFromField.getText());
-        }
-
-        if (!includeWordField.getText().isBlank()) {
-            optionsArgs.add(Switch.INCLUDE_WORD.getLabel());
-            optionsArgs.add(includeWordField.getText());
-        }
-
-        if (!excludeWordField.getText().isBlank()) {
-            optionsArgs.add(Switch.EXCLUDE_WORD.getLabel());
-            optionsArgs.add(excludeWordField.getText());
-        }
-
-        if (!includeSuffixField.getText().isBlank()) {
-            optionsArgs.add(Switch.INCLUDE_WORD_WITH_SUFFIX.getLabel());
-            optionsArgs.add(includeSuffixField.getText());
-        }
+        setMinWordLength(optionsArgs);
+        setMaxWordLength(optionsArgs);
+        setMaxResults(optionsArgs);
+        setMaxWordsInAnagram(optionsArgs);
+        setTimeout(optionsArgs);
+        setRestrictPermutations(optionsArgs);
+        setExcludeDuplicates(optionsArgs);
+        setStartFromWord(optionsArgs);
+        setIncludeWord(optionsArgs);
+        setExcludeWord(optionsArgs);
+        setIncludeWordWithSuffix(optionsArgs);
 
         this.args = optionsArgs.toArray(new String[0]);
 
         mainController.updateOptions(args);
+    }
+
+    private void setMinWordLength(List<String> optionsArgs) {
+        optionsArgs.add(Switch.MIN_WORD_LENGTH.getLabel());
+        optionsArgs.add(minWordLenField.getText());
+    }
+
+    private void setMaxWordLength(List<String> optionsArgs) {
+        optionsArgs.add(Switch.MAX_WORD_LENGTH.getLabel());
+        optionsArgs.add(maxWordLenField.getText());
+    }
+
+    private void setMaxResults(List<String> optionsArgs) {
+        optionsArgs.add(Switch.MAX_RESULTS.getLabel());
+        optionsArgs.add(maxResultsField.getText());
+    }
+
+    private void setMaxWordsInAnagram(List<String> optionsArgs) {
+        optionsArgs.add(Switch.MAX_WORDS.getLabel());
+        optionsArgs.add(maxWordsInAnagramField.getText());
+    }
+
+    private void setTimeout(List<String> optionsArgs) {
+        optionsArgs.add(Switch.TIMEOUT.getLabel());
+        optionsArgs.add(maxTimeoutField.getText());
+    }
+
+    private void setRestrictPermutations(List<String> optionsArgs) {
+        if (restrictPermutationsCheckBox.isSelected())
+            optionsArgs.add(Switch.RESTRICT_PERMUTATIONS.getLabel());
+    }
+
+    private void setExcludeDuplicates(List<String> optionsArgs) {
+        if (excludeDuplicatesCheckBox.isSelected())
+            optionsArgs.add(Switch.EXCLUDE_DUPLICATES.getLabel());
+    }
+
+    private void setStartFromWord(List<String> optionsArgs) {
+        if (!startFromField.getText().isBlank()) {
+            optionsArgs.add(Switch.START_FROM.getLabel());
+            optionsArgs.add(startFromField.getText());
+        }
+    }
+
+    private void setIncludeWord(List<String> optionsArgs) {
+        if (!includeWordField.getText().isBlank()) {
+            optionsArgs.add(Switch.INCLUDE_WORD.getLabel());
+            optionsArgs.add(includeWordField.getText());
+        }
+    }
+
+    private void setExcludeWord(List<String> optionsArgs) {
+        if (!excludeWordField.getText().isBlank()) {
+            optionsArgs.add(Switch.EXCLUDE_WORD.getLabel());
+            optionsArgs.add(excludeWordField.getText());
+        }
+    }
+
+    private void setIncludeWordWithSuffix(List<String> optionsArgs) {
+        if (!includeSuffixField.getText().isBlank()) {
+            optionsArgs.add(Switch.INCLUDE_WORD_WITH_SUFFIX.getLabel());
+            optionsArgs.add(includeSuffixField.getText());
+        }
     }
 
     public String[] getArgs() {
