@@ -14,7 +14,7 @@ public final class Anagram {
     private int maxResults;
     private int maxWordsInAnagram;
     private int maxTimeout;
-    private final long startTime;
+    private long startTime;
     private String startFrom;
     private String includeWord;
     private String suffix;
@@ -28,7 +28,6 @@ public final class Anagram {
         this.maxResults = Integer.MAX_VALUE;
         this.maxWordsInAnagram = Integer.MAX_VALUE;
         this.maxTimeout = Integer.MAX_VALUE;
-        this.startTime = System.currentTimeMillis();
         this.startFrom = "";
         this.includeWord = "";
         this.suffix = "";
@@ -129,6 +128,8 @@ public final class Anagram {
     public List<String> findMultipleWordAnagramsOf(String word) {
         LinkedList<String> anagram = new LinkedList<>();
         List<String> anagramList   = new ArrayList<>();
+
+        startTime = System.currentTimeMillis();
 
         buildAnagramList(word, startFrom, anagram, anagramList);
         Collections.sort(anagramList);
