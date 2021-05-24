@@ -21,6 +21,7 @@ public class OptionsDialog extends JDialog {
     private final JLabel minWordLenLabel;
     private final JLabel maxResultsLabel;
     private final JLabel maxWordsInAnagramLabel;
+    private final JLabel maxTimeoutLabel;
     private final JLabel restrictPermutationsLabel;
     private final JLabel excludeDuplicatesLabel;
     private final JLabel includeWordLabel;
@@ -31,6 +32,7 @@ public class OptionsDialog extends JDialog {
     private final JFormattedTextField minWordLenField;
     private final JFormattedTextField maxResultsField;
     private final JFormattedTextField maxWordsInAnagramField;
+    private final JFormattedTextField maxTimeoutField;
     private final JCheckBox restrictPermutationsCheckBox;
     private final JCheckBox excludeDuplicatesCheckBox;
     private final JTextField includeWordField;
@@ -46,6 +48,7 @@ public class OptionsDialog extends JDialog {
 
         // integer number format
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setGroupingUsed(false);
 
         this.maxWordLenLabel = new JLabel("Max word length: ");
         this.maxWordLenField = new JFormattedTextField(numberFormat);
@@ -58,6 +61,9 @@ public class OptionsDialog extends JDialog {
 
         this.maxWordsInAnagramLabel = new JLabel("Max words in anagram: ");
         this.maxWordsInAnagramField = new JFormattedTextField(numberFormat);
+
+        this.maxTimeoutLabel = new JLabel("Max timeout in seconds");
+        this.maxTimeoutField = new JFormattedTextField(numberFormat);
 
         this.restrictPermutationsLabel = new JLabel("Restrict permutations: ");
         this.restrictPermutationsCheckBox = new JCheckBox();
@@ -77,6 +83,7 @@ public class OptionsDialog extends JDialog {
         setupPanel();
         setupFrame();
         setupButtonListeners();
+        updateOptions();
     }
 
     private void setupPanel() {
@@ -98,6 +105,10 @@ public class OptionsDialog extends JDialog {
         maxWordsInAnagramField.setValue(10);
         maxWordsInAnagramField.setColumns(10);
 
+        maxTimeoutLabel.setLabelFor(maxTimeoutField);
+        maxTimeoutField.setValue(10);
+        maxTimeoutField.setColumns(10);
+
         restrictPermutationsLabel.setLabelFor(restrictPermutationsCheckBox);
 
         excludeDuplicatesLabel.setLabelFor(excludeDuplicatesCheckBox);
@@ -115,6 +126,7 @@ public class OptionsDialog extends JDialog {
         labelPane.add(minWordLenLabel);
         labelPane.add(maxResultsLabel);
         labelPane.add(maxWordsInAnagramLabel);
+        labelPane.add(maxTimeoutLabel);
         labelPane.add(restrictPermutationsLabel);
         labelPane.add(excludeDuplicatesLabel);
         labelPane.add(includeWordLabel);
@@ -127,6 +139,7 @@ public class OptionsDialog extends JDialog {
         inputPane.add(minWordLenField);
         inputPane.add(maxResultsField);
         inputPane.add(maxWordsInAnagramField);
+        inputPane.add(maxTimeoutField);
         inputPane.add(restrictPermutationsCheckBox);
         inputPane.add(excludeDuplicatesCheckBox);
         inputPane.add(includeWordField);
@@ -157,48 +170,54 @@ public class OptionsDialog extends JDialog {
     public void setupButtonListeners() {
         // setup the buttons
         okButton.addActionListener(e -> {
-            List<String> optionsArgs = new ArrayList<>();
-
-            // TODO: extract these as methods
-            // set up the optionsArgs list as if it were an array
-            optionsArgs.add(Switch.MIN_WORD_LENGTH.getLabel());
-            optionsArgs.add(minWordLenField.getText());
-
-            optionsArgs.add(Switch.MAX_WORD_LENGTH.getLabel());
-            optionsArgs.add(maxWordLenField.getText());
-
-            optionsArgs.add(Switch.MAX_RESULTS.getLabel());
-            optionsArgs.add(maxResultsField.getText());
-
-            optionsArgs.add(Switch.MAX_WORDS.getLabel());
-            optionsArgs.add(maxWordsInAnagramField.getText());
-
-            if (restrictPermutationsCheckBox.isSelected())
-                optionsArgs.add(Switch.RESTRICT_PERMUTATIONS.getLabel());
-
-            if (excludeDuplicatesCheckBox.isSelected())
-                optionsArgs.add(Switch.EXCLUDE_DUPLICATES.getLabel());
-
-            if (!includeWordField.getText().isBlank()) {
-                optionsArgs.add(Switch.INCLUDE_WORD.getLabel());
-                optionsArgs.add(includeWordField.getText());
-            }
-
-            if (!excludeWordField.getText().isBlank()) {
-                optionsArgs.add(Switch.EXCLUDE_WORD.getLabel());
-                optionsArgs.add(excludeWordField.getText());
-            }
-
-            String[] args = optionsArgs.toArray(new String[0]);
-
-            mainController.updateOptions(args);
-
+            updateOptions();
             this.dispose();
         });
 
         cancelButton.addActionListener(e -> {
             this.dispose();
         });
+    }
+
+    private void updateOptions() {
+        List<String> optionsArgs = new ArrayList<>();
+
+        // TODO: extract these as methods
+        // set up the optionsArgs list as if it were an array
+        optionsArgs.add(Switch.MIN_WORD_LENGTH.getLabel());
+        optionsArgs.add(minWordLenField.getText());
+
+        optionsArgs.add(Switch.MAX_WORD_LENGTH.getLabel());
+        optionsArgs.add(maxWordLenField.getText());
+
+        optionsArgs.add(Switch.MAX_RESULTS.getLabel());
+        optionsArgs.add(maxResultsField.getText());
+
+        optionsArgs.add(Switch.MAX_WORDS.getLabel());
+        optionsArgs.add(maxWordsInAnagramField.getText());
+
+        optionsArgs.add(Switch.TIMEOUT.getLabel());
+        optionsArgs.add(maxTimeoutField.getText());
+
+        if (restrictPermutationsCheckBox.isSelected())
+            optionsArgs.add(Switch.RESTRICT_PERMUTATIONS.getLabel());
+
+        if (excludeDuplicatesCheckBox.isSelected())
+            optionsArgs.add(Switch.EXCLUDE_DUPLICATES.getLabel());
+
+        if (!includeWordField.getText().isBlank()) {
+            optionsArgs.add(Switch.INCLUDE_WORD.getLabel());
+            optionsArgs.add(includeWordField.getText());
+        }
+
+        if (!excludeWordField.getText().isBlank()) {
+            optionsArgs.add(Switch.EXCLUDE_WORD.getLabel());
+            optionsArgs.add(excludeWordField.getText());
+        }
+
+        String[] args = optionsArgs.toArray(new String[0]);
+
+        mainController.updateOptions(args);
     }
 
 }
