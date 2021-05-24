@@ -14,10 +14,15 @@ public class MainFrame extends JFrame {
     private final JMenu optionsMenu;
     private final JMenuItem optionsMenuItem;
 
+    // layout for center panel
+    private final CardLayout cardLayout;
+
     // panels
     private final JPanel mainPanel;
     private final JPanel textEntryPanel;
+    private final JPanel centerPanel;
     private final JPanel outputPanel;
+    private final JPanel progressPanel;
     private final JPanel statusPanel;
 
     // anagram entry
@@ -37,6 +42,10 @@ public class MainFrame extends JFrame {
     private final JScrollPane subWordsScrollPane;
     private final JPanel subWordPanel;
 
+    // progress display
+    private final JLabel progressLabel;
+    private final JProgressBar progressBar;
+
     // status display
     private final JLabel statusLabel;
 
@@ -48,10 +57,14 @@ public class MainFrame extends JFrame {
         this.optionsMenu = new JMenu("Options");
         this.optionsMenuItem = new JMenuItem("Options...");
 
+        this.cardLayout = new CardLayout();
+
         // panels
         this.mainPanel = new JPanel();
         this.textEntryPanel = new JPanel();
+        this.centerPanel = new JPanel();
         this.outputPanel = new JPanel();
+        this.progressPanel = new JPanel();
         this.statusPanel = new JPanel();
 
         // word text entry
@@ -69,6 +82,9 @@ public class MainFrame extends JFrame {
         this.subWordsTextArea = new JTextArea(20, 15);
         this.subWordPanel = new JPanel();
 
+        this.progressLabel = new JLabel("Generating anagrams");
+        this.progressBar = new JProgressBar();
+
         this.statusLabel = new JLabel();
 
         setupPanel();
@@ -80,7 +96,9 @@ public class MainFrame extends JFrame {
         // main panel hierarchy
         mainPanel.setLayout(new BorderLayout());
         textEntryPanel.setLayout(new FlowLayout());
+        centerPanel.setLayout(cardLayout);
         outputPanel.setLayout(new FlowLayout());
+        progressPanel.setLayout(new BoxLayout(progressPanel, BoxLayout.Y_AXIS));
         statusPanel.setLayout(new FlowLayout());
 
         // anagram entry
@@ -89,7 +107,9 @@ public class MainFrame extends JFrame {
         textEntryPanel.add(textField);
         textEntryPanel.add(button);
         add(mainPanel, BorderLayout.NORTH);
-        mainPanel.add(outputPanel, BorderLayout.CENTER);
+
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+//        mainPanel.add(outputPanel, BorderLayout.CENTER);
 
         // anagram output
         anagramPanel.setLayout(new BoxLayout(anagramPanel, BoxLayout.Y_AXIS));
@@ -105,10 +125,23 @@ public class MainFrame extends JFrame {
         subWordPanel.add(subWordsLabel);
         subWordPanel.add(subWordsScrollPane);
 
-        // add anagram and subWord to window
+        // add anagram and subWord to outputPanel
         outputPanel.add(anagramPanel);
         outputPanel.add(subWordPanel);
 
+        // progress panel
+        progressLabel.setFont(new Font("Sans", Font.PLAIN, 20));
+        progressBar.setIndeterminate(true);
+        progressPanel.add(progressLabel);
+        progressPanel.add(progressBar);
+
+        // setup card layout in the center panel
+        centerPanel.add(new JPanel(), "0"); // empty panel
+        centerPanel.add(progressPanel, "1");
+        centerPanel.add(outputPanel, "2");
+        cardLayout.show(centerPanel, "0");
+
+        // status
         statusPanel.add(statusLabel);
         statusPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         mainPanel.add(statusPanel, BorderLayout.SOUTH);
@@ -133,12 +166,24 @@ public class MainFrame extends JFrame {
         });
 
         button.addActionListener(e -> {
+            generateAnagrams();
+        });
+    }
+
+    private void generateAnagrams() {
+        Thread generator = new Thread(() -> {
             String input = textField.getText();
+
+            cardLayout.show(centerPanel, "1");
 
             mainController.generateAnagrams(input);
             mainController.generateSubWords(input);
             mainController.updateStatus();
+
+            cardLayout.show(centerPanel, "2");
         });
+
+        generator.start();
     }
 
     public void setAnagramTextArea(String anagram) {
