@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class OptionsDialog extends JDialog {
@@ -37,14 +36,12 @@ public class OptionsDialog extends JDialog {
     private final JButton okButton;
     private final JButton cancelButton;
 
-    // integer number format
-    private final NumberFormat numberFormat;
-
     public OptionsDialog(MainController mainController) {
         this.mainController = mainController;
         this.mainPanel = new JPanel();
 
-        this.numberFormat = NumberFormat.getNumberInstance();
+        // integer number format
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
         this.maxWordLenLabel = new JLabel("Max word length: ");
         this.maxWordLenField = new JFormattedTextField(numberFormat);
