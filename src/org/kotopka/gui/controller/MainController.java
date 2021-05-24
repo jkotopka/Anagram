@@ -3,8 +3,6 @@ package org.kotopka.gui.controller;
 import org.kotopka.gui.model.AnagramGenerator;
 import org.kotopka.gui.view.MainFrame;
 import org.kotopka.gui.view.OptionsDialog;
-import org.kotopka.parser.Parser;
-import org.kotopka.parser.ParserFactory;
 
 public class MainController {
 
@@ -23,14 +21,10 @@ public class MainController {
     }
 
     public void updateOptions(String[] args) {
-        // TODO: move parser creation into AnagramGenerator?
-        Parser parser = ParserFactory.getParser(args);
-
-        anagramGenerator = new AnagramGenerator(parser, this);
+        anagramGenerator = new AnagramGenerator(args, this);
     }
 
     public void generateAnagrams(String inputString) {
-        // TODO: spawn a thread for a progress bar or something
         anagramGenerator.generateAnagrams(inputString);
     }
 
