@@ -46,8 +46,6 @@ public class OptionsDialog extends JDialog {
     private final JButton okButton;
     private final JButton cancelButton;
 
-    private String[] args;
-
     public OptionsDialog(MainController mainController) {
         this.mainController = mainController;
         this.mainPanel = new JPanel();
@@ -213,7 +211,7 @@ public class OptionsDialog extends JDialog {
         setExcludeWord(optionsArgs);
         setIncludeWordWithSuffix(optionsArgs);
 
-        this.args = optionsArgs.toArray(new String[0]);
+        String[] args = optionsArgs.toArray(new String[0]);
 
         mainController.updateOptions(args);
     }
@@ -279,10 +277,6 @@ public class OptionsDialog extends JDialog {
             optionsArgs.add(Switch.INCLUDE_WORD_WITH_SUFFIX.getLabel());
             optionsArgs.add(includeSuffixField.getText());
         }
-    }
-
-    public String[] getArgs() {
-        return args;
     }
 
 }
