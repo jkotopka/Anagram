@@ -109,7 +109,6 @@ public class MainFrame extends JFrame {
         add(mainPanel, BorderLayout.NORTH);
 
         mainPanel.add(centerPanel, BorderLayout.CENTER);
-//        mainPanel.add(outputPanel, BorderLayout.CENTER);
 
         // anagram output
         anagramPanel.setLayout(new BoxLayout(anagramPanel, BoxLayout.Y_AXIS));
