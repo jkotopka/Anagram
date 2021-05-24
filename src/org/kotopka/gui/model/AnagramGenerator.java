@@ -25,12 +25,8 @@ public class AnagramGenerator {
         this.mainController = mainController;
 
         Parser parser = ParserFactory.getParser(args);
-
-        System.out.println("Building a new anagram generator");
-        parser.printState();
-        System.out.println();
-
         Dictionary dictionary = DictionaryFactory.getDictionary(parser);
+
         this.anagram = AnagramFactory.getAnagram(parser, dictionary);
     }
 
