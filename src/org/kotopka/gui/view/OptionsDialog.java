@@ -12,7 +12,7 @@ import java.util.List;
 
 public class OptionsDialog extends JDialog {
 
-    private MainController mainController;
+    private final MainController mainController;
 
     // panel stuff
     private final JPanel mainPanel;
@@ -25,25 +25,22 @@ public class OptionsDialog extends JDialog {
     private final JLabel excludeWordLabel;
 
     // fields
-    private JFormattedTextField maxWordLenField;
-    private JFormattedTextField minWordLenField;
-    private JCheckBox restrictPermutationsCheckBox;
-    private JTextField includeWordField;
-    private JTextField excludeWordField;
+    private final JFormattedTextField maxWordLenField;
+    private final JFormattedTextField minWordLenField;
+    private final JCheckBox restrictPermutationsCheckBox;
+    private final JTextField includeWordField;
+    private final JTextField excludeWordField;
 
     // buttons
-    private JButton okButton;
-    private JButton cancelButton;
+    private final JButton okButton;
+    private final JButton cancelButton;
 
     // integer number format
     private NumberFormat numberFormat;
 
-    private List<String> optionsArgs;
-
     public OptionsDialog(MainController mainController) {
         this.mainController = mainController;
         this.mainPanel = new JPanel();
-        this.optionsArgs = new ArrayList<>();
 
         this.numberFormat = NumberFormat.getNumberInstance();
 
@@ -132,6 +129,8 @@ public class OptionsDialog extends JDialog {
     public void setupButtonListeners() {
         // setup the buttons
         okButton.addActionListener(e -> {
+            List<String> optionsArgs;
+
             optionsArgs = new ArrayList<>();
 
             // TODO: extract these as methods
@@ -163,12 +162,10 @@ public class OptionsDialog extends JDialog {
 
             mainController.updateOptions(args);
 
-//            dialog.setVisible(false);
             this.dispose();
         });
 
         cancelButton.addActionListener(e -> {
-//            dialog.setVisible(false);
             this.dispose();
         });
     }
