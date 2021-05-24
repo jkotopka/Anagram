@@ -171,7 +171,7 @@ public class MainFrame extends JFrame {
 
             cardLayout.show(centerPanel, "1");
 
-            mainController.clearStatus();
+            setStatusBar("");
             mainController.generateAnagrams(input);
             mainController.generateSubWords(input);
             mainController.updateStatus();
