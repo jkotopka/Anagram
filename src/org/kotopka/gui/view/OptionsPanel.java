@@ -1,5 +1,6 @@
 package org.kotopka.gui.view;
 
+import org.kotopka.gui.controller.MainController;
 import org.kotopka.parser.Switch;
 
 import javax.swing.*;
@@ -12,8 +13,8 @@ import java.util.List;
 public class OptionsPanel extends JPanel {
 
     // labels
-    private JLabel maxWordLenLabel;
-    private JLabel minWordLenLabel;
+    private final JLabel maxWordLenLabel;
+    private final JLabel minWordLenLabel;
     private JLabel restrictPermutationsLabel;
     private JLabel includeWordLabel;
     private JLabel excludeWordLabel;
@@ -33,13 +34,16 @@ public class OptionsPanel extends JPanel {
     private NumberFormat numberFormat;
 
     private OptionsDialog dialog;
+    private MainController mainController;
 
+    // TODO: make this a local variable
     private List<String> optionsArgs;
 
-    public OptionsPanel(OptionsDialog dialog) {
+    public OptionsPanel(OptionsDialog dialog, MainController mainController) {
         super(new BorderLayout());
 
         this.dialog = dialog;
+        this.mainController = mainController;
         this.optionsArgs = new ArrayList<>();
 
         numberFormat = NumberFormat.getNumberInstance();
@@ -114,6 +118,7 @@ public class OptionsPanel extends JPanel {
         okButton.addActionListener(e -> {
             optionsArgs = new ArrayList<>();
 
+            // TODO: extract these as methods
             // set up the optionsArgs list as if it were an array
             optionsArgs.add(Switch.MIN_WORD_LENGTH.getLabel());
             optionsArgs.add(minWordLenField.getText());
@@ -140,16 +145,20 @@ public class OptionsPanel extends JPanel {
 
             System.out.println(Arrays.toString(args));
 
+            mainController.updateOptions(args);
+
+//            dialog.setVisible(false);
             dialog.dispose();
         });
 
         cancelButton.addActionListener(e -> {
+//            dialog.setVisible(false);
             dialog.dispose();
         });
     }
 
-    public String[] getOptionsArgs() {
-        return optionsArgs.toArray(new String[0]);
-    }
+//    public String[] getOptionsArgs() {
+//        return optionsArgs.toArray(new String[0]);
+//    }
 
 }
