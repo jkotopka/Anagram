@@ -46,6 +46,10 @@ public class MainController {
         mainFrame.setSubWordsTextArea(subWords);
     }
 
+    public void clearStatus() {
+        mainFrame.setStatusBar("");
+    }
+
     public void updateStatus() {
         String status = anagramGenerator.getStatus();
 
