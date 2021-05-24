@@ -161,13 +161,8 @@ public class MainFrame extends JFrame {
     }
 
     private void setupActionListeners() {
-        optionsMenuItem.addActionListener(e -> {
-            mainController.showOptionsDialog();
-        });
-
-        button.addActionListener(e -> {
-            generateAnagrams();
-        });
+        optionsMenuItem.addActionListener(e -> mainController.showOptionsDialog());
+        button.addActionListener(e -> generateAnagrams());
     }
 
     private void generateAnagrams() {
