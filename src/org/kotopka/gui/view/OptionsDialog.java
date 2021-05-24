@@ -138,9 +138,7 @@ public class OptionsDialog extends JDialog {
     public void setupButtonListeners() {
         // setup the buttons
         okButton.addActionListener(e -> {
-            List<String> optionsArgs;
-
-            optionsArgs = new ArrayList<>();
+            List<String> optionsArgs = new ArrayList<>();
 
             // TODO: extract these as methods
             // set up the optionsArgs list as if it were an array
@@ -166,11 +164,7 @@ public class OptionsDialog extends JDialog {
                 optionsArgs.add(excludeWordField.getText());
             }
 
-            // TODO: Testing
-            // build array out of optionsArgs then build Parser from args[]
             String[] args = optionsArgs.toArray(new String[0]);
-
-            System.out.println(Arrays.toString(args));
 
             mainController.updateOptions(args);
 
