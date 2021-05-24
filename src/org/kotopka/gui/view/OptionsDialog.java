@@ -1,25 +1,28 @@
 package org.kotopka.gui.view;
 
+import org.kotopka.gui.controller.MainController;
+
 import javax.swing.*;
 
 public class OptionsDialog extends JDialog {
 
     private final OptionsPanel optionsPanel;
 
-    public OptionsDialog(MainFrame frame) {
+    // TODO: put OptionsPanel stuff directly in this class
+    public OptionsDialog(MainController mainController) {
 
-        this.optionsPanel = new OptionsPanel(this);
+        this.optionsPanel = new OptionsPanel(this, mainController);
 
+        setTitle("Options");
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setContentPane(optionsPanel);
         setModal(true);
-//        setSize(400, 400);
+        setResizable(false);
         pack();
-        setLocationRelativeTo(frame);
     }
 
-    public String[] getOptionsArgs() {
-        return optionsPanel.getOptionsArgs();
-    }
+//    public String[] getOptionsArgs() {
+//        return optionsPanel.getOptionsArgs();
+//    }
 
 }
