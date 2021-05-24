@@ -190,7 +190,6 @@ public class OptionsDialog extends JDialog {
     }
 
     private void setupButtonListeners() {
-        // setup the buttons
         okButton.addActionListener(e -> {
             updateOptions();
             this.dispose();
