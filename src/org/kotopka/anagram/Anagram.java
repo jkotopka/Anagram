@@ -153,7 +153,7 @@ public final class Anagram {
                 continue;
 
             if (excludeDuplicates)
-                wordsToExclude.add(subWord.toLowerCase());
+                wordsToExclude.add(subWord);
 
             buildAnagram(word, subWord, anagram, anagramList);
 
