@@ -4,6 +4,7 @@ import org.kotopka.gui.controller.MainController;
 import org.kotopka.parser.Switch;
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -51,23 +52,30 @@ public class OptionsDialog extends JDialog {
         this.mainPanel = new JPanel();
 
         // integer number format
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
-        numberFormat.setGroupingUsed(false);
+        NumberFormat format = NumberFormat.getIntegerInstance();
+
+        format.setGroupingUsed(false);
+
+        NumberFormatter numberFormatter = new NumberFormatter(format);
+
+        numberFormatter.setValueClass(Integer.class);
+        numberFormatter.setMinimum(0);
+        numberFormatter.setMaximum(Integer.MAX_VALUE);
 
         this.maxWordLenLabel = new JLabel("Max word length: ");
-        this.maxWordLenField = new JFormattedTextField(numberFormat);
+        this.maxWordLenField = new JFormattedTextField(numberFormatter);
 
         this.minWordLenLabel = new JLabel("Min word length: ");
-        this.minWordLenField = new JFormattedTextField(numberFormat);
+        this.minWordLenField = new JFormattedTextField(numberFormatter);
 
         this.maxResultsLabel = new JLabel("Max results: ");
-        this.maxResultsField = new JFormattedTextField(numberFormat);
+        this.maxResultsField = new JFormattedTextField(numberFormatter);
 
         this.maxWordsInAnagramLabel = new JLabel("Max words in anagram: ");
-        this.maxWordsInAnagramField = new JFormattedTextField(numberFormat);
+        this.maxWordsInAnagramField = new JFormattedTextField(numberFormatter);
 
         this.maxTimeoutLabel = new JLabel("Max timeout in seconds");
-        this.maxTimeoutField = new JFormattedTextField(numberFormat);
+        this.maxTimeoutField = new JFormattedTextField(numberFormatter);
 
         this.restrictPermutationsLabel = new JLabel("Restrict permutations: ");
         this.restrictPermutationsCheckBox = new JCheckBox();
@@ -213,7 +221,11 @@ public class OptionsDialog extends JDialog {
 
         String[] args = optionsArgs.toArray(new String[0]);
 
-        mainController.updateOptions(args);
+        try {
+            mainController.updateOptions(args);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void setMinWordLength(List<String> optionsArgs) {
