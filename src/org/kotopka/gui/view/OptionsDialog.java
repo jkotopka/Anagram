@@ -265,7 +265,6 @@ public class OptionsDialog extends JDialog {
     private void setAlternateDictionaryFile(List<String> optionsArgs) {
         if (alternateDictionaryFile != null) {
             optionsArgs.add(Switch.DICT_FILE.getLabel());
-
             optionsArgs.add(alternateDictionaryFile.getName());
         }
     }
