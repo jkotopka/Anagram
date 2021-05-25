@@ -36,8 +36,8 @@ public class OptionsDialog extends JDialog {
     private final JLabel excludeDuplicatesLabel;
     private final JLabel startFromLabel;
     private final JLabel includeWordLabel;
-    private final JLabel excludeWordLabel;
     private final JLabel includeSuffixLabel;
+    private final JLabel excludeWordLabel;
 
     // fields
     private final JButton alternateDictionaryButton;
@@ -51,8 +51,8 @@ public class OptionsDialog extends JDialog {
     private final JCheckBox excludeDuplicatesCheckBox;
     private final JTextField startFromField;
     private final JTextField includeWordField;
-    private final JTextField excludeWordField;
     private final JTextField includeSuffixField;
+    private final JTextField excludeWordField;
 
     // buttons
     private final JButton okButton;
@@ -106,11 +106,11 @@ public class OptionsDialog extends JDialog {
         this.includeWordLabel = new JLabel("Include word: ");
         this.includeWordField = new JTextField();
 
-        this.excludeWordLabel = new JLabel("Exclude word: ");
-        this.excludeWordField = new JTextField();
-
         this.includeSuffixLabel = new JLabel("Include word with suffix: ");
         this.includeSuffixField = new JTextField();
+
+        this.excludeWordLabel = new JLabel("Exclude word: ");
+        this.excludeWordField = new JTextField();
 
         this.okButton = new JButton("Ok");
         this.cancelButton = new JButton("Cancel");
@@ -157,11 +157,11 @@ public class OptionsDialog extends JDialog {
         includeWordLabel.setLabelFor(includeWordField);
         includeWordField.setColumns(10);
 
-        excludeWordLabel.setLabelFor(excludeWordField);
-        excludeWordField.setColumns(10);
-
         includeSuffixLabel.setLabelFor(includeSuffixField);
         includeSuffixField.setColumns(10);
+
+        excludeWordLabel.setLabelFor(excludeWordField);
+        excludeWordField.setColumns(10);
 
         // layout labels in a panel
         GridLayout dictionaryLabelLayout = new GridLayout(0, 1);
@@ -184,8 +184,8 @@ public class OptionsDialog extends JDialog {
         anagramLabelPane.add(excludeDuplicatesLabel);
         anagramLabelPane.add(startFromLabel);
         anagramLabelPane.add(includeWordLabel);
-        anagramLabelPane.add(excludeWordLabel);
         anagramLabelPane.add(includeSuffixLabel);
+        anagramLabelPane.add(excludeWordLabel);
 
         // layout the inputs
         GridLayout dictionaryInputLayout = new GridLayout(0, 1);
@@ -208,8 +208,8 @@ public class OptionsDialog extends JDialog {
         anagramInputPane.add(excludeDuplicatesCheckBox);
         anagramInputPane.add(startFromField);
         anagramInputPane.add(includeWordField);
-        anagramInputPane.add(excludeWordField);
         anagramInputPane.add(includeSuffixField);
+        anagramInputPane.add(excludeWordField);
 
         JPanel dictionaryOptionsPane = new JPanel(new BorderLayout());
         dictionaryOptionsPane.add(dictionaryLabelPane, BorderLayout.CENTER);
@@ -304,8 +304,8 @@ public class OptionsDialog extends JDialog {
         setExcludeDuplicates(optionsArgs);
         setStartFromWord(optionsArgs);
         setIncludeWord(optionsArgs);
-        setExcludeWord(optionsArgs);
         setIncludeWordWithSuffix(optionsArgs);
+        setExcludeWord(optionsArgs);
 
         String[] args = optionsArgs.toArray(new String[0]);
 
@@ -379,17 +379,17 @@ public class OptionsDialog extends JDialog {
         }
     }
 
-    private void setExcludeWord(List<String> optionsArgs) {
-        if (!excludeWordField.getText().isBlank()) {
-            optionsArgs.add(Switch.EXCLUDE_WORD.getLabel());
-            optionsArgs.add(excludeWordField.getText());
-        }
-    }
-
     private void setIncludeWordWithSuffix(List<String> optionsArgs) {
         if (!includeSuffixField.getText().isBlank()) {
             optionsArgs.add(Switch.INCLUDE_WORD_WITH_SUFFIX.getLabel());
             optionsArgs.add(includeSuffixField.getText());
+        }
+    }
+
+    private void setExcludeWord(List<String> optionsArgs) {
+        if (!excludeWordField.getText().isBlank()) {
+            optionsArgs.add(Switch.EXCLUDE_WORD.getLabel());
+            optionsArgs.add(excludeWordField.getText());
         }
     }
 
