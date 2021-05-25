@@ -6,6 +6,7 @@ import org.kotopka.parser.Switch;
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
+import java.io.File;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,15 @@ public class OptionsDialog extends JDialog {
 
     private final MainController mainController;
 
+    // file stuff
+    private File alternateDictionaryFile;
+    private File excludeWordsFile;
+
     // panel stuff
     private final JPanel mainPanel;
 
     // labels
+    private final JLabel alternateDictionaryLabel;
     private final JLabel maxWordLenLabel;
     private final JLabel minWordLenLabel;
     private final JLabel maxResultsLabel;
@@ -31,6 +37,7 @@ public class OptionsDialog extends JDialog {
     private final JLabel includeSuffixLabel;
 
     // fields
+    private final JButton alternateDictionaryButton;
     private final JFormattedTextField maxWordLenField;
     private final JFormattedTextField minWordLenField;
     private final JFormattedTextField maxResultsField;
@@ -61,6 +68,9 @@ public class OptionsDialog extends JDialog {
         numberFormatter.setValueClass(Integer.class);
         numberFormatter.setMinimum(0);
         numberFormatter.setMaximum(Integer.MAX_VALUE);
+
+        this.alternateDictionaryLabel = new JLabel("Alternate dictionary file: ");
+        this.alternateDictionaryButton = new JButton("Select file");
 
         this.maxWordLenLabel = new JLabel("Max word length: ");
         this.maxWordLenField = new JFormattedTextField(numberFormatter);
@@ -107,6 +117,8 @@ public class OptionsDialog extends JDialog {
     private void setupPanel() {
         mainPanel.setLayout(new BorderLayout());
 
+        alternateDictionaryLabel.setLabelFor(alternateDictionaryButton);
+
         maxWordLenLabel.setLabelFor(maxWordLenField);
         maxWordLenField.setValue(10);
         maxWordLenField.setColumns(10);
@@ -146,6 +158,7 @@ public class OptionsDialog extends JDialog {
         // layout labels in a panel
         JPanel labelPane = new JPanel(new GridLayout(0, 1));
         labelPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        labelPane.add(alternateDictionaryLabel);
         labelPane.add(maxWordLenLabel);
         labelPane.add(minWordLenLabel);
         labelPane.add(maxResultsLabel);
@@ -161,6 +174,7 @@ public class OptionsDialog extends JDialog {
         // layout the inputs
         JPanel inputPane = new JPanel(new GridLayout(0, 1));
         inputPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        inputPane.add(alternateDictionaryButton);
         inputPane.add(maxWordLenField);
         inputPane.add(minWordLenField);
         inputPane.add(maxResultsField);
@@ -196,6 +210,8 @@ public class OptionsDialog extends JDialog {
     }
 
     private void setupButtonListeners() {
+        alternateDictionaryButton.addActionListener(e -> initializeAlternateDictionaryFile());
+
         okButton.addActionListener(e -> {
             updateOptions();
             this.dispose();
@@ -204,9 +220,27 @@ public class OptionsDialog extends JDialog {
         cancelButton.addActionListener(e -> this.dispose());
     }
 
+    private void initializeAlternateDictionaryFile() {
+        alternateDictionaryFile = openFile();
+    }
+
+    private File openFile() {
+        JFileChooser fileChooser = new JFileChooser();
+
+        fileChooser.setCurrentDirectory(new File("."));
+
+        int response = fileChooser.showOpenDialog(fileChooser.getParent());
+
+        if (JFileChooser.APPROVE_OPTION == response)
+            return fileChooser.getSelectedFile().getAbsoluteFile();
+        else
+            return null;
+    }
+
     private void updateOptions() {
         List<String> optionsArgs = new ArrayList<>();
 
+        setAlternateDictionaryFile(optionsArgs);
         setMinWordLength(optionsArgs);
         setMaxWordLength(optionsArgs);
         setMaxResults(optionsArgs);
@@ -225,6 +259,14 @@ public class OptionsDialog extends JDialog {
             mainController.updateOptions(args);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void setAlternateDictionaryFile(List<String> optionsArgs) {
+        if (alternateDictionaryFile != null) {
+            optionsArgs.add(Switch.DICT_FILE.getLabel());
+
+            optionsArgs.add(alternateDictionaryFile.getName());
         }
     }
 
