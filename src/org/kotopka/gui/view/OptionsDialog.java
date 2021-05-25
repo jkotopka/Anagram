@@ -24,6 +24,7 @@ public class OptionsDialog extends JDialog {
 
     // labels
     private final JLabel alternateDictionaryLabel;
+    private final JLabel excludeWordsFileLabel;
     private final JLabel maxWordLenLabel;
     private final JLabel minWordLenLabel;
     private final JLabel maxResultsLabel;
@@ -38,6 +39,7 @@ public class OptionsDialog extends JDialog {
 
     // fields
     private final JButton alternateDictionaryButton;
+    private final JButton excludeWordsFileButton;
     private final JFormattedTextField maxWordLenField;
     private final JFormattedTextField minWordLenField;
     private final JFormattedTextField maxResultsField;
@@ -68,6 +70,9 @@ public class OptionsDialog extends JDialog {
         numberFormatter.setValueClass(Integer.class);
         numberFormatter.setMinimum(0);
         numberFormatter.setMaximum(Integer.MAX_VALUE);
+
+        this.excludeWordsFileLabel = new JLabel("File of words to exclude: ");
+        this.excludeWordsFileButton =  new JButton("Select file");
 
         this.alternateDictionaryLabel = new JLabel("Alternate dictionary file: ");
         this.alternateDictionaryButton = new JButton("Select file");
@@ -118,6 +123,7 @@ public class OptionsDialog extends JDialog {
         mainPanel.setLayout(new BorderLayout());
 
         alternateDictionaryLabel.setLabelFor(alternateDictionaryButton);
+        excludeWordsFileLabel.setLabelFor(excludeWordsFileButton);
 
         maxWordLenLabel.setLabelFor(maxWordLenField);
         maxWordLenField.setValue(10);
@@ -159,6 +165,7 @@ public class OptionsDialog extends JDialog {
         JPanel labelPane = new JPanel(new GridLayout(0, 1));
         labelPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         labelPane.add(alternateDictionaryLabel);
+        labelPane.add(excludeWordsFileLabel);
         labelPane.add(maxWordLenLabel);
         labelPane.add(minWordLenLabel);
         labelPane.add(maxResultsLabel);
@@ -175,6 +182,7 @@ public class OptionsDialog extends JDialog {
         JPanel inputPane = new JPanel(new GridLayout(0, 1));
         inputPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         inputPane.add(alternateDictionaryButton);
+        inputPane.add(excludeWordsFileButton);
         inputPane.add(maxWordLenField);
         inputPane.add(minWordLenField);
         inputPane.add(maxResultsField);
@@ -211,6 +219,7 @@ public class OptionsDialog extends JDialog {
 
     private void setupButtonListeners() {
         alternateDictionaryButton.addActionListener(e -> initializeAlternateDictionaryFile());
+        excludeWordsFileButton.addActionListener(e -> initializeExcludeWordsFile());
 
         okButton.addActionListener(e -> {
             updateOptions();
@@ -222,6 +231,10 @@ public class OptionsDialog extends JDialog {
 
     private void initializeAlternateDictionaryFile() {
         alternateDictionaryFile = openFile();
+    }
+
+    private void initializeExcludeWordsFile() {
+        excludeWordsFile = openFile();
     }
 
     private File openFile() {
@@ -241,6 +254,7 @@ public class OptionsDialog extends JDialog {
         List<String> optionsArgs = new ArrayList<>();
 
         setAlternateDictionaryFile(optionsArgs);
+        setExcludeWordsFile(optionsArgs);
         setMinWordLength(optionsArgs);
         setMaxWordLength(optionsArgs);
         setMaxResults(optionsArgs);
@@ -266,6 +280,13 @@ public class OptionsDialog extends JDialog {
         if (alternateDictionaryFile != null) {
             optionsArgs.add(Switch.DICT_FILE.getLabel());
             optionsArgs.add(alternateDictionaryFile.getName());
+        }
+    }
+
+    private void setExcludeWordsFile(List<String> optionsArgs) {
+        if (excludeWordsFile != null) {
+            optionsArgs.add(Switch.EXCLUDE_FROM_DICT_FILE.getLabel());
+            optionsArgs.add(excludeWordsFile.getName());
         }
     }
 
