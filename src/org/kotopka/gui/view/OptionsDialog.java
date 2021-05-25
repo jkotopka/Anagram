@@ -4,6 +4,8 @@ import org.kotopka.gui.controller.MainController;
 import org.kotopka.parser.Switch;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.io.File;
@@ -162,49 +164,87 @@ public class OptionsDialog extends JDialog {
         includeSuffixField.setColumns(10);
 
         // layout labels in a panel
-        JPanel labelPane = new JPanel(new GridLayout(0, 1));
-        labelPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        labelPane.add(alternateDictionaryLabel);
-        labelPane.add(excludeWordsFileLabel);
-        labelPane.add(maxWordLenLabel);
-        labelPane.add(minWordLenLabel);
-        labelPane.add(maxResultsLabel);
-        labelPane.add(maxWordsInAnagramLabel);
-        labelPane.add(maxTimeoutLabel);
-        labelPane.add(restrictPermutationsLabel);
-        labelPane.add(excludeDuplicatesLabel);
-        labelPane.add(startFromLabel);
-        labelPane.add(includeWordLabel);
-        labelPane.add(excludeWordLabel);
-        labelPane.add(includeSuffixLabel);
+        GridLayout dictionaryLabelLayout = new GridLayout(0, 1);
+        dictionaryLabelLayout.setVgap(5);
+        JPanel dictionaryLabelPane = new JPanel(dictionaryLabelLayout);
+        dictionaryLabelPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        dictionaryLabelPane.add(alternateDictionaryLabel);
+        dictionaryLabelPane.add(excludeWordsFileLabel);
+        dictionaryLabelPane.add(maxWordLenLabel);
+        dictionaryLabelPane.add(minWordLenLabel);
+
+        GridLayout anagramLabelLayout = new GridLayout(0, 1);
+        anagramLabelLayout.setVgap(5);
+        JPanel anagramLabelPane = new JPanel(anagramLabelLayout);
+        anagramLabelPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        anagramLabelPane.add(maxResultsLabel);
+        anagramLabelPane.add(maxWordsInAnagramLabel);
+        anagramLabelPane.add(maxTimeoutLabel);
+        anagramLabelPane.add(restrictPermutationsLabel);
+        anagramLabelPane.add(excludeDuplicatesLabel);
+        anagramLabelPane.add(startFromLabel);
+        anagramLabelPane.add(includeWordLabel);
+        anagramLabelPane.add(excludeWordLabel);
+        anagramLabelPane.add(includeSuffixLabel);
 
         // layout the inputs
-        JPanel inputPane = new JPanel(new GridLayout(0, 1));
-        inputPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        inputPane.add(alternateDictionaryButton);
-        inputPane.add(excludeWordsFileButton);
-        inputPane.add(maxWordLenField);
-        inputPane.add(minWordLenField);
-        inputPane.add(maxResultsField);
-        inputPane.add(maxWordsInAnagramField);
-        inputPane.add(maxTimeoutField);
-        inputPane.add(restrictPermutationsCheckBox);
-        inputPane.add(excludeDuplicatesCheckBox);
-        inputPane.add(startFromField);
-        inputPane.add(includeWordField);
-        inputPane.add(excludeWordField);
-        inputPane.add(includeSuffixField);
+        GridLayout dictionaryInputLayout = new GridLayout(0, 1);
+        dictionaryInputLayout.setVgap(5);
+        JPanel dictionaryInputPane = new JPanel(dictionaryInputLayout);
+        dictionaryInputPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        dictionaryInputPane.add(alternateDictionaryButton);
+        dictionaryInputPane.add(excludeWordsFileButton);
+        dictionaryInputPane.add(maxWordLenField);
+        dictionaryInputPane.add(minWordLenField);
+
+        GridLayout anagramInputLayout = new GridLayout(0, 1);
+        anagramInputLayout.setVgap(5);
+        JPanel anagramInputPane = new JPanel(anagramInputLayout);
+        anagramInputPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        anagramInputPane.add(maxResultsField);
+        anagramInputPane.add(maxWordsInAnagramField);
+        anagramInputPane.add(maxTimeoutField);
+        anagramInputPane.add(restrictPermutationsCheckBox);
+        anagramInputPane.add(excludeDuplicatesCheckBox);
+        anagramInputPane.add(startFromField);
+        anagramInputPane.add(includeWordField);
+        anagramInputPane.add(excludeWordField);
+        anagramInputPane.add(includeSuffixField);
+
+        JPanel dictionaryOptionsPane = new JPanel(new BorderLayout());
+        dictionaryOptionsPane.add(dictionaryLabelPane, BorderLayout.CENTER);
+        dictionaryOptionsPane.add(dictionaryInputPane, BorderLayout.LINE_END);
+        dictionaryOptionsPane.setBorder(
+                new CompoundBorder(
+                        BorderFactory.createEmptyBorder(0, 0, 5, 0),
+                        BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+                                "Dictionary options", TitledBorder.LEFT, TitledBorder.TOP)
+                )
+        );
+
+        JPanel anagramOptionsPane = new JPanel(new BorderLayout());
+        anagramOptionsPane.add(anagramLabelPane, BorderLayout.CENTER);
+        anagramOptionsPane.add(anagramInputPane, BorderLayout.LINE_END);
+        anagramOptionsPane.setBorder(
+                new CompoundBorder(
+                        BorderFactory.createEmptyBorder(5, 0, 5, 0),
+                        BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+                                "Anagram generation options", TitledBorder.LEFT, TitledBorder.TOP)
+                )
+        );
 
         /// layout the ok/cancel buttons
-        JPanel buttonPane = new JPanel(new GridLayout(0, 1));
+        GridLayout buttonPaneLayout = new GridLayout(0, 1);
+        buttonPaneLayout.setVgap(5);
+        JPanel buttonPane = new JPanel(buttonPaneLayout);
         buttonPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         buttonPane.add(okButton);
         buttonPane.add(cancelButton);
 
         // populate the panel
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        mainPanel.add(labelPane, BorderLayout.CENTER);
-        mainPanel.add(inputPane, BorderLayout.LINE_END);
+        mainPanel.add(dictionaryOptionsPane, BorderLayout.NORTH);
+        mainPanel.add(anagramOptionsPane, BorderLayout.CENTER);
         mainPanel.add(buttonPane, BorderLayout.AFTER_LAST_LINE);
     }
 
