@@ -111,7 +111,7 @@ public final class Anagram {
 
         TreeSet<String> validSubWords = new TreeSet<>();
 
-        for (String subString : Word.generateSubStrings(word))
+        for (String subString : Word.generateSubSequences(word))
             validSubWords.addAll(dictionary.getListOrEmpty(subString));
 
         return validSubWords;
@@ -222,7 +222,7 @@ public final class Anagram {
     public Set<String> getValidSubstringGroupsOf(String word) {
         Set<String> subStrings = new TreeSet<>();
 
-        for (String s : Word.generateSubStrings(word))
+        for (String s : Word.generateSubSequences(word))
             if (dictionary.containsWord(s))
                 subStrings.add(s);
 
