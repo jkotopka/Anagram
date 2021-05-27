@@ -68,27 +68,28 @@ public final class Word {
     }
 
     /**
-     * {@code generateSubStrings()} - Generates an exhaustive {@code List<String>} of the subsequences of the input {@code word}.
+     * {@code generateSubSequences()} - Generates an exhaustive {@code List<String>} of the subsequences of the input {@code word}.
      * <p>For example, a list of subsequences of the input string "abc" would be:</p>
      * {@code a, ab, abc, ac, b, bc, c}
      * <p>This method runs in {@code O(2^n)} time where {@code n} is {@code word.length()}.</p>
      * @param word {@code String} of the word used to generate subsequences
      * @return {@code List<String>} of the subsequences generated
      */
-    public static List<String> generateSubStrings(String word) {
+// TODO: rename this method generateSubSequences(), power sets, subsets, etc.
+    public static List<String> generateSubSequences(String word) {
         List<String> subStrings = new ArrayList<>();
 
-        generateSubStringsRecursively("", sortLetters(word), 0, subStrings);
+        generateSubSequencesRecursively("", sortLetters(word), 0, subStrings);
 
         return subStrings;
     }
 
-    private static void generateSubStringsRecursively(String prefix, String word, int index, List<String> subStrings) {
+    private static void generateSubSequencesRecursively(String prefix, String word, int index, List<String> subStrings) {
         if (index == word.length()) return;
 
         for (int i = index; i < word.length(); i++) {
             subStrings.add(prefix + word.charAt(i));
-            generateSubStringsRecursively(prefix + word.charAt(i), word, i + 1, subStrings);
+            generateSubSequencesRecursively(prefix + word.charAt(i), word, i + 1, subStrings);
         }
     }
 
