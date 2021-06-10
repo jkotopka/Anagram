@@ -1,6 +1,6 @@
 package org.kotopka.parser;
 
-public class AbstractIntOption extends AbstractOption {
+public abstract class AbstractIntOption extends AbstractOption {
 
     int value;
 
