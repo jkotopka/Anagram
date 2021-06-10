@@ -1,6 +1,6 @@
 package org.kotopka.parser;
 
-public class AbstractStringOption extends AbstractOption {
+public abstract class AbstractStringOption extends AbstractOption {
 
     String value = "";
 
