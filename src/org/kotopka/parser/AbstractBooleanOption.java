@@ -1,6 +1,6 @@
 package org.kotopka.parser;
 
-public class AbstractBooleanOption extends AbstractOption {
+public abstract class AbstractBooleanOption extends AbstractOption {
 
     boolean value;
 
