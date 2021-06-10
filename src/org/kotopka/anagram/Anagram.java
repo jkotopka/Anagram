@@ -21,7 +21,7 @@ public final class Anagram {
     private boolean excludeDuplicates;
     private boolean restrictPermutations;
     private final Set<String> wordsToExclude;
-    private final Map<String, TreeSet<String>> cachedSubWords;
+    private final Map<String, TreeSet<String>> subWordCache;
 
     public Anagram(Dictionary dictionary) {
         this.dictionary = dictionary;
@@ -32,7 +32,7 @@ public final class Anagram {
         this.includeWord = "";
         this.suffix = "";
         this.wordsToExclude = new HashSet<>();
-        this.cachedSubWords = new HashMap<>();
+        this.subWordCache = new HashMap<>();
     }
 
     // NOTICE: all of the "set" methods return "this" so they can be chained.
@@ -143,8 +143,8 @@ public final class Anagram {
     }
 
     private void validateSubWordCache(String word) {
-        if (!cachedSubWords.containsKey(word))
-            cachedSubWords.put(word, findAllValidSubWordsAsSet(word));
+        if (!subWordCache.containsKey(word))
+            subWordCache.put(word, findAllValidSubWordsAsSet(word));
     }
 
     private void buildAnagramsFromSubWords(String word, String startWord, LinkedList<String> anagram, List<String> anagramList) {
@@ -163,7 +163,7 @@ public final class Anagram {
     }
 
     private SortedSet<String> getSubWordCacheOf(String word, String startWord) {
-        return cachedSubWords.get(word).tailSet(startWord);
+        return subWordCache.get(word).tailSet(startWord);
     }
 
     private void buildAnagram(String word, String subWord, LinkedList<String> anagram, List<String> anagramList) {
